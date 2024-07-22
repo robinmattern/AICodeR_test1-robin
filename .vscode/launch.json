@@ -26,6 +26,6 @@
           "skipFiles": [ "<node_internals>/**"],
           "program": "${workspaceFolder}/server3/s35_calendar1-app/server.mjs",
           "envFile": "${workspaceFolder}/.env"
-      }
+        }
           ]
       }

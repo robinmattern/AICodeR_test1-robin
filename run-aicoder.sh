@@ -8,27 +8,48 @@
 
             aPath=$(readlink -f "$0")
             __filename="${aPath##*/}"
-            __dirname="${aPath%/*}"; 
+            __dirname="${aPath%/*}";
 
-#           echo "__dirname: ${__dirname}"; exit 
+#           echo "__dirname: ${__dirname}"; exit
 #           ThePath='E:/Repos/Robin/AIObjs_/dev03-robin/docs/c35_calendar1-app/GPT-4o_OpenAI-curl'
 #           ThePath="${__dirname}/docs/c35_calendar1-app/GPT-4o_OpenAI-curl"
 #           aDir="E:/Repos/Robin/AIObjs_/dev03-robin/._2/FRTs/AICodeR/"
-            aDir="${__dirname}/._2/FRTs/AICodeR/"    # with trailing slash 
+            aDir="${__dirname}/._2/FRTs/AICodeR/"    # with trailing slash
 
 #           Node ._2/FRTs/AICodeR/AIC98_Apps-n-Models_u02.mjs set app c35
 #           node        "${aDir}/AIC98_Apps-n-Models_u02.mjs" set app c35
-#           exit 
+#           exit
 
-  function  set_coder() {                                                             # .(40722.01.2 Beg)
-            cat "${aDir}/AIC88_Run-CodeR.sh" | awk '/{AICodeR}/ { print "'${__dirname}'/run-aicoder.sh \"\$@\""; next }; { print }' >/usr/bin/coder        
+  function  set_coder() {                                                               # .(40722.01.2 Beg)
+            echo -e "\n  Copying command, set-aicoder.sh, to /usr/bin/coder"
+            echo      "----------------------------------------------------------------"
+            aAll="\\\"\$@\\\""
+#           aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh \\"\$@\\""; next }; { print }"
+            aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh ${aAll}\"; next }; { print }"
+#           echo "  aAWKpgm: '${aAWKpgm}'";
+            cat "${aDir}/AIC88_Run-CodeR.sh" | awk "${aAWKpgm}" >set-aicoder.sh
+#           cat set-aicoder.sh; exit
+
+#           cp   set-aicoder.sh  /usr/bin/coder
+#           cp   set-aicoder.sh  "C:/Program Files/Git/usr/bin/coder"
+            runas /user:Administrator "cmd /c copy  set-aicoder.sh  \"C:\\Program Files\\Git\\usr\\bin\\coder\""
+
+            echo ""
             cd ${aDir}
+            echo -e "\n  Running, npm install, in server folder"
+            echo      "----------------------------------------------------------------"
             npm install
-            }                                                                           # .(40722.01.2 End)
+            cd ${__dirname}
+            echo -e "\n  Opening VSCode, AICodeR.code-workspace"
+            echo      "----------------------------------------------------------------"
+            mv *.code-workspace AICodeR.code-workspace
+            read -n1 -p "  Press any key to continue..."
+            code *code*
+            }                                                                            # .(40722.01.2 End)
 
   function  run_node() {
             aStep=$2
- 
+
 #           aSteps=",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,"
 
             aSteps3=",1,2,3,4,5,6,7,8,10,13,14,15," # Display AIC05_Schema command
@@ -55,9 +76,9 @@
             exit; fi
 
     if [ "${aSteps2_}" != "${aSteps2}" ]; then
-    if [ "${aStep}" == "9" ]; then 
+    if [ "${aStep}" == "9" ]; then
             echo -e "  Running Node $1 $4 $5 $6 $7 $8 $9"
-            node           "${aDir}$1" $4 $5 $6 $7 $8 $9; exit; fi 
+            node           "${aDir}$1" $4 $5 $6 $7 $8 $9; exit; fi
 
             echo -e "  Running Node $1 $3 $4 $5 $6 $7 $8 $9"
             node           "${aDir}$1" $3 $4 $5 $6 $7 $8 $9
@@ -74,7 +95,7 @@
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "sho" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "set" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "var" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
- 
+
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="save continue"; aArg1=""; shift; shift; fi   #  1
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="save frtable";  aArg1=""; shift; shift; fi   #  2
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="show sessions"; aArg1=""; shift; shift; fi   #  3
@@ -83,10 +104,10 @@
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "scr" ]; then aCmd="save scripts";  aArg1=""; shift; shift; fi   #  6
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="list continue"; aArg1=""; shift; shift; fi   #  7
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="list frtables"; aArg1=""; shift; shift; fi   #  8
-   
+
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #  9
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" != "app" ]; then aCmd="make app";      aArg1=""; shift;        fi   #  9
-   
+
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="save markdown"; aArg1=""; shift; shift; fi   # 10
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="list apps";     aArg1=""; shift; shift; fi   # 11
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="list models";   aArg1=""; shift; shift; fi   # 12
@@ -148,7 +169,7 @@
     if [ "${aCmd}" == "save session"  ]; then run_node "${AIC05_Schema}" "17" "$@"; exit; fi
     if [ "${aCmd}" == "show markdown" ]; then run_node "${AIC05_Schema}" "18" "$@"; exit; fi                            # .(40717.01.2)
 
-    if [ "${aCmd}" == "set  vars"     ]; then aCmd="set  show"; fi 
+    if [ "${aCmd}" == "set  vars"     ]; then aCmd="set  show"; fi
 
     export CALL_IT=0;
 #   if [ "${aCmd}" == "make app"      ]; then echo node "../../../.vscode/task-createAppFolders_u02.mjs" $@; exit; fi
