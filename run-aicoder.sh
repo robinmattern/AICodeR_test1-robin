@@ -21,7 +21,8 @@
 #           exit 
 
   function  set_coder() {                                                             # .(40722.01.2 Beg)
-            cat "${aDir}/AIC88_Run-CodeR.sh" | awk '/{AICodeR}/ { print "'${__dirname}'/run-aicoder.sh \"\$@\""; next }; { print }' >/usr/bin/coder        
+            cat "${aDir}/AIC88_Run-CodeR.sh" | awk '/{AICodeR}/ { print "'${__dirname}'/run-aicoder.sh \"\$@\""; next }; { print }' >set-aicoder.sh
+            cp  set-aicoder.sh /usr/bin/coder        
             cd ${aDir}
             npm install
             }                                                                           # .(40722.01.2 End)
