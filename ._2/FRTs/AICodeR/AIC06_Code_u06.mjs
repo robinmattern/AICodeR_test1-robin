@@ -1,4 +1,5 @@
    import   FRT               from './AIC90_FileFns.mjs'
+   import   AIM               from './AIC98_Apps-n-Models_u02.mjs'                                  // .(40722.03.x)
    import { getNextCommitNo } from './AIC89_Commit.mjs'
    import { doCommitAll     } from './AIC89_Commit.mjs'                                             // .(40718.04.5)
 
@@ -27,11 +28,6 @@
                             , 'gp4ovcp CodeParrot_VSCode-copy'
                             , 'ge15gvw Gemini1.5_Vertex-web'
                                ]
-
-
-///function getModel() {
-//          Models.indexOf( qw7bolu Qwen2-7b_Ollama-cont )
-//}
 
        var  aAppName        =  FRT.setPaths(       'c39_login-app' )
        var  aSessionDir     =  FRT.join(__basedir, `docs/${aAppName}/${aModel}` )
@@ -109,7 +105,6 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
 //    var   aScrptName      =  aMarkdown.split( "\n" )[169].match( /^.*file:* `(.+)`:/ )[1]
      async  function  listScripts(    aMarkdown_File, aModel, aAppName ) {                      // Step 5
 
-          
             console.log(  `\n  Parsing aMarkdown_File: .${ aMarkdown_File.replace( /[\\\/]/g, '/' ). replace( __basedir, '' ) }` );
 //     var  aMarkdown =  await FRT.readFileSync( FRT.join( aMarkdown_File ), 'utf8' );
 //     var  aMarkdown =  await FRT.readFileASync( FRT.path( aMarkdown_File ), 'utf8' );
@@ -261,34 +256,37 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         if (aScriptName.match( /^package.json/)) {   // should be ok to leave this alone
         var aBakPath        =  ''
         var aAppPath        =  __basedir
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                             // .(40721.07.x) 
-        var bSaveIt         =- pStats.exists == false                                                         // .(40721.07.x).(40703.05.5)
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
+        var bSaveIt         =  pStats.exists == false                                               // .(40721.07.x).(40703.05.5)
             }
         if (aScriptName.match( /^\.gitignore/)) {
-        var aBakPath        =  ''                                                                             // .(40721.07.x RAM Was .vscode)  
+        var aBakPath        =  ''                                                                   // .(40721.07.x RAM Was .vscode)  
         var aAppPath        =  __basedir
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                             // .(40721.07.x) 
-        var bSaveIt         =- pStats.exists == false                                                         // .(40721.07.x).(40703.05.5)
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
+        var bSaveIt         =  pStats.exists == false                                               // .(40721.07.x).(40703.05.5)
             }
         if (aScriptName.match( /^\.env/)) {
 //      var aBakPath        =  aBackPath.replace( /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )  //#.(40721.07.x)  
-        var aBakPath        =  ''                                                                             // .(40721.07.x)  
-//      var aAppPath        =  aAppDir.replace(   /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )
-        var aAppPath        =  __basedir                                                                      // .(40721.07.x) 
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                             // .(40721.07.x) 
-        var bSaveIt         =- pStats.exists == false                                                         // .(40721.07.x).(40703.05.5)
-            }
-/*      if (aScriptName.match( /^\.vscode/launch.json)) {                                                     // .(40721.07.x RAM Add launcj.json Beg)
-        var aBakPath        =  '.vscode'                                                                      
-        var aAppPath        = `{__baseDir}/.vscode`                                                                      
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                             
-        var bSaveIt         =- pStats.exists == false                                                         
-            } */                                                                                              // .(40721.07.x End)
-        if (aScriptDir.match( /^\.vscode/) && aBakPath != '.vscode') {                                        // .(40721.07.x RAM Is any file in .vscode ok to save if it doesn't exist)
-        var aBakPath        =  '.vscode'                                                                      
-        var aAppPath        = `${__basedir}/.vscode`                                                           // .(40721.07.x RAM was aBackpath)             
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                             
-        var bSaveIt         =- pStats.exists == false                                                        // .(40703.05.7 RAM Was just false) 
+//      var aAppPath        =  aAppDir.replace(   /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )  //#.(40721.07.x)  
+        var aBakPath        =  ''                                                                   // .(40721.07.x)  
+        var aAppPath        =  __basedir                                                            // .(40721.07.x) 
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
+        var bSaveIt         =  pStats.exists == false
+        if (pStats.exists) {                                                                        // .(40722.03.1 RAM Update .env Beg)
+        var mEnvs           =  FRT.readFileSync( `${aAppPath}/${aScriptName}` )  
+            AIM.add2Env(      `${__basedir}/.env`, mEnvs )      
+            }   }                                                                                   // .(40722.03.1 End).(40721.07.x).(40703.05.5)
+/*      if (aScriptName.match( /^\.vscode/launch.json)) {                                           // .(40721.07.x RAM Add launcj.json Beg)
+        var aBakPath        =  '.vscode'                                                            
+        var aAppPath        = `{__baseDir}/.vscode`                                                            
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                   
+        var bSaveIt         =- pStats.exists == false                                               
+            } */                                                                                    // .(40721.07.x End)
+        if (aScriptDir.match( /^\.vscode/) && aBakPath != '.vscode') {                              // .(40721.07.x RAM Is any file in .vscode ok to save if it doesn't exist)
+        var aBakPath        =  '.vscode'                                                            
+        var aAppPath        = `${__basedir}/.vscode`                                                // .(40721.07.x RAM was aBackpath)             
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                   
+        var bSaveIt         =- pStats.exists == false                                               // .(40703.05.7 RAM Was just false) 
             }
         if (aScriptDir.match( /^client/)) {
             aScriptDir      =  aScriptDir.replace(/client\//,'')   // subfolder, if any 

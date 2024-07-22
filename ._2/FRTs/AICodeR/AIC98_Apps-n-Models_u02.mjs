@@ -255,6 +255,12 @@
     return  aVal
             }
 // ------------------------------------------------------------------------------
+  function  add2Env( aEnvFile, mNewEnvs ) {                                                         // .(40722.03.x RAM Add vars Beg)
+       var  mOldEnvs = FRT.readFileSync(  aEnvFile ).split( "\n" ) 
+            mNewEnvs.forEach(  aEnv  =>   mOldEnvs.push( aEnv ) )
+                       FRT.writeFileSync( aEnvFile, mOldEnvs.join( "\n") )
+            }  // eof add2Env                                                                       // .(40722.03.x End)
+//     ---  ------------------------------------------
 
   function  setEnv( aVar, aVal, aPreFix ) {
             aPreFix     =   aPreFix ? `${aPreFix}` : "FRT"

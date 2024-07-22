@@ -147,6 +147,10 @@
             console.log( `  Creating app folders for: "${aAppName}/${aModel}"` )
             
             await createAppFolders_( aAppName, aModel );
+
+            AIM.setEnv( "App",    aApp   )                                                          // .(40722.04.1 Set App & Model after making App)
+            AIM.setEnv( "Model",  aModel )                                                          // .(40722.04.2)
+
             process.exit(0)
          } // eof createAppFolders
 // --------------------------------------------------------------
