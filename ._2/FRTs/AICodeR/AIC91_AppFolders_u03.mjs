@@ -11,49 +11,7 @@
        var  getModel        =  AIM.getModel
        var  getApp          =  AIM.getApp                            // .(40718.01.2)
 
-//          main( 'c42_whatever' )
-//          main( 'c42_whatever', 17 )
-//          main( 'c01_Calendar-app',  )
-//              createAppFolders( 'c01', ' gp4oopu')
-//              createAppFolders( 'c01', ' gp4oopx')
-//              createAppFolders( 'c01', ' gp4oopm')
-//              createAppFolders( )
-async  function createAppFolders( aAppName, aModel ) {
-
-       var  aAppName        = (aAppName ? aAppName : process.argv[2] || '').trim()
-       var  aModel          = (aModel   ? aModel   : process.argv[3] || '').trim()
-//          aAppName        = "c36_calendar-app"
-/*
-        if (aAppName === undefined || aAppName == null) {
-            aAppName        =  await readline.question('  Enter the name of the app folder to create: '  )
-        if (aAppName == "") {
-            console.log(    "* You must enter an app folder name." )
-            process.exit(1);
-            }  }
-        if (aAppName.match(/[cs][0-9]{2}_[a-z-]+/)) {
-       var  aStage          = `${ aAppName.slice(0,1) == 'c' ? 'client' : 'server' }${aAppName.slice(1,2)}`
-            aAppName        = `${ aStage }/${ aAppName }`.toLowerCase()
-        if (aAppName.slice(0,1) == "c" &&  aAppName.match( /-app$/ ) == null ) { aAppName = `${aAppName}-app` }
-        if (aAppName.slice(0,1) == "s" &&  aAppName.match( /-api$/ ) == null ) { aAppName = `${aAppName}-api` }
-        } else {
-            console.log(    "* You must enter an app folder name as c##_name-of-app, or s##_name-of-api.")
-            process.exit(1);
-            }
-            aModel                    =  await ask4Model( aModel )
-        if (aModel == "") { aModel    =  await ask4Model( aModel ) }
-*/ 
-//          console.log( `aAppName: '${aAppName}', aModel: '${aModel}'` )
-            aAppName         =  await chkApp( aAppName  )                                            // .(40719.01.x Use chkApp)
-            aModel           =  await ask4Model( aModel )                                            // .(40719.01.x Use chkApp)
-
-        if (aAppName == "" || aModel == "") { console.log( "exiting"); process.exit(1) }
-
-            console.log( `  Creating app folders for: "${aAppName}/${aModel}"` )
-
-            await createAppFolders_( aAppName, aModel );
-            process.exit(0)
-            } // eof main
-// --------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
      async  function ask4Model( aMod ) {
         var aModel  =  aMod
@@ -148,23 +106,72 @@ async  function createAppFolders( aAppName, aModel ) {
             }  // eof chkApp                                                                        // .(40719.01.x End)
 // --------------------------------------------------------------
 
-     async  function createAppFolders_( aAppDir, aModel ) {
+//          main( 'c42_whatever' )
+//          main( 'c42_whatever', 17 )
+//          main( 'c01_Calendar-app',  )
+//              createAppFolders( 'c01', ' gp4oopu')
+//              createAppFolders( 'c01', ' gp4oopx')
+//              createAppFolders( 'c01', ' gp4oopm')           
+                createAppFolders( )
+ 
+     async  function createAppFolders( aAppName, aModel ) {
 
+       var  aAppName        = (aAppName ? aAppName : process.argv[2] || '').trim()
+       var  aModel          = (aModel   ? aModel   : process.argv[3] || '').trim()
+//          aAppName        = "c36_calendar-app"
+/*
+        if (aAppName === undefined || aAppName == null) {
+            aAppName        =  await readline.question('  Enter the name of the app folder to create: '  )
+        if (aAppName == "") {
+            console.log(    "* You must enter an app folder name." )
+            process.exit(1);
+            }  }
+        if (aAppName.match(/[cs][0-9]{2}_[a-z-]+/)) {
+       var  aStage          = `${ aAppName.slice(0,1) == 'c' ? 'client' : 'server' }${aAppName.slice(1,2)}`
+            aAppName        = `${ aStage }/${ aAppName }`.toLowerCase()
+        if (aAppName.slice(0,1) == "c" &&  aAppName.match( /-app$/ ) == null ) { aAppName = `${aAppName}-app` }
+        if (aAppName.slice(0,1) == "s" &&  aAppName.match( /-api$/ ) == null ) { aAppName = `${aAppName}-api` }
+        } else {
+            console.log(    "* You must enter an app folder name as c##_name-of-app, or s##_name-of-api.")
+            process.exit(1);
+            }
+            aModel                    =  await ask4Model( aModel )
+        if (aModel == "") { aModel    =  await ask4Model( aModel ) }
+*/ 
+//          console.log( `aAppName: '${aAppName}', aModel: '${aModel}'` )
+            aAppName         =  await chkApp( aAppName  )                                           // .(40719.01.x Use chkApp)
+            aModel           =  await ask4Model( aModel )                                           // .(40719.01.x Use chkApp)
+
+        if (aAppName == "" || aModel == "") { console.log( "exiting"); process.exit(1) }
+
+            console.log( `  Creating app folders for: "${aAppName}/${aModel}"` )
+            
+            await createAppFolders_( aAppName, aModel );
+            process.exit(0)
+         } // eof createAppFolders
+// --------------------------------------------------------------
+
+     async  function createAppFolders_( aAppDir, aModel ) {
+           
        var  aStage          = (aAppDir.slice(0,1) == 'c' ? 'client' : 'server') + (aAppDir.slice(1,2) == '0' ? '' : aAppDir.slice(1,2))
        var  aFolderName     =  FRT.path( __basedir, `${aStage}/${aAppDir}` ) 
       try {
+            console.log(    `  Creating App Folder,      "${aFolderName}"`);
 //          await fs.mkdir(    aFolderName, { recursive: true } ); // Use promises for cleaner async handling
             await FRT.makDir(  aFolderName, { recursive: true } ); // Use promises for cleaner async handling
-//          console.log(    `  Creating App Folder,      "${aFolderName}"`);
 //          console.log(    `  Created App Folder, "${aFolderName}", successfully!`);
 
        var  aAppName        =  aAppDir.replace(     /(client[0-9]*|server[0-9]*)[\\\/]/, '' )             // .(40719.01.2 RAM Change + to *)
 
 //     var  aDocsFolderName =  aFolderName.replace( /(client[0-9]+|server[0-9]+)[\\\/]/, 'docs/' )
        var  aDocsFolderName =  aFolderName.replace( /(client[0-9]*|server[0-9]*)[\\\/]/, 'docs/' )   
-//          console.log(    `  Creating docs App Folder, "${aDocsFolderName}/${aModel}"`);
+            console.log(    `  Creating docs App Folder, "${aDocsFolderName}/${aModel}"`);
 //          await fs.makdir(  `${aDocsFolderName}/${aModel}`, { recursive: true } );
             await FRT.makDir( FRT.path( aDocsFolderName, aModel ), { recursive: true } );           // .(40721.02.1 RAM Add FRT.path) 
+
+        } catch (error) {
+            console.error(  `* Error creating app folders: ${error.message}`);
+            }            
 // ----------------------------------------------------------------------------------------------------
 
         if (aAppDir.slice(0,1) === 'c' ) {
@@ -186,14 +193,17 @@ async  function createAppFolders( aAppName, aModel ) {
             await FRT.writeFile( `${aFolderName}/index.html`, aHTML_Content);
             console.log(    `  Creating an initial file, "index.html", inside the client app folder.`);
             }
-        } // eif client files
+            } // eif client files
 // ----------------------------------------------------------------------------------------------------
 
         if (aAppDir.slice(0,2) == 'c0') { 
             aAppDir         =  aAppDir.replace(     /c0/, 's0' )
             aFolderName     =  FRT.path( aFolderName.replace( /client[\\\/]c0/, 'server/s0' ) )
+            console.log(    `  Creating App Folder,      "${aFolderName}"` );
                                await FRT.makDir(  aFolderName, { recursive: true } ); // Use promises for cleaner async handling
-                                        }
+            } // eif create server dir 
+// ----------------------------------------------------------------------------------------------------
+
         if (aAppDir.slice(0,1) == 's' ) {
 
        var  aServer_File    = `server.mjs`
@@ -204,11 +214,12 @@ async  function createAppFolders( aAppName, aModel ) {
                                await FRT.writeFile( `${aFolderName}/${aServer_File}`, aServer_Content);
             console.log(    `  Creating an initial file, "${aServer_File}", inside the server api folder.`);
             }
-        } // eif server files
+            } // eif server files
 // ----------------------------------------------------------------------------------------------------
 
        var  aApp            =  aAppName.slice(0,3)
        var  aVer            = 't000.01.{n}.' + FRT._TS  
+
                                await savDocsFile(  aApp, aVer, aModel, 'usermsg_.txt'  )
                                await savDocsFile(  aApp, aVer, aModel, 'messages.json' ) 
                                await savDocsFile(  aApp, aVer, aModel, 'markdown.md'   )
@@ -225,9 +236,7 @@ async  function createAppFolders( aAppName, aModel ) {
             }            
           // eOf docs files
 // ----------------------------------------------------------------------------------------------------
-} catch (error) {
-            console.error(  `* Error creating app folders: ${error.message}`);
-            }
+
         }  // eof createFolders_( aAppName )
 // --------------------------------------------------------------
 

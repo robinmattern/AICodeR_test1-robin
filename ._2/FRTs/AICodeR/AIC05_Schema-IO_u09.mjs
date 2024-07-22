@@ -102,7 +102,7 @@
 
 //     var  aSteps =  "1"             // Save Sessions from Original Continue JSON files to Continue JSON file
 //     var  aSteps =  "2"             // Save Continue Sessions from Continue JSON files          to FRTables JSON file
-//     var  aSteps =  "3"             // List Sessions from Original Continue JSON files to .txt file
+//     var  aSteps =  "3"             // Show Sessions from Original Continue JSON files to .txt file
 //     var  aSteps =  "4" S.M[].TS]   // Get  FRTable  from FRTables JSON file           to .md  file for nSession, nMessage
 //     var  aSteps =  "5" S[.M.TS]    // List Scripts  from FRTables JSON file                        for nSession, nMessage
 //     var  aSteps =  "6" S[.M.TS]    // Save Scripts  from FRTables JSON file
@@ -113,7 +113,7 @@
 //     var  aSteps = "11"             // List Models
 //     var  aSteps = "12"             // List Apps
 //     var  aSteps = "13"             // Show Apps
-//     var  aSteps = "14"             // Show Sessions
+//     var  aSteps = "14"             // List Sessions
 //     var  aSteps = "16"             // Save Prompt
 //     var  aSteps = "15"             // Run  Prompt
 //     var  aSteps = "17"             // Save Session
@@ -312,7 +312,7 @@
             }
 //     ---  --------------  =  -----------------------------------------------
 
-       var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
+//     var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
         if (aSteps.match(   /,6,/  )) { // Save Scripts  from FRTables JSON file                    //  Step 6 saveScripts
 
 //     var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : '' // nSession           //#.(40702.04.2 RAM Find 'em all)
@@ -478,18 +478,22 @@
 //          aModel          = (getModel( 1, aMod )[2] || '').trim()                                 // .(40715.03.4)
 
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
-       var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3] 
-       var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
-     
+//     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3] 
+//     var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
+       var  aAppName        = (mArgs[3].length == 3) ?  getApp(   1, mArgs[3], 2 ) : mArgs[3]       // .(40718.09.13)
+       var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       // .(40718.09.14).(40717.04.1 RAM End)
+             
             aModel          =  undefined
        var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
-            //     if (!aAppName) {
+             
+       //     if (!aAppName) {
 //          console.log( '\n* Invalid App: ${aApp}. ' )
 //          process.exit()
 //          }
             console.log( "" )
             console.log(    `  Session / Messaage files in ${aAppPath}` )
             console.log(    "  ---------------------------------------------------------------------------------------------------------------------" )
+            
         var mSessions       =  shoSessions( aAppPath, aModel )                                      // .(40615.03.x RAM Can contain Model path)
             console.log(       mSessions.join( "\n" ).slice(2) )
             process.exit()
@@ -500,9 +504,10 @@
        var  mFiles          =  FRT.listFiles( aAppPath )                                            // .(40715.03.7 RAM All models for app, or just one)
        var  mFolders        =  mFiles.filter( mFile => mFile[0].match( /^ +0/ ) )                   // .(40715.05.1 RAM Opps was: /^[ 0]+/ )
 //     var  mModels         =  mFolders.map(  mDir  => mDir[2] )                                    //#.(40715.05.1)
-       var  mModels         =  mFolders.map(  mDir  => getModel( 2, mDir[2] )[2] )                  // .(40715.05.1 RAM Check it)
-                                       .sort( (a,b) => a[2] > b[2] ? 1 : -1 )
-                                       .filter( aDir => aDir )
+//     var  mModels         =  mFolders.map(  mDir  => getModel( 2, mDir[2] )[2] )                  //#.(40718.09.20).(40715.05.1 RAM Check it)
+       var  mModels         =  mFolders.map(  mDir  => getModel( 2, mDir[2],  2  ) )                // .(40718.09.20)
+                                      .sort( (a,b)  => a[2] > b[2] ? 1 : -1 )
+                                    .filter(  aDir  => aDir )
         } else {
             mModels         = [ aModel ]
             }
@@ -512,7 +517,9 @@
             return mSessions
 
   function  fmtSessions( aModel, i )  {
-       var  aMod            =  getModel( 2, aModel )[1]
+             
+//     var  aMod            =  getModel( 2, aModel )[1]
+       var  aMod            =  getModel( 2, aModel,  1 )
        var  aModelPath      = `docs/${aAppName}/${aModel.trim()}`
        var  mFiles          =  FRT.listFiles(  FRT.path( __basedir, aModelPath ) )
        var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( /markdown.md|response.md/ ) )

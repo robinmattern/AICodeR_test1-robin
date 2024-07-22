@@ -283,17 +283,17 @@
             }
         if (mArgs[0]  && mArgs[0].length == 3) {   // Check App alias
             mParms[3] = /[cs][0-9]{2}/.test( mArgs[0] || '') ?  mArgs[0] : `* Invalid App alias: '${mArgs[0]}'`
-//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )[1] || '').trim()     //#.(40718.09.13 ) // origin 0
+//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )[1] || '').trim()     //#.(40718.09.15 ) // origin 0
 //          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )                      //#.(40718.xx.x  RAM Keep leading '*') 
-            mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] :  getApp(   1, mParms[3] )                      // .(40718.09.13 RAM New getApp)
+            mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] :  getApp(   1, mParms[3] )                      // .(40718.09.15 RAM New getApp)
             mParms[3] =  mParms[3] ? mParms[3] : `* App alias not found: '${mArgs[0]}'`
             mArgs.shift()
             }
         if (mArgs.length == 2) { var n = 1 } else { var n = 0 }                                               // .(40718.xx.x RAM ??)
         if (mArgs[n]  && mArgs[n].length == 7) {    // Check Model alias
             mParms[4] = /[a-z0-9]{7}/.test(  mArgs[n] || '') ?  mArgs[n] : `* Invalid Model alias: '${mArgs[0]}'`
-//          mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] : (getModel( 1, mParms[4] )[1] || '').trim()     //#.(40718.09.14)
-            mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] :  getModel( 1, mParms[4] )                      // .(40718.09.14 RAM New getApp)   
+//          mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] : (getModel( 1, mParms[4] )[1] || '').trim()     //#.(40718.09.16)
+            mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] :  getModel( 1, mParms[4] )                      // .(40718.09.16 RAM New getApp)   
             mParms[4] =  mParms[4] ? mParms[4] : `* Model alias not found: '${mArgs[n]}'`
             mArgs.splice(-1)
             }
@@ -332,7 +332,7 @@
        var  aRow           =  process.argv.length > 3 ? process.argv[3] : ''
        var  aItem          =  process.argv.length > 4 ? process.argv[4] : ''
 
-       if ("test1" == "test1") {
+       if ("test1" == "text1") {
        var  aTable         = 'set'
        var  aRow           = 'model'
        var  aItem          = 'c35sann'
@@ -354,8 +354,8 @@
 
        if (aTable == 'set' && aRow.slice(0,3) == 'app' ) {
 //     var  aRow           =  process.argv.length > 4 ? process.argv[4] : aRow
-//     var  aAppName       = (getApp(   1, aItem )[2] || '').trim()                                 //#.(40718.09.xx) 
-       var  aAppName       = (getApp(   1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.xx)
+//     var  aAppName       = (getApp(   1, aItem )[2] || '').trim()                                 //#.(40718.09.17) 
+       var  aAppName       = (getApp(   1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.17)
         if (aAppName == "") {
             console.log( `\n* Invalid app: '${aItem}'` )
             process.exit()
@@ -369,7 +369,7 @@
 
         if (aTable == 'set' && aRow.slice(0,3) == 'mod' ) {
 //     var  aRow           =  process.argv.length > 4 ? process.argv[4] : aRow
-       var  aModel         = (getModel( 1, aItem,  2 ))             // (()[2] || '').trim()             // .(40718.09.xx)
+       var  aModel         = (getModel( 1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.18)
         if (aModel == "") {
             console.log( `\n* Invalid model: '${aItem}'` )
             process.exit()
@@ -381,7 +381,7 @@
             }
 // ---------------------------------------------------------------------------------------------------
 
-       if ("test2" == "test2") {
+       if ("test2" == "text2") {
        var  aTable         = 'apps'
        var  aTable         = 'models'
        var  aRow           = 'c35sann'

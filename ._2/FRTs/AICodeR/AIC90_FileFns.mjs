@@ -82,7 +82,7 @@ async function  makDirASync(    aDirName  ) { aDirName = `${aDirName || ''}`
 // var  pOK             =  await fs.access(  aDirPath )
 // var  bOK             =  await fs.exists(  aDirPath )
    var  pStats          =  await checkFileASync( aDirPath ); 
-//    console.log(  `  pStats.exists: ${pStats.exists}, ${aDirPath}` )
+//      console.log(  `  pStats.exists: ${pStats.exists}, ${aDirPath}` )
    var  bOK             =  pStats.exists // && pStats.isNotDir
     if (bOK == false) {  
                            await fs.mkdir(   aDirPath, { recursive: true } );

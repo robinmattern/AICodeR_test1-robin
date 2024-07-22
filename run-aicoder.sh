@@ -6,15 +6,23 @@
             AIC05_Schema="AIC05_Schema-IO_u09.mjs"
             AIC91_Folders="AIC91_AppFolders_u03.mjs"
 
-            ThePath='E:/Repos/Robin/AIObjs_/dev03-robin/docs/c35_calendar1-app/GPT-4o_OpenAI-curl'
-            aDir="E:/Repos/Robin/AIObjs_/dev03-robin/._2/FRTs/AICodeR/"
+            aPath=$(readlink -f "$0")
+            __filename="${aPath##*/}"
+            __dirname="${aPath%/*}"; 
+
+#           echo "__dirname: ${__dirname}"; exit 
+#           ThePath='E:/Repos/Robin/AIObjs_/dev03-robin/docs/c35_calendar1-app/GPT-4o_OpenAI-curl'
+#           ThePath="${__dirname}/docs/c35_calendar1-app/GPT-4o_OpenAI-curl"
+#           aDir="E:/Repos/Robin/AIObjs_/dev03-robin/._2/FRTs/AICodeR/"
+            aDir="${__dirname}/._2/FRTs/AICodeR/"    # with trailing slash 
+
 #           Node ._2/FRTs/AICodeR/AIC98_Apps-n-Models_u02.mjs set app c35
 #           node        "${aDir}/AIC98_Apps-n-Models_u02.mjs" set app c35
 #           exit 
 
   function  run_node() {
             aStep=$2
-
+ 
 #           aSteps=",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,"
 
             aSteps3=",1,2,3,4,5,6,7,8,10,13,14,15," # Display AIC05_Schema command
@@ -35,7 +43,7 @@
 
             echo -e "  Running Node $1 $2 $3 $4 $5 $6 $7 $8 $9"
     if [ "${aSteps1_}"  != "${aSteps1}" ]; then
-            node "${aDir}/$1" $2 $3 $4 $5 $6 $7 $8 $9
+            node           "${aDir}$1" $2 $3 $4 $5 $6 $7 $8 $9
             exit
             fi;
             exit; fi
@@ -43,10 +51,10 @@
     if [ "${aSteps2_}" != "${aSteps2}" ]; then
     if [ "${aStep}" == "9" ]; then 
             echo -e "  Running Node $1 $4 $5 $6 $7 $8 $9"
-            node "${aDir}/$1" $4 $5 $6 $7 $8 $9; exit; fi 
+            node           "${aDir}$1" $4 $5 $6 $7 $8 $9; exit; fi 
 
             echo -e "  Running Node $1 $3 $4 $5 $6 $7 $8 $9"
-            node "${aDir}/$1" $3 $4 $5 $6 $7 $8 $9
+            node           "${aDir}$1" $3 $4 $5 $6 $7 $8 $9
             exit
             fi
             }
