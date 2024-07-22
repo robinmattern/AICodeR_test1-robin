@@ -20,6 +20,12 @@
 #           node        "${aDir}/AIC98_Apps-n-Models_u02.mjs" set app c35
 #           exit 
 
+  function  set_coder() {                                                             # .(40722.01.2 Beg)
+            cat "${aDir}/AIC88_Run-CodeR.sh" | awk '/{AICodeR}/ { print "'${__dirname}'/run-aicoder.sh \"\$@\""; next }; { print }' >/usr/bin/coder        
+            cd ${aDir}
+            npm install
+            }                                                                           # .(40722.01.2 End)
+
   function  run_node() {
             aStep=$2
  
@@ -64,6 +70,7 @@
 #   if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" != "app" ] && [ "{aArg2:0:3}" != "mod" ]; then aCmd="set  app"; shift; fi
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="set  model";    aArg1=""; shift; shift; fi   #  0
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "cod" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    // .(40722.01.1 RAM Add Setup Coder)
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "sho" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "set" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "var" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
@@ -142,6 +149,7 @@
     if [ "${aCmd}" == "show markdown" ]; then run_node "${AIC05_Schema}" "18" "$@"; exit; fi                            # .(40717.01.2)
 
     if [ "${aCmd}" == "set  vars"     ]; then aCmd="set  show"; fi 
+
     export CALL_IT=0;
 #   if [ "${aCmd}" == "make app"      ]; then echo node "../../../.vscode/task-createAppFolders_u02.mjs" $@; exit; fi
     if [ "${aCmd}" == "make app"      ]; then run_node "${AIC91_Folders}"  "9" "app"       $@; exit; fi  #  9           # .(40714.01.x)
@@ -150,6 +158,7 @@
     if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC98_Tables}"   "0" "set app"   $@; exit; fi  #  0           # .(40716.01.2)
     if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model" $@; exit; fi  #  0           # .(40716.01.3)
     if [ "${aCmd}" == "set  show"     ]; then run_node "${AIC98_Tables}"   "0" "set show"  $@; exit; fi  #  0           # .(40717.02.2)
+    if [ "${aCmd}" == "set  coder"    ]; then set_coder                                      ; exit; fi  #  0           # .(40722.01.3)
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 
@@ -176,6 +185,7 @@
     echo "    0. set app         {App}                        Set App for AICodeR Commands in .env"
     echo "    0. set model       {Model}                      Set Model for AICodeR commands in .env"
     echo "    0. show vars                                    Show FRT Environment Variables"                                     # .(40717.01.1)
+    echo "    0. setup coder                                  Initialize AICodeR Environment"                                     # .(40722.01.1 RAM Create)
     echo ""
     echo "   11. list apps       [App]                        List App for [App] or all Apps if 'all' or 'mt' in DB"              # .(40711.01.5)
     echo "   12. list models     [Model]                      List Model for [Model] or all Models if 'all' or 'mt' in DB"        # .(40711.01.6)
@@ -184,6 +194,7 @@
     echo "   10. save markdown   [App] [Model]                Save a last Message Markdown File for [App] [Model]"
     echo "   18. show markdown   [S[.M]] [App] [Model]        Open Markdown file in browser for Session / Message "               # .(40717.02.1)
     echo ""
+
     echo "    9. make [app]      {App} {Model}                Create a Folder for [App] (c##_name-of-app or s##_name-of-api)"
     echo "   13. show apps                                    List Apps that have an AI Session in docs folder"                   # .(40711.01.6)
     echo "   16. save prompt     [S[.M[.TS]]] [App] [Model]   Save a Prompt fpr [next] UsrMessage file for [App] [Model]"
