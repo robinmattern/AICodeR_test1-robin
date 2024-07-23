@@ -33,7 +33,7 @@
 
 #           cp   set-aicoder.sh  /usr/bin/coder
 #           cp   set-aicoder.sh  "C:/Program Files/Git/usr/bin/coder"
-            runas /user:Administrator "cmd /c copy  set-aicoder.sh  \"C:\\Program Files\\Git\\usr\\bin\\coder\""
+            runas /user:Administrator "cmd /c copy  coder  \"C:\\Program Files\\Git\\usr\\bin\\coder\""
 
  #          echo ""
             cd ${aDir}
