@@ -245,13 +245,14 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
             console.log( `\n  Saving script ${mScript[0]}: No code for script file: ${mScript[1]}.` );
             return
             }
-        var aAppName        =  aAppDir_.match( /[\\\/][cs][0-9]{2}_.+/ )[0]                          // .(40721.07.3 RAM Has leaading /)
-        var bStage0         =  aAppName.slice(2,3) == '0'                                               // .(40721.07.4)
+        var aAppName        =  aAppDir_.match( /[\\\/][cs][0-9]{2}_.+/ )[0]                         // .(40721.07.3 RAM Has leaading /)
+        var bStage0         =  aAppName.slice(2,3) == '0'                                           // .(40721.07.4)
         var aBackPath       =  bStage0 ? aBackPath_.replace( aAppName, '') : aBackPath              // .(40721.07.5)
         var aAppDir         =  bStage0 ? aAppDir_.replace(   aAppName, '') : aAppDir                // .(40721.07.6 RAM Remove stage for c0# apps)
         var aBakPath        =  aBackPath
         var aAppPath        =  aAppDir
         var bSaveIt         =  true                                                                 // .(40703.05.1 RAM Don't save some files)
+        var aVerb           =  " Keeping"                                                           // .(40722.10.1 RAM)
 
         if (aScriptName.match( /^package.json/)) {   // should be ok to leave this alone
         var aBakPath        =  ''
@@ -272,6 +273,7 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var aAppPath        =  __basedir                                                            // .(40721.07.x) 
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
         var bSaveIt         =  false
+        var aVerb           =  "Updating"                                                           // .(40722.10.2)
         if (pStats.exists) {                                                                        // .(40722.03.1 RAM Update .env Beg)
 //      var mEnvs           =  FRT.readFileSync( `${aAppPath}/${aScriptName}` ).split( "\n" ) 
         var mEnvs           =  mCodes[ mScript[0] + 1 ].split( /[\n\r]+/).filter( a => a )
@@ -281,13 +283,13 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var aBakPath        =  '.vscode'                                                            
         var aAppPath        = `{__baseDir}/.vscode`                                                            
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                   
-        var bSaveIt         =- pStats.exists == false                                               
+        var bSaveIt         =  pStats.exists == false                                               
             } */                                                                                    // .(40721.07.x End)
         if (aScriptDir.match( /^\.vscode/) && aBakPath != '.vscode') {                              // .(40721.07.x RAM Is any file in .vscode ok to save if it doesn't exist)
         var aBakPath        =  ''                                                            
         var aAppPath        =  __basedir                                                            // .(40721.07.x RAM was aBackpath)             
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                   
-        var bSaveIt         =- pStats.exists == false                                               // .(40703.05.7 RAM Was just false) 
+        var bSaveIt         =  pStats.exists == false                                               // .(40703.05.7 RAM Was just false) 
             }
         if (aScriptDir.match( /^client/)) {
             aScriptDir      =  aScriptDir.replace(/client\//,'')   // subfolder, if any 
@@ -338,7 +340,8 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
 //          console.log(    `                 ${ FRT.join( __appname, aScriptDir, aScriptName) }` )
             console.log(    `  Saving script ${mScript[0]}: .${ aAppPath.replace( /[\\\/]/g, '/' ).replace( aBaseDir, '' ).replace( /[\\\/]/g, "/" )}/${ aScriptDir }${ aScriptName } (${ aScriptType }):` )  // .(40703.01.5)
         } else {                                                                                              // .(40703.05.10 Beg)
-            console.log(    `   Keeping file ${mScript[0]}: .${ aAppPath.replace( /[\\\/]/g, '/' ).replace( aBaseDir, '' ).replace( /[\\\/]/g, "/" )}/${ aScriptDir }${ aScriptName } (${ aScriptType }):` )  // .(40703.01.6)
+//          console.log(    `   Keeping file ${mScript[0]}: .${ aAppPath.replace( /[\\\/]/g, '/' ).replace( aBaseDir, '' ).replace( /[\\\/]/g, "/" )}/${ aScriptDir }${ aScriptName } (${ aScriptType }):` )  //#.(40722.10.3).(40703.01.6)
+            console.log(    `  ${aVerb} file ${mScript[0]}: .${ aAppPath.replace( /[\\\/]/g, '/' ).replace( aBaseDir, '' ).replace( /[\\\/]/g, "/" )}/${ aScriptDir }${ aScriptName } (${ aScriptType }):` )  // .(40722.10.3).(40703.01.6)
                                }                                                                              // .(40703.05.11 End)
 //          console.log(    `  --------------------------------------------------------------------------------------------------------------` )
 //          console.log(    `    ${ aScriptCode.replace( /[\r\n]+/g, "\n    " ) }` )
