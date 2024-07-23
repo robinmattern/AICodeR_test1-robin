@@ -4,9 +4,4 @@
             "path": "."
         }
     ],
-    "settings": {
-        "liveServer.settings.port": 5500,
-        "code-runner.showExecutionMessage": false
-    },
-
 }
