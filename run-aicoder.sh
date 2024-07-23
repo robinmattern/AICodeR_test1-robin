@@ -22,18 +22,18 @@
 #   -------------------------------------------------------------------------------
 
   function  set_coder() {                                                               # .(40722.01.2 Beg)
-            echo -e "\n  Copying command, set-aicoder.sh, to /usr/bin/coder"
+            echo -e "\n  Copying command, aicoder, to /usr/bin/aicoder"
             echo      "----------------------------------------------------------------"
             aAll="\\\"\$@\\\""
 #           aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh \\"\$@\\""; next }; { print }"
             aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh ${aAll}\"; next }; { print }"
 #           echo "  aAWKpgm: '${aAWKpgm}'"; exut 
-            cat "${aDir}/AIC88_Run-CodeR.sh" | awk "${aAWKpgm}" >coder
+            cat "${aDir}/AIC88_Run-CodeR.sh" | awk "${aAWKpgm}" >aicoder
 #           cat set-aicoder.sh; exit
 
 #           cp   set-aicoder.sh  /usr/bin/coder
 #           cp   set-aicoder.sh  "C:/Program Files/Git/usr/bin/coder"
-            runas /user:Administrator "cmd /c copy  coder  \"C:\\Program Files\\Git\\usr\\bin\\coder\""
+            runas /user:Administrator "cmd /c copy  aicoder  \"C:\\Program Files\\Git\\usr\\bin\\coder\""
 
  #          echo ""
             cd ${aDir}
@@ -53,7 +53,7 @@
 
   function  run_node() {
             aStep=$2
-
+            
 #           aSteps=",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,"
 
             aSteps3=",1,2,3,4,5,6,7,8,10,13,14,15," # Display AIC05_Schema command
@@ -90,8 +90,8 @@
             fi
             }
 # ------------------------------------------------------------------------------------
-
-            aArg1=$1;                     aArg2=$2
+           
+            aArg1=$1;       aCmd="";       aArg2=$2
 #   if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" != "app" ] && [ "{aArg2:0:3}" != "mod" ]; then aCmd="set  app"; shift; fi
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="set  model";    aArg1=""; shift; shift; fi   #  0
@@ -130,6 +130,8 @@
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="save session";  aArg1=""; shift; fi          # 17
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" != "mar" ]; then aCmd="show markdown"; aArg1=""; shift; fi          # 18                 # .(40717.02.1)
 
+#   echo -e "\n  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd:'${aCmd}'"; exit
+
     if [ "$1" ==  "0" ]; then aCmd="set  $2"; shift; shift; fi
 #   if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model" $@; exit; fi  #  0           # .(40716.01.1)
     if [ "$1" ==  "1" ]; then aCmd="save continue"; shift; fi
@@ -152,7 +154,7 @@
     if [ "$1" == "17" ]; then aCmd="save session";  shift; fi     # .(40711.04.x)
     if [ "$1" == "18" ]; then aCmd="show markdown"; shift; fi     # .(40717.02.2)
 
-    echo -e "\n  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd:'${aCmd}'"; # exit
+#   echo -e "\n  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd:'${aCmd}'"; exit
 
     export CALL_IT=1;
 #   if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC05_Schema}"  "0" "$@"; exit; fi
@@ -189,7 +191,7 @@
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 
     echo ""
-    echo "  AICoder Commands: "
+    echo "  AICoder Commands (v1.02 7/23/24):"
     echo ""
     echo "       [TS]            =>                  Optional Day and Optional Time (YMMDD[.HH[MM]])"
     echo "       [App] [Model]   =>                  Optional AppName ([cs]##) and Model (Alias for Model-Owner-interface)"

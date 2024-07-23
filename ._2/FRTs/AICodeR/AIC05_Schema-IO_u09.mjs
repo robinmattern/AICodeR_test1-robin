@@ -311,7 +311,6 @@
                                await listScripts( aMarkdown_Saved )    // <===  Step 5
             }
 //     ---  --------------  =  -----------------------------------------------
-
        var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
         if (aSteps.match(   /,6,/  )) { // Save Scripts  from FRTables JSON file                    //  Step 6 saveScripts
 
@@ -332,10 +331,12 @@
 //     var  aAppName        = (getApp(    2,   aApp                ).slice(2,3)[0] || '').trim()    //#.(40718.09.8)
 //     var  aModel          = (getModel(  2,   aApp                ).slice(2,3)[0] || '').trim()    //#.(40718.09.9)
 
-       var  mArgs           =  setArgs( ['', '', 5, 20, 5 ], 'get', 'puit' )
+//     var  mArgs           =  setArgs( ['', '', 5, 20, 5 ], 'get', 'puit' )                        // .(40723.01.1 RAM Fuck you)
+       var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
 //     var  mArgs           =  setArgs( process.argv       , 'get', 'quit' )
             console.log(    `  mArgs:  '${mArgs.join("', '")}`)
-        if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
+//      if (mArgs.join("', '").match( /'\*/ )) { console.log(          "  process.exit()" ) }       //#.(40723.01.2) 
+        if (mArgs.join("', '").match( /'\*/ ) || mArgs.join('') == '') {  process.exit()    }       // .(40723.01.2 RAM Abort) 
 
             aApp            =  mArgs[3]
             aMod            =  mArgs[4]

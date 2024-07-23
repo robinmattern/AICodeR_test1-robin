@@ -254,6 +254,18 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var bSaveIt         =  true                                                                 // .(40703.05.1 RAM Don't save some files)
         var aVerb           =  " Keeping"                                                           // .(40722.10.1 RAM)
 
+        if (aScriptName.match( /^client\/package.json/)) {                                          // .(40723.02.1 RAM Beg)    
+        var aBakPath        =  aBackPath
+        var aAppPath        =  aAppDir
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  
+        var bSaveIt         =  pStats.exists == false                                               
+            }
+        if (aScriptName.match( /^server\/package.json/)) {                                          
+        var aBakPath        =  aBackPath.replace( /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )
+        var aAppPath        =  aAppDir.replace(   /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  
+        var bSaveIt         =  pStats.exists == false                                               
+            }                                                                                       // .(40723.02.1 End)
         if (aScriptName.match( /^package.json/)) {   // should be ok to leave this alone
         var aBakPath        =  ''
         var aAppPath        =  __basedir
