@@ -27,8 +27,8 @@
             aAll="\\\"\$@\\\""
 #           aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh \\"\$@\\""; next }; { print }"
             aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh ${aAll}\"; next }; { print }"
-#           echo "  aAWKpgm: '${aAWKpgm}'";
-            cat "${aDir}/AIC88_Run-CodeR.sh" | awk "${aAWKpgm}" >set-aicoder.sh
+#           echo "  aAWKpgm: '${aAWKpgm}'"; exut 
+            cat "${aDir}/AIC88_Run-CodeR.sh" | awk "${aAWKpgm}" >coder
 #           cat set-aicoder.sh; exit
 
 #           cp   set-aicoder.sh  /usr/bin/coder
