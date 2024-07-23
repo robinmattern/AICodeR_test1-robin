@@ -308,7 +308,7 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
            console.log( "" )
 //                             FRT.makDirSync( FRT.path( aBakPath,  aScriptDir ) )                          //#.(40722.08.1).(40702.02.2 RAM was aBackPath)
                if (aBakPath) { FRT.makDirSync( FRT.path( aBakPath,  aScriptDir ) ) }                        // .(40722.08.1).(40702.02.2 RAM was aBackPath)
-               if (aSaveIt ) { FRT.makDirSync( FRT.path( aAppPath,  aScriptDir ) ) }                        // .(40722.08.2).(40702.02.3 RAM was aAppDir) { recursive: true } ) )  create parent directories
+               if (bSaveIt ) { FRT.makDirSync( FRT.path( aAppPath,  aScriptDir ) ) }                        // .(40722.08.2).(40702.02.3 RAM was aAppDir) { recursive: true } ) )  create parent directories
 //                             fsync.mkdirSync( FRT.join( __appname, aScriptDir ) )                         //#, { recursive: true } ) )  create parent directories
 //                             fsync.mkdirSync( FRT.join( aBackPath, aScriptDir ) )
 //                             fs.mkdir(        FRT.join( aBackPath.replace( /!/, "^!" ), aScriptDir ) )
