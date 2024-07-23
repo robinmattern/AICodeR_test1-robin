@@ -60,7 +60,7 @@
         if (bIsNotCalled) {
 //          saveScripts(  aMarkdown_File )
 //          listScripts( "E:/Repos/Robin/AIObjs_/._/DOCs/code-sessions/FRTables-markdown_u13.4.40625.1409.md" )
-            listScripts( "E:/Repos/Robin/AIObjs_/._/DOCs/code-sessions/FRTables-markdown_u13.8.40625.1452.md" )
+//          listScripts( "E:/Repos/Robin/AIObjs_/._/DOCs/code-sessions/FRTables-markdown_u13.8.40625.1452.md" )
             }
 
 // ------------------------------------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
     return  aMarkdown
             }
 // ------------------------------------------------------------------------------------------------------------------
-
+            
      async  function  saveScripts( aMarkdown_File, aAppName, aModel, aMod ) {                      // Step 6
             aModel          =  aModel    ? aModel  :   aModel
             aAppName        = (aAppName  ? aAppName : __appname).split( /[\\\/]/ ).splice( -1 )[0]
@@ -271,9 +271,10 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var aBakPath        =  ''                                                                   // .(40721.07.x)  
         var aAppPath        =  __basedir                                                            // .(40721.07.x) 
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
-        var bSaveIt         =  pStats.exists == false
+        var bSaveIt         =  false
         if (pStats.exists) {                                                                        // .(40722.03.1 RAM Update .env Beg)
-        var mEnvs           =  FRT.readFileSync( `${aAppPath}/${aScriptName}` )  
+//      var mEnvs           =  FRT.readFileSync( `${aAppPath}/${aScriptName}` ).split( "\n" ) 
+        var mEnvs           =  mCodes[ mScript[0] + 1 ].split( /[\n\r]+/).filter( a => a )
             AIM.add2Env(      `${__basedir}/.env`, mEnvs )      
             }   }                                                                                   // .(40722.03.1 End).(40721.07.x).(40703.05.5)
 /*      if (aScriptName.match( /^\.vscode/launch.json)) {                                           // .(40721.07.x RAM Add launcj.json Beg)

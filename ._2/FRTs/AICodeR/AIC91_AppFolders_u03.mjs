@@ -148,7 +148,7 @@
             
             await createAppFolders_( aAppName, aModel );
 
-            AIM.setEnv( "App",    aApp   )                                                          // .(40722.04.1 Set App & Model after making App)
+            AIM.setEnv( "App",    aAppName )                                                        // .(40722.04.1 Set App & Model after making App)
             AIM.setEnv( "Model",  aModel )                                                          // .(40722.04.2)
 
             process.exit(0)
@@ -157,15 +157,17 @@
 
      async  function createAppFolders_( aAppDir, aModel ) {
            
-       var  aStage          = (aAppDir.slice(0,1) == 'c' ? 'client' : 'server') + (aAppDir.slice(1,2) == '0' ? '' : aAppDir.slice(1,2))
+       var  bDoApps         =  aAppDir.slice(1,2) != '0'                                            // .(40722.06.1)
+       var  aStage          = (aAppDir.slice(0,1) == 'c' ? 'client' : 'server') + (bDoApps ? aAppDir.slice(1,2) : '' )   // .(40722.06.2)
        var  aFolderName     =  FRT.path( __basedir, `${aStage}/${aAppDir}` ) 
-      try {
+       try {
+        if (bDoApps) {                                                                              // .(40722.06.3)
             console.log(    `  Creating App Folder,      "${aFolderName}"`);
 //          await fs.mkdir(    aFolderName, { recursive: true } ); // Use promises for cleaner async handling
             await FRT.makDir(  aFolderName, { recursive: true } ); // Use promises for cleaner async handling
 //          console.log(    `  Created App Folder, "${aFolderName}", successfully!`);
-
-       var  aAppName        =  aAppDir.replace(     /(client[0-9]*|server[0-9]*)[\\\/]/, '' )             // .(40719.01.2 RAM Change + to *)
+            } // eif bDoApps                                                                        // .(40722.06.4)
+       var  aAppName        =  aAppDir.replace(     /(client[0-9]*|server[0-9]*)[\\\/]/, '' )       // .(40719.01.2 RAM Change + to *)
 
 //     var  aDocsFolderName =  aFolderName.replace( /(client[0-9]+|server[0-9]+)[\\\/]/, 'docs/' )
        var  aDocsFolderName =  aFolderName.replace( /(client[0-9]*|server[0-9]*)[\\\/]/, 'docs/' )   
@@ -176,9 +178,10 @@
         } catch (error) {
             console.error(  `* Error creating app folders: ${error.message}`);
             }            
+
 // ----------------------------------------------------------------------------------------------------
 
-        if (aAppDir.slice(0,1) === 'c' ) {
+        if (aAppDir.slice(0,1) === 'c' && bDoApps) {                                                // (40722.06.5)
 
 //          console.log(    `  Created docs App Folder, "${aDocsFolderName}/${aModel}", successfully!`);
        var  aHTML_Content   = `<!DOCTYPE html>
@@ -200,7 +203,7 @@
             } // eif client files
 // ----------------------------------------------------------------------------------------------------
 
-        if (aAppDir.slice(0,2) == 'c0') { 
+        if (aAppDir.slice(0,2) == 'c0' && bDoApps) {                                                // (40722.06.6) 
             aAppDir         =  aAppDir.replace(     /c0/, 's0' )
             aFolderName     =  FRT.path( aFolderName.replace( /client[\\\/]c0/, 'server/s0' ) )
             console.log(    `  Creating App Folder,      "${aFolderName}"` );
@@ -208,7 +211,7 @@
             } // eif create server dir 
 // ----------------------------------------------------------------------------------------------------
 
-        if (aAppDir.slice(0,1) == 's' ) {
+        if (aAppDir.slice(0,1) == 's' && bDoApps) {                                                // (40722.06.7)
 
        var  aServer_File    = `server.mjs`
         if ((await FRT.checkFile( `${aFolderName}/${aServer_File}`)).exists == false ) {

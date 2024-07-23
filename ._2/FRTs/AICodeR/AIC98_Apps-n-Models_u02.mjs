@@ -257,8 +257,10 @@
 // ------------------------------------------------------------------------------
   function  add2Env( aEnvFile, mNewEnvs ) {                                                         // .(40722.03.x RAM Add vars Beg)
        var  mOldEnvs = FRT.readFileSync(  aEnvFile ).split( "\n" ) 
-            mNewEnvs.forEach(  aEnv  =>   mOldEnvs.push( aEnv ) )
+            mNewEnvs.forEach(  aEnv  =>   mOldEnvs.push( fmtVar( aEnv ) ) )
+            mOldEnvs = Array.from(new Set( mOldEnvs ))
                        FRT.writeFileSync( aEnvFile, mOldEnvs.join( "\n") )
+    function fmtVar( a ) { var m = a.split("="); return `${m[0].trim().padEnd(15)} = "${m[1].trim()}"` }                       
             }  // eof add2Env                                                                       // .(40722.03.x End)
 //     ---  ------------------------------------------
 
@@ -267,9 +269,9 @@
        var  aEnvVar     =`${aPreFix}_${ aVar.toUpperCase().replace( `${aPreFix}_`, '' ) }`
             process.env[    aEnvVar ] = aVal
        var  mEnvs       =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == `${aPreFix}_` )
-       var  mMyEnvs     =   mEnvs.map( mEnv => `${ mEnv[0].padEnd(12) } = "${mEnv[1]}"` )
-            console.log( `  Setting default ${aEnvVar} to: '${aVal}' in .env file` )
-            console.log( `  mMyEnvs:\n    ${ mMyEnvs.join( "\n    " ) }` )
+       var  mMyEnvs     =   mEnvs.map( mEnv => `${ mEnv[0].padEnd(15) } = "${mEnv[1]}"` )
+            console.log( `  Setting default ${ aEnvVar } to: '${ aVal }' in .env file` )
+            console.log( `  mMyEnvs:\n    ${   mMyEnvs.join( "\n    " ) }` )
             FRT.writeFileSync( FRT.path( __basedir, '.env' ), mMyEnvs.join( "\n" ) )
             }
 // ------------------------------------------------------------------------------
@@ -320,7 +322,7 @@
 // ----------------------------------------------------------------------------------
 
             export default { setArgs, getApp, getModel, selectRow                                    // .(40711.01.2 RAM Add getApp).(40711.04.x RAM Add setArgs)
-                          , getDocsPath }                                                            // .(40715.04.5)
+                           , getDocsPath, setEnv, add2Env }                                          // .(40722.04.x).(40715.04.5)
 
 // ------------------------------------------------------------------------------
 

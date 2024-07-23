@@ -19,6 +19,7 @@
 #           Node ._2/FRTs/AICodeR/AIC98_Apps-n-Models_u02.mjs set app c35
 #           node        "${aDir}/AIC98_Apps-n-Models_u02.mjs" set app c35
 #           exit
+#   -------------------------------------------------------------------------------
 
   function  set_coder() {                                                               # .(40722.01.2 Beg)
             echo -e "\n  Copying command, set-aicoder.sh, to /usr/bin/coder"
@@ -34,18 +35,21 @@
 #           cp   set-aicoder.sh  "C:/Program Files/Git/usr/bin/coder"
             runas /user:Administrator "cmd /c copy  set-aicoder.sh  \"C:\\Program Files\\Git\\usr\\bin\\coder\""
 
-            echo ""
+ #          echo ""
             cd ${aDir}
             echo -e "\n  Running, npm install, in server folder"
             echo      "----------------------------------------------------------------"
             npm install
-            cd ${__dirname}
+            cd "${__dirname}"
+            pwd
             echo -e "\n  Opening VSCode, AICodeR.code-workspace"
             echo      "----------------------------------------------------------------"
-            mv *.code-workspace AICodeR.code-workspace
+#           mv *.code-workspace  AICodeR.code-workspace
+            mv *.code-workspace  AICodeR.code-workspace
             read -n1 -p "  Press any key to continue..."
             code *code*
             }                                                                            # .(40722.01.2 End)
+#   -------------------------------------------------------------------------------
 
   function  run_node() {
             aStep=$2
@@ -92,6 +96,7 @@
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="set  model";    aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "cod" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    // .(40722.01.1 RAM Add Setup Coder)
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "aic" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    // .(40722.01.x)
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "sho" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "set" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "var" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
