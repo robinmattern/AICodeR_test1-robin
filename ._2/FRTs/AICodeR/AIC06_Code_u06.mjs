@@ -284,7 +284,7 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var bSaveIt         =- pStats.exists == false                                               
             } */                                                                                    // .(40721.07.x End)
         if (aScriptDir.match( /^\.vscode/) && aBakPath != '.vscode') {                              // .(40721.07.x RAM Is any file in .vscode ok to save if it doesn't exist)
-        var aBakPath        =  '.vscode'                                                            
+        var aBakPath        =  ''                                                            
         var aAppPath        = `${__basedir}/.vscode`                                                // .(40721.07.x RAM was aBackpath)             
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                   
         var bSaveIt         =- pStats.exists == false                                               // .(40703.05.7 RAM Was just false) 
@@ -304,8 +304,9 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
 //                       await FRT.makDir(     FRT.join( aAppPath,  aScriptDir ) )                          //#.(40702.02.1 RAM was aAppDir) { recursive: true } ) )  create parent directories
 //                       await FRT.makDir(     FRT.join( aAppPath,  aScriptDir ) )                          //#.(40702.02.1 RAM was aAppDir) { recursive: true } ) )  create parent directories
            console.log( "" )
-                               FRT.makDirSync( FRT.path( aBakPath,  aScriptDir ) )                          // .(40702.02.2 RAM was aBackPath)
-                               FRT.makDirSync( FRT.join( aAppPath,  aScriptDir ) )                          // .(40702.02.3 RAM was aAppDir) { recursive: true } ) )  create parent directories
+//                             FRT.makDirSync( FRT.path( aBakPath,  aScriptDir ) )                          //#.(40722.08.1).(40702.02.2 RAM was aBackPath)
+               if (aBakPath) { FRT.makDirSync( FRT.path( aBakPath,  aScriptDir ) ) }                        // .(40722.08.1).(40702.02.2 RAM was aBackPath)
+                               FRT.makDirSync( FRT.path( aAppPath,  aScriptDir ) )                          // .(40702.02.3 RAM was aAppDir) { recursive: true } ) )  create parent directories
 //                             fsync.mkdirSync( FRT.join( __appname, aScriptDir ) )                         //#, { recursive: true } ) )  create parent directories
 //                             fsync.mkdirSync( FRT.join( aBackPath, aScriptDir ) )
 //                             fs.mkdir(        FRT.join( aBackPath.replace( /!/, "^!" ), aScriptDir ) )
