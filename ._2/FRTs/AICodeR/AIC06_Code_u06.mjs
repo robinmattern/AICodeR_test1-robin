@@ -299,9 +299,11 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
             } */                                                                                    // .(40721.07.x End)
         if (aScriptDir.match( /^\.vscode/) && aBakPath != '.vscode') {                              // .(40721.07.x RAM Is any file in .vscode ok to save if it doesn't exist)
         var aBakPath        =  ''                                                            
-        var aAppPath        =  `${__basedir}/.vscode`                                               // .(40721.07.x RAM was aBackpath)             
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                   
-        var bSaveIt         =  pStats.exists == false                                            // .(40703.05.7 RAM Was just false) 
+//      var aAppPath        =  `${__basedir}/.vscode`                                               //#.(40723.03.1).(40721.07.x RAM was aBackpath)             
+        var aAppPath        =  __basedir                                                            // .(40723.03.1).(40721.07.x RAM was aBackpath)             
+//      var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  //#.(40723.03.2)     
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptDir}/${aScriptName}` )    // .(40723.03.2 RAM How about this)                    
+        var bSaveIt         =  pStats.exists == false                                               // .(40703.05.7 RAM Was just false) 
             }
         if (aScriptDir.match( /^client/)) {
             aScriptDir      =  aScriptDir.replace(/client\//,'')   // subfolder, if any 
