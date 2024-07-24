@@ -5,6 +5,7 @@
             AIC98_Tables="AIC98_Apps-n-Models_u02.mjs"
             AIC05_Schema="AIC05_Schema-IO_u09.mjs"
             AIC91_Folders="AIC91_AppFolders_u03.mjs"
+            AIC97_KillPort="AIC97_KillPort"                                                         # .(40724.01.1 RAM Move script to AICodeR)
 
             aPath=$(readlink -f "$0")
             __filename="${aPath##*/}"
@@ -21,7 +22,7 @@
 #           exit
 #   -------------------------------------------------------------------------------
 
-  function  set_coder() {                                                               # .(40722.01.2 Beg)
+  function  set_coder() {                                                                           # .(40722.01.2 Beg)
             echo -e "\n  Copying command, aicoder, to /usr/bin/aicoder"
             echo      "----------------------------------------------------------------"
             aAll="\\\"\$@\\\""
@@ -129,8 +130,9 @@
 
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="save session";  aArg1=""; shift; fi          # 17
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" != "mar" ]; then aCmd="show markdown"; aArg1=""; shift; fi          # 18                 # .(40717.02.1)
+    if [ "${aArg1:0:3}" == "kil" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="kill port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.2)
 
-#   echo -e "\n  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd:'${aCmd}'"; exit
+#   echo -e "\n[1]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; exit
 
     if [ "$1" ==  "0" ]; then aCmd="set  $2"; shift; shift; fi
 #   if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model" $@; exit; fi  #  0           # .(40716.01.1)
@@ -153,8 +155,9 @@
     if [ "$1" == "15" ]; then aCmd="run  prompt";   shift; fi     # .(40711.04.x)
     if [ "$1" == "17" ]; then aCmd="save session";  shift; fi     # .(40711.04.x)
     if [ "$1" == "18" ]; then aCmd="show markdown"; shift; fi     # .(40717.02.2)
+    if [ "$1" == "19" ]; then aCmd="kill portshow markdown"; shift; fi     # .(40717.02.2)
 
-#   echo -e "\n  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd:'${aCmd}'"; exit
+#   echo -e "\n[2]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; exit
 
     export CALL_IT=1;
 #   if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC05_Schema}"  "0" "$@"; exit; fi
@@ -175,6 +178,7 @@
     if [ "${aCmd}" == "run  prompt"   ]; then run_node "${AIC05_Schema}" "15" "$@"; exit; fi
     if [ "${aCmd}" == "save session"  ]; then run_node "${AIC05_Schema}" "17" "$@"; exit; fi
     if [ "${aCmd}" == "show markdown" ]; then run_node "${AIC05_Schema}" "18" "$@"; exit; fi                            # .(40717.01.2)
+    if [ "${aCmd}" == "kill port"     ]; then run_node "${AIC05_Schema}" "19" "$@"; exit; fi                            # .(40724.01.2)
 
     if [ "${aCmd}" == "set  vars"     ]; then aCmd="set  show"; fi
 
@@ -191,7 +195,7 @@
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 
     echo ""
-    echo "  AICoder Commands (v1.02 7/23/24):"
+    echo "  AICoder Commands (v1.04 7/24/24):"
     echo ""
     echo "       [TS]            =>                  Optional Day and Optional Time (YMMDD[.HH[MM]])"
     echo "       [App] [Model]   =>                  Optional AppName ([cs]##) and Model (Alias for Model-Owner-interface)"
@@ -214,6 +218,7 @@
     echo "    0. set model       {Model}                      Set Model for AICodeR commands in .env"
     echo "    0. show vars                                    Show FRT Environment Variables"                                     # .(40717.01.1)
     echo "    0. setup coder                                  Initialize AICodeR Environment"                                     # .(40722.01.1 RAM Create)
+    echo "   19. kill port       {port}                       Stop port process"                                                  # .(40724.01.2)
     echo ""
     echo "   11. list apps       [App]                        List App for [App] or all Apps if 'all' or 'mt' in DB"              # .(40711.01.5)
     echo "   12. list models     [Model]                      List Model for [Model] or all Models if 'all' or 'mt' in DB"        # .(40711.01.6)
