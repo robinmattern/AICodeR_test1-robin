@@ -195,7 +195,7 @@
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 
     echo ""
-    echo "  AICoder Commands (v1.04 7/24/24):"
+    echo "  AICoder Commands (v1.05 7/24/24 ${aDir}):"
     echo ""
     echo "       [TS]            =>                  Optional Day and Optional Time (YMMDD[.HH[MM]])"
     echo "       [App] [Model]   =>                  Optional AppName ([cs]##) and Model (Alias for Model-Owner-interface)"
