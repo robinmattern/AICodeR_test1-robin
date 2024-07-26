@@ -257,14 +257,14 @@
 // ------------------------------------------------------------------------------
 
   function  getEnv( aVar, aVal, aPreFix ) {
-            console.log( `  getEnv[1]  aVar: '${aVar}', aVal: '${aVal}'`)
+            console.log( `  getEnv[1]  aVar: '${aVar}'`)
             aPreFix   =   aPreFix ? `${aPreFix}` : "FRT"
        var  aEnvVar   =`${aPreFix}_${aVar.toUpperCase()}`
        var  aVal      =   aVal ? aVal : process.env[  aEnvVar ] || ''
         if (aVal == '') {
             console.log( `\n* The environment variable, '${aEnvVar}', is not defined` )
         } else {
-//          console.log( `  getenv[1]  Got default ${ `${aEnvVar}:`.padEnd(10) } '${aVal}'` )
+            console.log( `  getenv[2]  Got default ${ `${aEnvVar}:`.padEnd(10) } '${aVal}'` )
             }
     return  aVal
             }
