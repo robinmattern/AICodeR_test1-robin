@@ -143,7 +143,7 @@
    
 //          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )   
 //          console.log( "getModel( 2, 'c35sanm', 2 ):", getModel( 2, 'c35sanm', 2 ) )  
-            console.log( "getModel(                 ):", getModel(                 ) )   // all models
+//          console.log( "getModel(                 ):", getModel(                 ) )   // all models
 //          console.log( "getModel( 0               ):", getModel( 0               ) )   // all row numbers 
 //          console.log( "getModel( 1               ):", getModel( 1               ) )   // all alaases 
 //          console.log( "getModel( 2               ):", getModel( 2               ) )   // all names
@@ -155,7 +155,7 @@
 //          console.log( "getModel(    'c35sanm'    ):", getModel(    'c35sanm'    ) )  
 //          console.log( "getModel( 3 ,'c35sanm', 'usermsg_.txt' ):", getModel( 3, 'c35sanm', 'usermsg_.txt' ) )  
 //          console.log( "getModel( 3 ,'gp4oopu', 'request_.sh'  ):", getModel( 3, 'gp4oopu', 'request_.sh'  ) )  
-            process.exit()
+//          process.exit()
  
 //          console.log( "getModel(                 ):", getModel() )
 //          process.exit()
