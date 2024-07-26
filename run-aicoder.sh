@@ -2,10 +2,12 @@
 
 # cd ._2/FRTs/AICodeR
 
+            aVer="v1.06 7/25/24"
+
             AIC98_Tables="AIC98_Apps-n-Models_u02.mjs"
             AIC05_Schema="AIC05_Schema-IO_u09.mjs"
             AIC91_Folders="AIC91_AppFolders_u03.mjs"
-            AIC97_KillPort="AIC97_KillPort"                                                         # .(40724.01.1 RAM Move script to AICodeR)
+            AIC97_Ports="AIC87_Ports.sh"                                                            # .(40724.01.1 RAM Move script to AICodeR)
 
             aPath=$(readlink -f "$0")
             __filename="${aPath##*/}"
@@ -28,7 +30,7 @@
             aAll="\\\"\$@\\\""
 #           aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh \\"\$@\\""; next }; { print }"
             aAWKpgm="/{AICodeR}/ { print \"${__dirname}/run-aicoder.sh ${aAll}\"; next }; { print }"
-#           echo "  aAWKpgm: '${aAWKpgm}'"; exut 
+#           echo "  aAWKpgm: '${aAWKpgm}'"; exut
             cat "${aDir}/AIC88_Run-CodeR.sh" | awk "${aAWKpgm}" >aicoder
 #           cat set-aicoder.sh; exit
 
@@ -54,7 +56,7 @@
 
   function  run_node() {
             aStep=$2
-            
+
 #           aSteps=",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,"
 
             aSteps3=",1,2,3,4,5,6,7,8,10,13,14,15," # Display AIC05_Schema command
@@ -64,34 +66,46 @@
 #           aSteps_="$( echo "${aSteps}" | sed "s/${aStep}//g" )"
             aSteps1_="$( echo "${aSteps1}" | awk '{ sub( /',${aStep},'/, "" ); print }' )"
 
-            aSteps2=",0,9,11,12,"                   # Run and Display AIC98_Tables command
+            aSteps2=",0,9,11,12,19,"                # Run and Display AIC98_Tables command    // .(40724.01.9 RA< Add 19)
             aSteps2_="$( echo "${aSteps2}" | awk '{ sub( /,'${aStep},'/, "" ); print }' )"
 
-#           echo "aSteps1 '${aSteps1_}' != '${aSteps1}'"; # exit
-#           echo "aSteps2 '${aSteps2_}' != '${aSteps2}'"; # exit
-#           echo "aSteps3 '${aSteps3_}' != '${aSteps3}'"; # exit
-
+            bNoisy=0
+      if [ "${bNoisy}" == "1" ]; then
+            echo -e "aSteps1 '${aSteps1_}' in aStep: ${aStep}\n     != '${aSteps1}'"; # exit
+            echo -e "aSteps2 '${aSteps2_}' in aStep: ${aStep}\n     != '${aSteps2}'"; # exit
+            echo -e "aSteps3 '${aSteps3_}' in aStep: ${aStep}\n     != '${aSteps3}'"; # exit
+            fi
     if [ "${aSteps3_}" != "${aSteps3}" ]; then
 
             echo -e "  Running Node $1 $2 $3 $4 $5 $6 $7 $8 $9"
     if [ "${aSteps1_}"  != "${aSteps1}" ]; then
+    if [ "${bNoisy}" == "1" ]; then
+       echo node           "${aDir}$1" $2 $3 $4 $5 $6 $7 $8 $9
+            fi
             node           "${aDir}$1" $2 $3 $4 $5 $6 $7 $8 $9
             exit
             fi;
+
             exit; fi
 
     if [ "${aSteps2_}" != "${aSteps2}" ]; then
     if [ "${aStep}" == "9" ]; then
             echo -e "  Running Node $1 $4 $5 $6 $7 $8 $9"
+    if [ "${bNoisy}" == "1" ]; then
+       echo node           "${aDir}$1" $4 $5 $6 $7 $8 $9
+            fi
             node           "${aDir}$1" $4 $5 $6 $7 $8 $9; exit; fi
 
             echo -e "  Running Node $1 $3 $4 $5 $6 $7 $8 $9"
+    if [ "${bNoisy}" == "1" ]; then
+       echo node           "${aDir}$1" $3 $4 $5 $6 $7 $8 $9
+            fi
             node           "${aDir}$1" $3 $4 $5 $6 $7 $8 $9
             exit
             fi
             }
 # ------------------------------------------------------------------------------------
-           
+
             aArg1=$1;       aCmd="";       aArg2=$2
 #   if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" != "app" ] && [ "{aArg2:0:3}" != "mod" ]; then aCmd="set  app"; shift; fi
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #  0
@@ -127,10 +141,11 @@
     if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="run  prompt";   aArg1=""; shift; shift; fi   # 15                 # .(40711.04.x)
 #   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="run  session";  aArg1=""; shift; fi          # 15
     if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" != "pro" ]; then aCmd="run  prompt";   aArg1=""; shift; fi          # 15
+    if [ "${aArg1:0:3}" == "kil" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="kill port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.2)
+    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="show port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.5)
 
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="save session";  aArg1=""; shift; fi          # 17
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" != "mar" ]; then aCmd="show markdown"; aArg1=""; shift; fi          # 18                 # .(40717.02.1)
-    if [ "${aArg1:0:3}" == "kil" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="kill port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.2)
 
 #   echo -e "\n[1]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; exit
 
@@ -155,7 +170,7 @@
     if [ "$1" == "15" ]; then aCmd="run  prompt";   shift; fi     # .(40711.04.x)
     if [ "$1" == "17" ]; then aCmd="save session";  shift; fi     # .(40711.04.x)
     if [ "$1" == "18" ]; then aCmd="show markdown"; shift; fi     # .(40717.02.2)
-    if [ "$1" == "19" ]; then aCmd="kill portshow markdown"; shift; fi     # .(40717.02.2)
+    if [ "$1" == "19" ]; then aCmd="kill port";     shift; fi     # .(40724.02.2)
 
 #   echo -e "\n[2]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; exit
 
@@ -178,7 +193,7 @@
     if [ "${aCmd}" == "run  prompt"   ]; then run_node "${AIC05_Schema}" "15" "$@"; exit; fi
     if [ "${aCmd}" == "save session"  ]; then run_node "${AIC05_Schema}" "17" "$@"; exit; fi
     if [ "${aCmd}" == "show markdown" ]; then run_node "${AIC05_Schema}" "18" "$@"; exit; fi                            # .(40717.01.2)
-    if [ "${aCmd}" == "kill port"     ]; then run_node "${AIC05_Schema}" "19" "$@"; exit; fi                            # .(40724.01.2)
+#   if [ "${aCmd}" == "kill port"     ]; then run_node "${AIC97_Ports}"  "19" "$@"; exit; fi                            # .(40724.01.3)
 
     if [ "${aCmd}" == "set  vars"     ]; then aCmd="set  show"; fi
 
@@ -190,12 +205,14 @@
     if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC98_Tables}"   "0" "set app"   $@; exit; fi  #  0           # .(40716.01.2)
     if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model" $@; exit; fi  #  0           # .(40716.01.3)
     if [ "${aCmd}" == "set  show"     ]; then run_node "${AIC98_Tables}"   "0" "set show"  $@; exit; fi  #  0           # .(40717.02.2)
+    if [ "${aCmd}" == "kill port"     ]; then  "${aDir}/${AIC97_Ports}"                    $@; exit; fi  #  0           # .(40724.01.7)
+    if [ "${aCmd}" == "show port"     ]; then  "${aDir}/${AIC97_Ports}"         "show"     $@; exit; fi  #  0           # .(40724.01.8)
     if [ "${aCmd}" == "set  coder"    ]; then set_coder                                      ; exit; fi  #  0           # .(40722.01.3)
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 
     echo ""
-    echo "  AICoder Commands (v1.05 7/24/24 ${aDir}):"
+    echo "  AICoder Commands (${aVer} ${aDir}):"
     echo ""
     echo "       [TS]            =>                  Optional Day and Optional Time (YMMDD[.HH[MM]])"
     echo "       [App] [Model]   =>                  Optional AppName ([cs]##) and Model (Alias for Model-Owner-interface)"
@@ -218,6 +235,8 @@
     echo "    0. set model       {Model}                      Set Model for AICodeR commands in .env"
     echo "    0. show vars                                    Show FRT Environment Variables"                                     # .(40717.01.1)
     echo "    0. setup coder                                  Initialize AICodeR Environment"                                     # .(40722.01.1 RAM Create)
+    echo "   19. Show ports                                   Show all running ports"                                             # .(40724.01.6)
+    echo "   19. Show port       {port}                       Show if port is running"                                            # .(40724.01.7)
     echo "   19. kill port       {port}                       Stop port process"                                                  # .(40724.01.2)
     echo ""
     echo "   11. list apps       [App]                        List App for [App] or all Apps if 'all' or 'mt' in DB"              # .(40711.01.5)

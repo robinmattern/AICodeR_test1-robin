@@ -120,7 +120,7 @@
 
   function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
 //      if (typeof(nFld) == 'undefined' ||  `${ typeof(nFld) || '' }` == '') { return mRows }       //#.(40721.01.1)
-        if (typeof(nFld) == 'undefined' ||  nFld == ''   ) { return mRows }                         // .(40721.01.1 RAM S.B. this)
+        if (typeof(nFld) == 'undefined' ||  nFld === ''  ) { return mRows }                         // .(40725.02.1 RAM Wow this is true: 0 == '' ).(40721.01.1 RAM S.B. this)
 //      if (typeof(nFld) == 'undefined'                  ) { return mRows }                         //#.(40721.01.1 RAM )
         if (typeof(nFld) == 'string'    ) { aVal = nFld; nFld  =  2 - (1 - nOrigin) }
         if (typeof(aVal) == 'undefined' ) { return mRows.map( mRow => mRow[ nFld - nOrigin ] ) }
@@ -140,6 +140,8 @@
 
 //          console.log( "getApp:", getApp() )
 //          console.log( "getApp( 0, 'c35' ):",    getApp( 0, 'c35' )    )  // same as no args
+//          console.log( "getApp( 0, 2 ):",        getApp( 0,  2    )    )  // whole row 
+//          console.log( "getApp( 1, 2, 3 ):",     getApp( 1,  2, 3 )    )  // Just Appname, no workie
 //          console.log( "getApp( 3, 'c35' ):",    getApp( 3, 'c35' )    )  //
 //          console.log( "getApp( 2, 'c35' ):",    getApp( 2, 'c35' )    )
 //          console.log( "getApp( 2, 'c35' )[2]:", getApp( 2, 'c35' )[2] )
@@ -171,6 +173,9 @@
             console.log( "getModel( 3 ,'gp4oopu', 'request_.sh'  ):", getModel( 3, 'gp4oopu', 'request_.sh'  ) )  
             process.exit()
 */
+//          console.log( "getModel(                 ):", getModel() )
+//          process.exit()
+
 //function  getModel( nFld, aVal ) { return selectRow( Apps,    nFld, aVal ) }          //#.(40718.09.2).(40711.01.1 RAM Added)
   function  getModel( nFld, aMod, aSub ) {                                              // .(40718.09.2 RAM Enhanced getModel )
             aSub = typeof(aSub) != 'undefined' ? aSub : nFld 

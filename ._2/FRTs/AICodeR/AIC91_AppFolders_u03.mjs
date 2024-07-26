@@ -16,36 +16,47 @@
      async  function ask4Model( aMod ) {
         var aModel  =  aMod
         var aCR     = "\n"
-            aMod    = (aMod === undefined || aMod == null) ? "" : aMod
-        if (aMod == "") { aCR = ""
-            aMod    =  await readline.question('  Enter a Model to use for this app (or help): ' )
+            aMod1   = (aMod === undefined || aMod == null) ? "" : aMod
+        if (aMod1 == "") { aCR = ""
+            aMod1   =  await readline.question('  Enter a Model to use for this app (or help): ' )
             }
-        if (aMod == "") {
+        if (aMod1 == "") {
             console.log( "* You must enter a Model alias, e.g. gp4oopu. ")
             process.exit(1)
             }
-            aMod    =  aMod == 'help' ? "" : aMod
+            aMod    =  aMod1 == 'help' ? "" : aMod1
         if (isNaN(aMod) == false) {
         var mModel  =  getModel( 0, aMod )           // returns whole row for model number or ''
         } else {
         if (aMod  > "") {
-        if (aModel.length > 7) {
-        var aMod    =  getModel( 2, aModel, 1) }
-        var mModel  =  getModel( aMod )                // returns whole row for app alias, or ''
+//          console.log( "aMod, aMod1", aMod, aMod1)
+        if (aMod1.length > 7 && aMod1 != 'help' ) {                            // .(40725.02.2 RAM Add help check)
+        var aMod1   =  getModel( 2, aMod1, 1) 
+            }
+        var mModel  =  getModel( aMod1 )                // returns whole row for app alias, or ''
             }   }
 //      -----------------------------------------------------
-
+//          console.log( "  mModel:", mModel )
             mModel  =  mModel[0] ? mModel : ['','','']
         var aModel1 =  mModel[2] ? mModel[2].trim() : ''
-        if (aModel1 == "") {
-        if (aModel) {
-            console.log( aCR + `* Invalid Model Alias, ${aModel}`) }
+        if (aModel1 == "" || aMod1 == 'help') {
+        if (aMod1) {
+            console.log( aCR + `* Invalid Model Alias, ${aMod1}`) 
+            }
             console.log(    "  Here is a list of Models you can choose from:")
-            console.log(       getModel( ).map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) ) 
+            console.log(       getModel( ).map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
+            }
         if (!aModel) {
+        if (aMod == 'help') {
             console.log( "\n* You must enter a Model.") }
             }
-    return  aModel1
+//          console.log( "aMod, aMod1, aModel, aModel1", aMod, aMod1, aModel, aModel1)            
+        if (aModel1 == '' || aMod1 == 'help') {
+            await ask4Model()
+            }
+   return  aModel1
+            console.log( "  aModel1:", aModel1)
+            process.exit()
             }  // eof ask4Model
 // --------------------------------------------------------------
 /*
@@ -71,7 +82,10 @@
             console.log( `getApp( 2, "c01"              ): '${getApp( 2, "c01"              )}'` )  // returns name
             process.exit()
 */
+// --------------------------------------------------------------
+
     async  function chkApp( aApp ) {                                                               // .(40719.01.x RAM Write chkApp Beg)
+
         var aCR     = "\n"
             aApp    = (aApp === undefined || aApp == null) ? "" : aApp
         if (aApp == "") {  aCR = ""
@@ -81,27 +95,37 @@
             console.log( "* You must enter an app alias, e.g. c11")
             process.exit(1)
             }
-       var  aAppName    = (aApp == 'help') ? "" : aApp
+            var  aAppName    = (aApp == 'help') ? "" : aApp
         if (isNaN(aApp) == false) {
         var mApp    =  getApp( 0, aApp )               // returns whole row for app number or ''
         } else {
         if (aApp > "") {
-        if (aApp.length > 3) {
-            aApp    =  getApp( 1, aApp.slice(0,3).toLowerCase()) }
+        if (aApp.length > 3 && aApp != 'help' ) {                               // .(40725.02.1 RAM Add help check)
+            aApp    =  getApp( 1, aApp.slice(0,3).toLowerCase())
+            }
 //      var mApp    =  getApp( 1, aApp.toLowerCase() )
         var mApp    =  getApp( aApp.toLowerCase() )   // returns whole row for app alias, or ''
             }   }
 //      -----------------------------------------------------
+
             mApp      =  mApp[0] ? mApp : ['','','']
         var aAppName1 =  mApp[2] ? mApp[2].trim() : ''
         if (aAppName1 == "") {
         if (aAppName) {
-            console.log( aCR + `* Invalid App Alias, ${aAppName}`) }
+            console.log( aCR + `* Invalid App alias, ${aAppName}`) }
             console.log(    "  Here is a list of App you can choose from:")
             console.log(       getApp( ).map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
         if (!aAppName) {
-            console.log( "\n* You must enter an App.") }
+        if (aApp != 'help') {
+            console.log( "\n* You must enter an App alias.") } }
             }
+//          console.log( "  aApp: ask again", aApp)
+//          console.log( "  aAppName1:", aAppName1)
+
+        if (aAppName1 == '' ) {
+            await chkApp()
+            }
+//          console.log( aCR )
     return  aAppName1
             }  // eof chkApp                                                                        // .(40719.01.x End)
 // --------------------------------------------------------------
@@ -111,9 +135,9 @@
 //          main( 'c01_Calendar-app',  )
 //              createAppFolders( 'c01', ' gp4oopu')
 //              createAppFolders( 'c01', ' gp4oopx')
-//              createAppFolders( 'c01', ' gp4oopm')           
+//              createAppFolders( 'c01', ' gp4oopm')
                 createAppFolders( )
- 
+
      async  function createAppFolders( aAppName, aModel ) {
 
        var  aAppName        = (aAppName ? aAppName : process.argv[2] || '').trim()
@@ -137,15 +161,16 @@
             }
             aModel                    =  await ask4Model( aModel )
         if (aModel == "") { aModel    =  await ask4Model( aModel ) }
-*/ 
+*/
 //          console.log( `aAppName: '${aAppName}', aModel: '${aModel}'` )
             aAppName         =  await chkApp( aAppName  )                                           // .(40719.01.x Use chkApp)
             aModel           =  await ask4Model( aModel )                                           // .(40719.01.x Use chkApp)
+//          console.log( `  aAppName: '${aAppName}', aModel: '${aModel}'` ); process.exit() 
 
-        if (aAppName == "" || aModel == "") { console.log( "exiting"); process.exit(1) }
+        if (aAppName == "" || aModel == "") { console.log( "  Try again"); process.exit(1) }
 
             console.log( `  Creating app folders for: "${aAppName}/${aModel}"` )
-            
+
             await createAppFolders_( aAppName, aModel );
 
             AIM.setEnv( "App",    aAppName )                                                        // .(40722.04.1 Set App & Model after making App)
@@ -156,10 +181,10 @@
 // --------------------------------------------------------------
 
      async  function createAppFolders_( aAppDir, aModel ) {
-           
+
        var  bDoApps         =  aAppDir.slice(1,2) != '0'                                            // .(40722.06.1)
        var  aStage          = (aAppDir.slice(0,1) == 'c' ? 'client' : 'server') + (bDoApps ? aAppDir.slice(1,2) : '' )   // .(40722.06.2)
-       var  aFolderName     =  FRT.path( __basedir, `${aStage}/${aAppDir}` ) 
+       var  aFolderName     =  FRT.path( __basedir, `${aStage}/${aAppDir}` )
        try {
         if (bDoApps) {                                                                              // .(40722.06.3)
             console.log(    `  Creating App Folder,      "${aFolderName}"`);
@@ -170,14 +195,14 @@
        var  aAppName        =  aAppDir.replace(     /(client[0-9]*|server[0-9]*)[\\\/]/, '' )       // .(40719.01.2 RAM Change + to *)
 
 //     var  aDocsFolderName =  aFolderName.replace( /(client[0-9]+|server[0-9]+)[\\\/]/, 'docs/' )
-       var  aDocsFolderName =  aFolderName.replace( /(client[0-9]*|server[0-9]*)[\\\/]/, 'docs/' )   
+       var  aDocsFolderName =  aFolderName.replace( /(client[0-9]*|server[0-9]*)[\\\/]/, 'docs/' )
             console.log(    `  Creating docs App Folder, "${aDocsFolderName}/${aModel}"`);
 //          await fs.makdir(  `${aDocsFolderName}/${aModel}`, { recursive: true } );
-            await FRT.makDir( FRT.path( aDocsFolderName, aModel ), { recursive: true } );           // .(40721.02.1 RAM Add FRT.path) 
+            await FRT.makDir( FRT.path( aDocsFolderName, aModel ), { recursive: true } );           // .(40721.02.1 RAM Add FRT.path)
 
         } catch (error) {
             console.error(  `* Error creating app folders: ${error.message}`);
-            }            
+            }
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -203,12 +228,12 @@
             } // eif client files
 // ----------------------------------------------------------------------------------------------------
 
-        if (aAppDir.slice(0,2) == 'c0' && bDoApps) {                                                // (40722.06.6) 
+        if (aAppDir.slice(0,2) == 'c0' && bDoApps) {                                                // (40722.06.6)
             aAppDir         =  aAppDir.replace(     /c0/, 's0' )
             aFolderName     =  FRT.path( aFolderName.replace( /client[\\\/]c0/, 'server/s0' ) )
             console.log(    `  Creating App Folder,      "${aFolderName}"` );
                                await FRT.makDir(  aFolderName, { recursive: true } ); // Use promises for cleaner async handling
-            } // eif create server dir 
+            } // eif create server dir
 // ----------------------------------------------------------------------------------------------------
 
         if (aAppDir.slice(0,1) == 's' && bDoApps) {                                                // (40722.06.7)
@@ -225,27 +250,27 @@
 // ----------------------------------------------------------------------------------------------------
 
        var  aApp            =  aAppName.slice(0,3)
-       var  aVer            = 't000.01.{n}.' + FRT._TS  
+       var  aVer            = 't000.01.{n}.' + FRT._TS
 
                                await savDocsFile(  aApp, aVer, aModel, 'usermsg_.txt'  )
-                               await savDocsFile(  aApp, aVer, aModel, 'messages.json' ) 
+                               await savDocsFile(  aApp, aVer, aModel, 'messages.json' )
                                await savDocsFile(  aApp, aVer, aModel, 'markdown.md'   )
 
-     async  function savDocsFile( aApp, aVer, aModel, aFile ) { 
-        if (aModel.match(/maxi/) != null && aFile.match( /\.json/ )) { return }                        
+     async  function savDocsFile( aApp, aVer, aModel, aFile ) {
+        if (aModel.match(/maxi/) != null && aFile.match( /\.json/ )) { return }
             aVer            = `${aVer.replace( /{n}/, aFile.match( /^markdown/) ? 2 : 1 ) }`
-       var  aDocs_File      = `${aDocsFolderName}/${aModel}/${aApp}_${aVer}_${aFile}`   
+       var  aDocs_File      = `${aDocsFolderName}/${aModel}/${aApp}_${aVer}_${aFile}`
        var  aModel1         =  aFile.match( /^usermsg/) ? 'AnyModel_Prompt' : aModel
-       var  aTemplate_File  = `./templates/${aModel1}-${ aFile.replace(/\./, '_template.' ) }`   
+       var  aTemplate_File  = `./templates/${aModel1}-${ aFile.replace(/\./, '_template.' ) }`
        var  aContent        =  await FRT.readFile( FRT.path( __dirname, aTemplate_File ) );
                                await FRT.writeFile( FRT.path( aDocs_File ), aContent );
             console.log(    `  Creating an initial file, "${aApp}_${aVer}_${aFile}", inside the docs app model folder.`);
-            }            
+            }
           // eOf docs files
 // ----------------------------------------------------------------------------------------------------
 
         }  // eof createFolders_( aAppName )
 // --------------------------------------------------------------
 
-export default createAppFolders 
+export default createAppFolders
 
