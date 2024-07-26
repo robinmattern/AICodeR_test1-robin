@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar Query App</title>
+    <title>ICS File Query App</title>
 </head>
 <body>
-    <h1>Calendar Query App</h1>
+    <h1>ICS File Query App</h1>
     <input type="file" id="icsFile" accept=".ics">
     <button id="uploadBtn">Upload</button>
     <br><br>
-    <textarea id="prompt" rows="4" cols="50" placeholder="Enter your query here"></textarea>
-    <br>
+    <input type="text" id="queryInput" placeholder="Enter your query">
     <button id="queryBtn">Query</button>
-    <pre id="result"></pre>
+    <div id="result"></div>
 
-    <script src="script.mjs" type="module"></script>
+    <script src="client.js"></script>
 </body>
 </html>
