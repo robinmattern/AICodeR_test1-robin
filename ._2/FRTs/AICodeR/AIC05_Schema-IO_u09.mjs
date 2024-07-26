@@ -246,7 +246,7 @@
 
 //     ---  --------------  =  -----------------------------------------------
 
-      var  aSteps = bRun ? `,5,` : aSteps, nSession = 16
+//     var  aSteps = bRun ? `,5,` : aSteps, nSession = 16
         if (aSteps.match(   /,5,/  )) { // List Scripts  from FRTables JSON file                    //  Step 5 listScripts
 //         console.log(    "  process.argv:", process.argv.slice(2).join( ", ") )
 //          aApp            = 'c35'                                                                 // .(40711.04.1 Need to set via args)
@@ -311,7 +311,7 @@
                                await listScripts( aMarkdown_Saved )    // <===  Step 5
             }
 //     ---  --------------  =  -----------------------------------------------
-//     var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
+       var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
         if (aSteps.match(   /,6,/  )) { // Save Scripts  from FRTables JSON file                    //  Step 6 saveScripts
 
 //     var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : '' // nSession           //#.(40702.04.2 RAM Find 'em all)
@@ -334,7 +334,7 @@
 //     var  mArgs           =  setArgs( ['', '', 5, 20, 5 ], 'get', 'puit' )                        // .(40723.01.1 RAM Fuck you)
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
 //     var  mArgs           =  setArgs( process.argv       , 'get', 'quit' )
-            console.log(    `  mArgs:  '${mArgs.join("', '")}`)
+//          console.log(    `  mArgs:  '${mArgs.join("', '")}`)
 //      if (mArgs.join("', '").match( /'\*/ )) { console.log(          "  process.exit()" ) }       //#.(40723.01.2) 
         if (mArgs.join("', '").match( /'\*/ ) || mArgs.join('') == '') {  process.exit()    }       // .(40723.01.2 RAM Abort) 
 
@@ -348,7 +348,7 @@
 //     var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : nVer // nSession         // .(40702.04.1 RAM Find 'em all)
 //     var  aApp            =  process.argv.length > 4 ? process.argv[4] : aApp                     // .(40711.04.x)
 //     var  aMod            =  process.argv.length > 5 ? process.argv[5] : aMod                     // .(40711.04.x)
-            console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}',  aMod: '${aMod}'`)
+//          console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}',  aMod: '${aMod}'`)
 
 //          aApp            =  aApp              ? aApp : process.env["FRT_APP"]                    //#.(40716.02.4)
 //          aMod            =  aMod              ? aMod : process.env["FRT_MODEL"]                  //#.(40716.02.5)
@@ -356,7 +356,7 @@
             aAppName        = (getApp(    1,   aApp    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.10).(40715.01.3 RAM Was 2, aApp)
             aModel          = (getModel( nFld, aMod    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.11).(40715.01.4 RAM Was 2, aMod)
             aMod            = (getModel( nFld, aMod    , 1 )) // (().slice(1,2)[0] || '').trim()    // .(40718.09.12).(40717.05.x RAM Need the alias) 
-            console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}', aAppName: '${aAppName}',  aMod: '${aMod}', aModel: '${aModel}'`)
+//          console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}', aAppName: '${aAppName}',  aMod: '${aMod}', aModel: '${aModel}'`)
 
        var  aSessions_Dir   =  getDocsPath( aAppName, aModel )                                      // .(40715.03.2)
 //     var  aSessions_Dir   =  FRT.join( __basedir, `docs/${aAppName}/${aModel}` )                  //#.(40711.04.x RAM was aApp).(40715.03.2)
