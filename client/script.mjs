@@ -1,4 +1,3 @@
-javascript
 const uploadBtn = document.getElementById('uploadBtn');
 const queryBtn = document.getElementById('queryBtn');
 const fileInput = document.getElementById('icsFile');
