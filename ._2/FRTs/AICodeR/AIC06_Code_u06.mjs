@@ -115,7 +115,8 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
        var  mScriptNames    =  mCodes.map( (aCode, i) => {
 //                         if (aCode.match( /^((File: *|`).+)\.(js|mjs|html)/ )) {
 //     var  mMatch          = aCode.match(  /((File: *|`).+)\.(json|js|mjs|html)/ )                 //#.(40721.06.1)
-       var  mMatch          = aCode.match(  /((File: *|`).+)\.(json|js|mjs|html|gitgnore|env)/ )    // .(40721.06.1 RAM Add .env & .gitgnore)
+//     var  mMatch          = aCode.match(  /((File: *|`).+)\.(json|js|mjs|html|gitgnore|env)/ )    // .(40721.06.1 RAM Add .env & .gitgnore)
+       var  mMatch          = aCode.match(  /((File: *).+)\.(json|js|mjs|html|gitgnore|env)/ )      // .(40725.03.1 RAM /File: */ only)
                            if (mMatch && mMatch[1]) {
 //                         var aScript = aCode.replace( /(File: *|`)/, '' ).replace( /[\n\r`]+/g, '' ).trim()
                            var aScript = mMatch[0].replace( /(File: *|`)/, '' ).replace( /[\n\r`]+/g, '' ).trim()

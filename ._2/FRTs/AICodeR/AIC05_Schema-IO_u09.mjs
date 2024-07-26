@@ -246,7 +246,7 @@
 
 //     ---  --------------  =  -----------------------------------------------
 
-//     var  aSteps = bRun ? `,5,` : aSteps, nSession = 16
+      var  aSteps = bRun ? `,5,` : aSteps, nSession = 16
         if (aSteps.match(   /,5,/  )) { // List Scripts  from FRTables JSON file                    //  Step 5 listScripts
 //         console.log(    "  process.argv:", process.argv.slice(2).join( ", ") )
 //          aApp            = 'c35'                                                                 // .(40711.04.1 Need to set via args)
@@ -268,7 +268,7 @@
             }
 */       
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
-            console.log(    `  mArgs:  '${mArgs.join("', '")}`)
+//          console.log(    `  mArgs:  '${mArgs.join("', '")}`)
         if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
 
             aApp            =  mArgs[3]
@@ -283,14 +283,14 @@
 //     var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : nVer // nSession         //#.(40702.04.1 RAM Find 'em all)
 //     var  aApp            =  process.argv.length > 4 ? process.argv[4] : aApp                     //#.(40711.04.2)
 //     var  aMod            =  process.argv.length > 5 ? process.argv[5] : aMod                     //#.(40711.04.3)
-            console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}',  aMod: '${aMod}'`)
+//          console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}',  aMod: '${aMod}'`)
 
 //          aApp            =  aApp              ? aApp : process.env["FRT_APP"]                    //#.(40716.02.2)
 //          aMod            =  aMod              ? aMod : process.env["FRT_MODEL"]                  //#.(40716.02.3)
         var nFld            = (aMod.length == 7) ? 1 : 2; aApp = aApp.slice(0,3)
             aAppName        = (getApp(    2,   aApp    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.5).(40715.01.3 RAM Was 2, aApp)
             aModel          = (getModel( nFld, aMod    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.6).(40715.01.4 RAM Was 2, aMod)
-            console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}', aAppName: '${aAppName}',  aMod: '${aMod}', aModel: '${aModel}'`)
+//          console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}', aAppName: '${aAppName}',  aMod: '${aMod}', aModel: '${aModel}'`)
 //      if (!aModel) {
 //          console.log(  `\n* Invalid Model, ${aMod}` ); process.exit() }
 //      if (!aModel) {
@@ -311,7 +311,7 @@
                                await listScripts( aMarkdown_Saved )    // <===  Step 5
             }
 //     ---  --------------  =  -----------------------------------------------
-       var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
+//     var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
         if (aSteps.match(   /,6,/  )) { // Save Scripts  from FRTables JSON file                    //  Step 6 saveScripts
 
 //     var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : '' // nSession           //#.(40702.04.2 RAM Find 'em all)
@@ -453,7 +453,7 @@
             }                                                                           // .(40711.02.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
-       var  aSteps = bRun ? `,14,` : aSteps                                             // .(40711.02.1 RAM Added Step 13 Beg)
+//     var  aSteps = bRun ? `,14,` : aSteps                                             // .(40711.02.1 RAM Added Step 13 Beg)
         if (aSteps.match(   /,14,/  )) { // List Sessions
 /*
        var  aApp            =  process.argv.length > 3 ? process.argv[3] : aApp
@@ -479,12 +479,12 @@
 //          aModel          = (getModel( 1, aMod )[2] || '').trim()                                 // .(40715.03.4)
 
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
-            console.log(    "  mArgs:", mArgs) 
+//          console.log(    "  mArgs:", mArgs) 
 //     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3] 
 //     var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
        var  aAppName        = (mArgs[3].length == 3) ?  getApp(   1, mArgs[3], 2 ) : mArgs[3]       // .(40718.09.13)
        var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       // .(40718.09.14).(40717.04.1 RAM End)
-            console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()   
+//          console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()   
             aModel          =  undefined
        var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
              
