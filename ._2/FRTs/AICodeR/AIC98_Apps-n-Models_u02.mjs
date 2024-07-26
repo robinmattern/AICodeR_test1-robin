@@ -118,26 +118,6 @@
             }                                                                                       // .(40715.04.4 End)
 // ----------------------------------------------------------------------------------
 
-  function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
-//      if (typeof(nFld) == 'undefined' ||  `${ typeof(nFld) || '' }` == '') { return mRows }       //#.(40721.01.1)
-        if (typeof(nFld) == 'undefined' ||  nFld === ''  ) { return mRows }                         // .(40725.02.1 RAM Wow this is true: 0 == '' ).(40721.01.1 RAM S.B. this)
-//      if (typeof(nFld) == 'undefined'                  ) { return mRows }                         //#.(40721.01.1 RAM )
-        if (typeof(nFld) == 'string'    ) { aVal = nFld; nFld  =  2 - (1 - nOrigin) }
-        if (typeof(aVal) == 'undefined' ) { return mRows.map( mRow => mRow[ nFld - nOrigin ] ) }
-        if ( aVal  == '' ) { return ''}
-//      if (isNaN(aVal)) { var nVal = 0 } else {var nVal = `{aVal * 1}.`.padStart(3) }              // .(40719.02.1 RAM Find ' 1.' )
-        if (isNaN(aVal)) { var nVal = 0 } else  var nVal =   aVal * 1                               // .(40719.02.1 RAM Find ' 1.' )
-        if (nFld > mRows[0].length - (1 - nOrigin)) {
-            console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return '' }
-       var  nRow = mRows.findIndex( ( mRow, i ) => { 
-               var  aFld  = mRow[ nFld - nOrigin ];
-//          console.log(  aFld.slice( 0, aVal.length ), aVal )
-            return  nVal ? (mRow[ nFld - nOrigin ] * 1) == nVal : aFld.slice( 0, aVal.length ) == aVal
-                   } )
-    return (nRow != -1) ? mRows[ nRow ] : ''
-            }
-// ----------------------------------------------------------------------------------
-
 //          console.log( "getApp:", getApp() )
 //          console.log( "getApp( 0, 'c35' ):",    getApp( 0, 'c35' )    )  // same as no args
 //          console.log( "getApp( 0, 2 ):",        getApp( 0,  2    )    )  // whole row 
@@ -154,38 +134,62 @@
 //function  getApp(   nFld, aVal ) { return selectRow( Apps,    nFld, aVal ) }          //#.(40718.09.1).(40711.01.1 RAM Added)
   function  getApp(   nFld, aMod, aSub ) {                                              // .(40718.09.1 RAM Enhance getApp )
             aSub = typeof(aSub) != 'undefined' ? aSub : nFld 
-       if (!aMod     ) { return  selectRow( Apps, nFld ) }
+       if (!aMod     ) { return  selectRow( Apps, nFld ) }                           
         if (nFld == 0) { return  selectRow( Apps, nFld, aMod ) }
         if (nFld <= 2) { return (selectRow( Apps, nFld, aMod )[aSub] || '').trim() }
     return ''
             } // eof getApp
 // ------------------------------------------------------------------------------
-   /*
-            console.log( "getModel( 1, 'c35sanm' )[2]:", getModel( 1, 'c35sanm' )[2] || '' )   
-            console.log( "getModel( 2, 'c35sanm' )[2]:", getModel( 2, 'c35sanm' )[2] || '' )  
-            console.log( "getModel( 0, 'c35sanm'    ):", getModel( 0, 'c35sanm'    ) )   
-            console.log( "getModel( 1, 'c35sanm'    ):", getModel( 1, 'c35sanm'    ) )   
-            console.log( "getModel( 2, 'c35sanm'    ):", getModel( 2, 'c35sanm'    ) )    
-            console.log( "getModel( 1, 'c35sanm', 0 ):", getModel( 1, 'c35sanm', 0 ) )  
-            console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )  
-            console.log( "getModel(    'c35sanm'    ):", getModel(    'c35sanm'    ) )  
-            console.log( "getModel( 3 ,'c35sanm', 'usermsg_.txt' ):", getModel( 3, 'c35sanm', 'usermsg_.txt' ) )  
-            console.log( "getModel( 3 ,'gp4oopu', 'request_.sh'  ):", getModel( 3, 'gp4oopu', 'request_.sh'  ) )  
+   
+//          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )   
+//          console.log( "getModel( 2, 'c35sanm', 2 ):", getModel( 2, 'c35sanm', 2 ) )  
+            console.log( "getModel(                 ):", getModel(                 ) )   // all models
+//          console.log( "getModel( 0               ):", getModel( 0               ) )   // all row numbers 
+//          console.log( "getModel( 1               ):", getModel( 1               ) )   // all alaases 
+//          console.log( "getModel( 2               ):", getModel( 2               ) )   // all names
+//          console.log( "getModel( 0, 'c35sanm'    ):", getModel( 0, 'c35sanm'    ) )   
+//          console.log( "getModel( 1, 'c35sanm'    ):", getModel( 1, 'c35sanm'    ) )   
+//          console.log( "getModel( 2, 'c35sanm'    ):", getModel( 2, 'c35sanm'    ) )    
+//          console.log( "getModel( 1, 'c35sanm', 0 ):", getModel( 1, 'c35sanm', 0 ) )  
+//          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )  
+//          console.log( "getModel(    'c35sanm'    ):", getModel(    'c35sanm'    ) )  
+//          console.log( "getModel( 3 ,'c35sanm', 'usermsg_.txt' ):", getModel( 3, 'c35sanm', 'usermsg_.txt' ) )  
+//          console.log( "getModel( 3 ,'gp4oopu', 'request_.sh'  ):", getModel( 3, 'gp4oopu', 'request_.sh'  ) )  
             process.exit()
-*/
+ 
 //          console.log( "getModel(                 ):", getModel() )
 //          process.exit()
 
 //function  getModel( nFld, aVal ) { return selectRow( Apps,    nFld, aVal ) }          //#.(40718.09.2).(40711.01.1 RAM Added)
   function  getModel( nFld, aMod, aSub ) {                                              // .(40718.09.2 RAM Enhanced getModel )
             aSub = typeof(aSub) != 'undefined' ? aSub : nFld 
-       if (!aMod     ) { return  selectRow( Models2, nFld ) }
-        if (nFld == 0) { return  selectRow( Models2, nFld, aMod ) }
+       if (!aMod     ) { return  selectRow( Models2, nFld ) }                           // return 1 or 0 rows for alias, or all rows if no field 
+        if (nFld == 0) { return  selectRow( Models2, nFld, aMod ) }                     // return 1 or 0 rows for row number,  
         if (nFld <= 2) { return (selectRow( Models2, nFld, aMod )[aSub] || '').trim() }
-        if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }
+        if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }        // return 1 or 0 rows for field  
     return ''
             }  // eof getModel
 // ------------------------------------------------------------------------------
+
+function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
+       //      if (typeof(nFld) == 'undefined' ||  `${ typeof(nFld) || '' }` == '') { return mRows }       //#.(40721.01.1)
+               if (typeof(nFld) == 'undefined' ||  nFld === ''  ) { return mRows }                         // .(40725.02.1 RAM Wow this is true: 0 == '' ).(40721.01.1 RAM S.B. this)
+       //      if (typeof(nFld) == 'undefined'                  ) { return mRows }                         //#.(40721.01.1 RAM )
+               if (typeof(nFld) == 'string'    ) { aVal = nFld; nFld  =  2 - (1 - nOrigin) }
+               if (typeof(aVal) == 'undefined' ) { return mRows.map( mRow => mRow[ nFld - nOrigin ] ) }
+               if ( aVal  == '' ) { return ''}
+       //      if (isNaN(aVal)) { var nVal = 0 } else {var nVal = `{aVal * 1}.`.padStart(3) }              // .(40719.02.1 RAM Find ' 1.' )
+               if (isNaN(aVal)) { var nVal = 0 } else  var nVal =   aVal * 1                               // .(40719.02.1 RAM Find ' 1.' )
+               if (nFld > mRows[0].length - (1 - nOrigin)) {
+                   console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return '' }
+              var  nRow = mRows.findIndex( ( mRow, i ) => { 
+                      var  aFld  = mRow[ nFld - nOrigin ];
+       //          console.log(  aFld.slice( 0, aVal.length ), aVal )
+                   return  nVal ? (mRow[ nFld - nOrigin ] * 1) == nVal : aFld.slice( 0, aVal.length ) == aVal
+                          } )
+           return (nRow  != -1) ?  mRows[ nRow ] : ''
+                   }
+       // ----------------------------------------------------------------------------------
 /*
 //          chkArgs( [] )
 //          chkArgs( [''] )
