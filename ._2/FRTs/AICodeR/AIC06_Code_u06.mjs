@@ -238,6 +238,7 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
 //    async function savScript( mScript, aBackPath_, aVer,     aBaseDir ) {                         //#.(40721.07.2)
       async function savScript( mScript, aBackPath_, aAppDir_, aBaseDir ) {                         // .(40721.07.2)
               //          console.log(    `  Saving script ${mScript[0]}: ${mScript[1]} `)
+        var aScript         =  mScript[1]                                                           // .(40725.04.1)      
         var aScriptName     =  mScript[1].split(/[\\\/]/).slice(-1)[0]                              // .match( /^`(.+\.(js|mjs|html))/ )[1]
         var aScriptDir      =  mScript[1].split(/[\\\/]/).slice(0,-1).join('/')                     // .match( /^`(.+\.(js|mjs|html))/ )[1]
             aScriptDir      =  aScriptDir ? aScriptDir + '/' : ''
@@ -279,7 +280,8 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
         var bSaveIt         =  pStats.exists == false                                               // .(40721.07.x).(40703.05.5)
             }
-        if (aScriptName.match( /^\.env/)) {
+//      if (aScriptName.match( /^\.env/)) {                                                         //#.(40725.04.2) 
+        if (aScript.match( /^\.env/)) {                                                             // .(40725.04.2) 
 //      var aBakPath        =  aBackPath.replace( /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )  //#.(40721.07.x)  
 //      var aAppPath        =  aAppDir.replace(   /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )  //#.(40721.07.x)  
         var aBakPath        =  ''                                                                   // .(40721.07.x)  
@@ -289,6 +291,20 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var aVerb           =  "Updating"                                                           // .(40722.10.2)
         if (pStats.exists) {                                                                        // .(40722.03.1 RAM Update .env Beg)
 //      var mEnvs           =  FRT.readFileSync( `${aAppPath}/${aScriptName}` ).split( "\n" ) 
+        var mEnvs           =  mCodes[ mScript[0] + 1 ].split( /[\n\r]+/).filter( a => a )
+            AIM.add2Env(      `${__basedir}/.env`, mEnvs )      
+            }   }                                                                                   // .(40722.03.1 End).(40721.07.x).(40703.05.5)
+
+        if (aScript.match( /^\server\/.env/)) {                                                     // .(40725.04.3 RAM Check aScriptDir and aScriptName)
+        var aBakPath        =  aBackPath.replace( /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )  //.(40725.04.x).(40721.07.x RAM Remove)  
+        var aAppPath        =  aAppDir.replace(   /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )  //.(40725.04.x).(40721.07.x)  
+//      var aBakPath        =  ''                                                                   //#.(40725.04.x).(40721.07.x)  
+//      var aAppPath        =  __basedir                                                            //#.(40725.04.x).(40721.07.x) 
+        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
+        var bSaveIt         =  false
+        var aVerb           =  "Updating"                                                           // .(40722.10.2)
+        if (pStats.exists) {                                                                        // .(40722.03.1 RAM Update .env Beg)
+ //     var mEnvs           =  FRT.readFileSync( `${aAppPath}/${aScriptName}` ).split( "\n" ) 
         var mEnvs           =  mCodes[ mScript[0] + 1 ].split( /[\n\r]+/).filter( a => a )
             AIM.add2Env(      `${__basedir}/.env`, mEnvs )      
             }   }                                                                                   // .(40722.03.1 End).(40721.07.x).(40703.05.5)
@@ -306,12 +322,12 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptDir}/${aScriptName}` )    // .(40723.03.2 RAM How about this)                    
         var bSaveIt         =  pStats.exists == false                                               // .(40703.05.7 RAM Was just false) 
             }
-        if (aScriptDir.match( /^client/)) {
+        if (aScriptDir.match( /^client/) && bSaveIt == false) {                                     // .(40725.04.x RAM Don't doit it)  
             aScriptDir      =  aScriptDir.replace(/client\//,'')   // subfolder, if any 
         var aBakPath        =  aBackPath
         var aAppPath        =  aAppDir
             }
-        if (aScriptDir.match( /^server/)) {
+        if (aScriptDir.match( /^server/) && bSaveIt == false) {                                     // .(40725.04.x RAM Don't doit it)  ) {
             aScriptDir      =  aScriptDir.replace(/server\//,'')   // subfolder, if any 
         var aBakPath        =  aBackPath.replace( /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )
         var aAppPath        =  aAppDir.replace(   /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )
