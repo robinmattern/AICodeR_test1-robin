@@ -352,9 +352,10 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
 //      var aScriptVeer     =  aScriptName                                                                  // .(40703.01.1 RAM No version, it's part of folder name)
 
         var aScriptCode     =  mCodes[ mScript[0] + 1 ]
-        var aScriptType     =  aScriptCode.substring( 0, aScriptCode.match( /[\r\n]+/ ).index ) //   indexOf( '\n' ) )
-            aScriptCode     =  aScriptCode.replace( /.+[\n\r]+/, '' )   //   indexOf( '\n' ) + 1 )
-//          aScriptCode     =  aScriptCode.replace( /\/\/.+[\n\r]+/, '' )   //  filenme comment
+        var aScriptType     =  aScriptCode.substring( 0, aScriptCode.match( /[\r\n]+/ ).index )     //   indexOf( '\n' ) )
+//          aScriptCode     =  aScriptCode.replace( /.+[\n\r]+/, '' )   //   indexOf( '\n' ) + 1 )  //#.(40725.05.1 RAM Opps)    
+            aScriptCode     =  aScriptCode.replace( /^[\n\r]+/, '' ).replace( /[\n\r]+$/, '' )      // .(40725.05.1 RAM Opps)    
+//          aScriptCode     =  aScriptCode.replace( /\/\/.+[\n\r]+/, '' )   //  filename comment
 
 //          console.log(    `  --------------------------------------------------------------------------------------------------------------` )
 
