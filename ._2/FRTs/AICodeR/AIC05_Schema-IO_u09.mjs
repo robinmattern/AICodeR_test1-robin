@@ -311,7 +311,7 @@
                                await listScripts( aMarkdown_Saved )    // <===  Step 5
             }
 //     ---  --------------  =  -----------------------------------------------
-       var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
+//     var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
         if (aSteps.match(   /,6,/  )) { // Save Scripts  from FRTables JSON file                    //  Step 6 saveScripts
 
 //     var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : '' // nSession           //#.(40702.04.2 RAM Find 'em all)
