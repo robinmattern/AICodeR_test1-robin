@@ -1,12 +1,12 @@
    import   FRT          from './AIC90_FileFns.mjs'
    import   dotenv       from 'dotenv';
             dotenv.config( FRT.path( __basedir, '.env' ) )
-
-//     var  mEnvs       =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == 'FRT_' )
+            console.log(   " ", FRT.path( __basedir, '.env' ) )
+       var  mEnvs       =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == 'FRT_' )
 //          console.log( "${__basedir}/.env:       ", `${__basedir}/.env` );
 //          console.log( "process.env['FRT_APP']:  ", process.env['FRT_APP'  ] );
 //          console.log( "process.env['FRT_MODEL']:", process.env['FRT_MODEL'] );
-//          console.log( "mEvs:" ); console.dir( mEnvs )
+            console.log( "  mEvs:" ); console.log( " ", mEnvs.join( "\n  " ) )
 //          process.exit()
 
        var  Apps =                                                                      // .(40711.01.3 RAM Add Apps table)
@@ -234,12 +234,12 @@
 
   function  setArgs( mArgs, aGetSet, aQuit ) {
 //     var  bSet  = 0,  bGet = 0, aVar;
-//          console.log( `  mArgs:         '${ mArgs.join( "'\n                 '" ) }'` )
+            console.log( `  mArgs: 1       '${ mArgs.join( "'\n                 '" ) }'` )
 //          mArgs     =   mArgs.slice( 2 )                                                          //#.(40721.03.1 RAM ??) 
 //          mArgs     =   mArgs.slice( 2 + ( isNaN( mArgs[3] || '') ? 0 : 1 ) )                     //#.(40721.03.1 ??) 
 //          console.log( `  isNaN( mArgs[2]: : '${isNaN(mArgs[2])}'`  )
             mArgs     =   mArgs.slice( 2 + ( isNaN( mArgs[2]      ) ? 0 : 1 ) )                     // .(40721.03.1 Remove Step No from CLI) 
-//          console.log( `  mArgs:  '${ mArgs.join( "', '" ) }'` )
+            console.log( `  mArgs:  '${ mArgs.join( "', '" ) }'` )
 //      if (aGetSet   == 'get') {  aVar = mArgs[0].slice(0,3).toLowerCase(); mArgs.shift(); bGet = 1 }
        var  mParms    =   chkArgs( mArgs, `${aGetSet}${aQuit}`.match(/quit/) ? 'quit' : '' )        // not 'quit'
 //      if (mParms[3] == '' && bGet && aVar == 'app') { mParms[3] = getEnv( 'APP');                    return mParms }
@@ -247,22 +247,24 @@
        var  bGet      =  (aGetSet == 'get' && mParms[5] == '') ? 1 : 0
        var  bSet      =  (aGetSet == 'set' && mParms[5] == '') ? 1 : 0
         if (mParms[3] == '' && bGet                 ) { mParms[3] = getEnv( 'APP') || '';          } // return mParms }
-        if (mParms[4] == '' && bGet                 ) { mParms[4] = getEnv( 'Model') || '';        } // return mParms }
+        if (mParms[4] == '' && bGet                 ) { mParms[4] = getEnv( 'MODEL') || '';        } // return mParms }
         if (mParms[3] != '' && bSet                 ) {             setEnv( 'APP',    mParms[3] ); } // return mParms }
-        if (mParms[4] != '' && bSet                 ) {             setEnv( 'Model',  mParms[4] ); } // return mParms }
+        if (mParms[4] != '' && bSet                 ) {             setEnv( 'MODEL',  mParms[4] ); } // return mParms }
+            console.log( `  mParms:  '${ mParms.join( "', '" ) }'` )
 //          console.log( `* Invalid app or model alias: '${ mArgs.join( `','` ) }'` )
     return  mParms
             }
 // ------------------------------------------------------------------------------
 
   function  getEnv( aVar, aVal, aPreFix ) {
+            console.log( `  getEnv[1]  aVar: '${aVar}', aVal: '${aVal}'`)
             aPreFix   =   aPreFix ? `${aPreFix}` : "FRT"
        var  aEnvVar   =`${aPreFix}_${aVar.toUpperCase()}`
        var  aVal      =   aVal ? aVal : process.env[  aEnvVar ] || ''
         if (aVal == '') {
             console.log( `\n* The environment variable, '${aEnvVar}', is not defined` )
         } else {
-//          console.log( `  Got default ${ `${aEnvVar}:`.padEnd(10) } '${aVal}'` )
+//          console.log( `  getenv[1]  Got default ${ `${aEnvVar}:`.padEnd(10) } '${aVal}'` )
             }
     return  aVal
             }
@@ -328,7 +330,7 @@
             if (mParms[5].match( /^\*/)) { console.log( aCR + mParms[5] ); aCR = '' } // aQuit = 'quit' }
             if (aQuit == 'quit' && aCR == '') { process.exit() }
 //          }
-//          console.log( `nThread: '${mParms[0]}', nMsg: '${mParms[1]}',  aTS: '${mParms[2]}', aApp: '${mParms[3]}', aMod: '${mParms[4]}' ` )
+//          console.log( `  nThread: '${mParms[0]}', nMsg: '${mParms[1]}',  aTS: '${mParms[2]}', aApp: '${mParms[3]}', aMod: '${mParms[4]}' ` )
     return  mParms
             }
 // ----------------------------------------------------------------------------------

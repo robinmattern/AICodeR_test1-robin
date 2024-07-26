@@ -479,11 +479,12 @@
 //          aModel          = (getModel( 1, aMod )[2] || '').trim()                                 // .(40715.03.4)
 
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
+            console.log(    "  mArgs:", mArgs) 
 //     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3] 
 //     var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
        var  aAppName        = (mArgs[3].length == 3) ?  getApp(   1, mArgs[3], 2 ) : mArgs[3]       // .(40718.09.13)
        var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       // .(40718.09.14).(40717.04.1 RAM End)
-             
+            console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()   
             aModel          =  undefined
        var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
              
