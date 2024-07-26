@@ -256,28 +256,34 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
         var bSaveIt         =  true                                                                 // .(40703.05.1 RAM Don't save some files)
         var aVerb           =  " Keeping"                                                           // .(40722.10.1 RAM)
 
-        if (aScriptName.match( /^client\/package.json/)) {                                          // .(40723.02.1 RAM Beg)    
+//      if (aScriptName.match( /^client\/package.json/)) {                                          //#.(40725.04.x).(40723.02.1 RAM Beg)    
+        if (aScript.match( /^client\/package.json/)) {                                              // .(40725.04.x) 
         var aBakPath        =  aBackPath
         var aAppPath        =  aAppDir
         var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  
         var bSaveIt         =  pStats.exists == false                                               
             }
-        if (aScriptName.match( /^server\/package.json/)) {                                          
+//      if (aScriptName.match( /^server\/package.json/)) {                                          //#.(40725.04.x).(40723.02.1 RAM Beg)      
+        if (aScript.match( /^server\/package.json/)) {                                              // .(40725.04.x) 
         var aBakPath        =  aBackPath.replace( /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )
         var aAppPath        =  aAppDir.replace(   /client/, 'server' ).replace( /c([0-9]{2})/g, 's$1' )
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  
+//      var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  //#.(40721.07.x)
+        var pStats          =        FRT.checkFileSync( `${aAppPath}/${aScriptName}` )                // .(40721.07.x)
         var bSaveIt         =  pStats.exists == false                                               
             }                                                                                       // .(40723.02.1 End)
-        if (aScriptName.match( /^package.json/)) {   // should be ok to leave this alone
+//      if (aScriptName.match( /^package.json/)) {                                                  //#.(40725.04.x).(40723.02.1 RAM Beg)      
+        if (aScript.match( /^package.json/)) {   // should be ok to leave this alone                //#.(40725.04.x).(40723.02.1 RAM Beg)      
         var aBakPath        =  ''
         var aAppPath        =  __basedir
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
-        var bSaveIt         =  pStats.exists == false                                               // .(40721.07.x).(40703.05.5)
+//      var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  //#.(40721.07.x)
+        var pStats          =        FRT.checkFileSync( `${aAppPath}/${aScriptName}` )              // .(40721.07.x)
+        var bSaveIt         =  pStats.exists == false                                             // .(40721.07.x).(40703.05.5)
             }
         if (aScriptName.match( /^\.gitignore/)) {
         var aBakPath        =  ''                                                                   // .(40721.07.x RAM Was .vscode)  
         var aAppPath        =  __basedir
-        var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
+//      var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
+        var pStats          =        FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
         var bSaveIt         =  pStats.exists == false                                               // .(40721.07.x).(40703.05.5)
             }
 //      if (aScriptName.match( /^\.env/)) {                                                         //#.(40725.04.2) 
@@ -301,7 +307,7 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
 //      var aBakPath        =  ''                                                                   //#.(40725.04.x).(40721.07.x)  
 //      var aAppPath        =  __basedir                                                            //#.(40725.04.x).(40721.07.x) 
             aScriptDir      =  ''                                                                   //.(40725.04.x RAM Check aScriptDir and aScriptName)
-//      var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  // .(40721.07.x) 
+//      var pStats          =  await FRT.checkFile( `${aAppPath}/${aScriptName}` )                  //#.(40721.07.x) 
         var pStats          =  FRT.checkFileSync( `${aAppPath}/${aScriptName}` )                     // .(40721.07.x) 
         var bSaveIt         =  pStats.exists == false // false                                      // .(40725.04.x RAM true if file doesn not exist)
         var aVerb           =  bSaveIt ? "Saving" : "Updating"                                      // .(40725.04.x).(40722.10.2)
