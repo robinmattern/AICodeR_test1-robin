@@ -48,7 +48,8 @@ queryBtn.addEventListener('click', async () => {
     });
 
     const data = await response.json();
-    resultDiv.textContent = JSON.stringify(data, null, 2);
+//  resultDiv.textContent = JSON.stringify( data,        null, 2);
+    resultDiv.textContent =                 data.answer;
   } catch (error) {
     console.error('Error:', error);
     alert('Error querying OpenAI');

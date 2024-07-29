@@ -143,7 +143,7 @@
 //     var  aModel          = 'GPT-4o_OpenAI-cont'         //       markdown /share
 
        var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : null
-       var  aVer            =  getLastVer( 'Continue-sessions', 'json', aDayTS )
+       var  aVer            =  getLastVer1( 'Continue-sessions', 'json', aDayTS )
         if (aVer == "") {      process.exit()}
        var  aVer_bkup       = `v${aDayTS}`
 
@@ -179,7 +179,7 @@
 //     var  aSteps = bRun ? `,3,` : aSteps
         if (aSteps.match(   /,3,/  )) { // Format Sessions from Original Continue JSON files to .txt file
 
-       var  aVer            =  getLastVer( 'Continue-sessions', 'json' )
+       var  aVer            =  getLastVer1( 'Continue-sessions', 'json' )
 //     var  aSessions_File  =  FRT.join( aSessions_Dir, `Continue-sessions_u40623.2230.json` )
 //     var  aSessions_File  =  FRT.join( aSessions_Dir, `Continue-sessions_${FRT._TS}.txt` )
        var  aSessions_File  =  FRT.join( aSessions_Dir, `Continue-sessions_${aVer}.txt` )
@@ -213,7 +213,7 @@
 //          console.log( `aApp: '${aApp}', aModel: '${aModel}', aDayTS: '${aDayTS}', nRecs: '${nRecs.join('.')}` ); process.exit()
 
 //     var  aMsg            =  nRecs[1] ? `.${nRecs[1]}` : ``  // or '.0'
-       var  aVer1           =  getLastVer( 'FRTables-sessions', 'db', aDayTS )
+       var  aVer1           =  getLastVer1( 'FRTables-sessions', 'db', aDayTS )
         if (aVer1 == "") {     process.exit() }
        var  aFRTables_File  =  FRT.join( aSessions_Dir, `FRTables-sessions_${aVer1}.db` )
 //     var  aVer2           = `u${ `${nRecs[0]}`.padStart( 2, '0') }${aMsg}.${FRT.getDate( )}`; // console.log( `aVer2: ${aVer2}` ); process.exit()
@@ -483,9 +483,9 @@
 //     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3] 
 //     var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
        var  aAppName        = (mArgs[3].length == 3) ?  getApp(   1, mArgs[3], 2 ) : mArgs[3]       // .(40718.09.13)
-       var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       // .(40718.09.14).(40717.04.1 RAM End)
+//     var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       //#.(40719.10.1).(40718.09.14).(40717.04.1 RAM End)
 //          console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()   
-            aModel          =  undefined
+            aModel          =  undefined                                                            // .(40719.10.1 RAM List session sfor all models for app)
        var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
              
        //     if (!aAppName) {
@@ -1244,20 +1244,20 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
             }                                                                                       // .(40702.05.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
-       function  getLastVer2( aSessions_Dir, aLastFile_toFind, aExt, aToday ) {                     // .(40703.02.2)
-         return  getLastVer(                 aLastFile_toFind, aExt, aToday )                       // .(40703.02.3)
-       function  getLastVer(                 aLastFile_toFind, aExt, aToday ) {
+       function  getLastVer2( aSessions_Dir, aLastFile2Find, aExt, aToday ) {                       // .(40703.02.2)
+         return  getLastVer1(                aLastFile2Find, aExt, aToday )                         // .(40703.02.3)
+       function  getLastVer1(                aLastFile2Find, aExt, aToday ) {
        var  aToday          =  aToday ? aToday : '' // FRT.getDate( ).substring( 0, 4 )  // YMMD
 //          console.log(    "  aToday:", aToday )
        var  aToday          =  aToday.match( /^[1-9]{1}\./  ) ? `00${aToday}` : aToday              // .(40717.03.1 RAM Add leading 00s if not there ) 
 //          console.log(    "  aToday:", aToday )
        var  aToday          =  aToday.match( /^[1-9]{2}\./ )  ? `0${aToday}` : aToday               // .(40717.03.2 RAM Add leading 0 if not there ) 
 //          console.log(    "  aToday:", aToday )
-       //     var  aLastFile_regEx = `${aLastFile_toFind}_u${aToday}\\.[0-9]*\\.${aExt}`
-//     var  aLastFile_regEx = `${aLastFile_toFind}_t0${aToday}[0-9.]+\\.${aExt}`                    // .(40711.04.x RAM Change 'u'to 't' )
-       var  aLastFile_regEx = `${aLastFile_toFind}_t${aToday}[0-9.]+\\.${aExt}`                     // .(40717.03.3 RAM Remove leading 0)
-        if (aLastFile_toFind.match( /_{ver}/)) {
-            aLastFile_regEx =  aLastFile_toFind.replace( /_{ver}/, `_t${aToday}[0-9.]*` ) + `.${aExt}`        // .(40717.03.3).(40711.04.x)
+//     var  aLastFile_regEx = `${aLastFile2Find}_u${aToday}\\.[0-9]*\\.${aExt}`
+//     var  aLastFile_regEx = `${aLastFile2Find}_t0${aToday}[0-9.]+\\.${aExt}`                      // .(40711.04.x RAM Change 'u'to 't' )
+       var  aLastFile_regEx = `${aLastFile2Find}_t${aToday}[0-9.]+\\.${aExt}`                       // .(40717.03.3 RAM Remove leading 0)
+        if (aLastFile2Find.match( /_{ver}/)) {
+            aLastFile_regEx =  aLastFile2Find.replace( /_{ver}/, `_t${aToday}[0-9.]*`) + `.${aExt}` // .(40717.03.3).(40711.04.x)
             }
 //          console.log( `aLastFile: ${aLastFile}` )
        var  aLastFile       =  FRT.lastFile( aSessions_Dir, aLastFile_regEx )
@@ -1292,7 +1292,7 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
             function  getFRTables( aFRTables_Dir, aDayTS ) {                                        // .(40701.05.2 RAM Was aSessions_Dir)
     if (!`${aSessions_Dir}`.match( /\.db$/)) {
        if (!aDayTS) {          aDayTS = aFRTables_Dir; aFRTables_Dir = _FRTables_Dir  }             // .(40701.05.3 RAM Check if MT)
-       var  aVer2           =  getLastVer( 'FRTables-sessions', 'db', aDayTS ); // console.log( `aVer2: ${aVer2}` ); process.exit()
+       var  aVer2           =  getLastVer1( 'FRTables-sessions', 'db', aDayTS ); // console.log( `aVer2: ${aVer2}` ); process.exit()
         if (aVer2 == "") {     process.exit() }
        var  aFRTables_File  =  FRT.join( aFRTables_Dir, `FRTables-sessions_${aVer2}.db` )           // .(40701.05.4)
         } else {

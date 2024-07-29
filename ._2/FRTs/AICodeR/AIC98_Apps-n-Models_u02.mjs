@@ -58,36 +58,36 @@
              [ [ ' 1.', 'gp4oopw', 'GPT-4o_OpenAI-web       '  ] // ##    markdown, text, json (playground)
              , [ ' 2.', 'gp4oopu', 'GPT-4o_OpenAI-curl      '  ] // ##    json text
              , [ ' 3.', 'gp4oopn', 'GPT-4o_OpenAI-node      '  ] //       json object
-             , [ ' 3.', 'gp4oopm', 'GPT-4o_OpenAI-maxi      '  ] //       json object             // .(40702.06.1 RAM New Models)
-             , [ ' 4.', 'gp4oopf', 'GPT-4o_OpenAI-fetch     '  ] //       json object
-             , [ ' 5.', 'gp4oopc', 'GPT-4o_OpenAI-cont      '  ] //       markdown /share
+             , [ ' 4.', 'gp4oopm', 'GPT-4o_OpenAI-maxi      '  ] //       json object             // .(40702.06.1 RAM New Models)
+             , [ ' 5.', 'gp4oopf', 'GPT-4o_OpenAI-fetch     '  ] //       json object
+             , [ ' 6.', 'gp4oopc', 'GPT-4o_OpenAI-cont      '  ] //       markdown /share
 
-             , [ ' 6.', 'qw7bolu', 'Qwen2-7b_Ollama-curl    '  ]
-             , [ ' 7.', 'qw7boln', 'Qwen2-7b_Ollama-node    '  ]
-             , [ ' 8.', 'qw7bolc', 'Qwen2-7b_Ollama-cont    '  ] // ##
+             , [ ' 7.', 'qw7bolu', 'Qwen2-7b_Ollama-curl    '  ]
+             , [ ' 8.', 'qw7boln', 'Qwen2-7b_Ollama-node    '  ]
+             , [ ' 9.', 'qw7bolc', 'Qwen2-7b_Ollama-cont    '  ] // ##
 
-             , [ ' 9.', 'cg2bolu', 'CodeGemma-2b_Ollama-curl'  ]
-             , [ '10.', 'cg2boln', 'CodeGemma-7b_Ollama-node'  ]
-             , [ '11.', 'cg2bolc', 'CodeGemma-7b_Ollama-cont'  ]
+             , [ '10.', 'cg2bolu', 'CodeGemma-2b_Ollama-curl'  ]
+             , [ '11.', 'cg2boln', 'CodeGemma-7b_Ollama-node'  ]
+             , [ '12.', 'cg2bolc', 'CodeGemma-7b_Ollama-cont'  ]
 
-             , [ '12.', 'c2q5lmn', 'Claude2-Q5_LMStudio-node'  ]
-             , [ '13.', 'c2q3lmn', 'Claude2-Q3_LMStudio-node'  ]
-//           , [ '13.', 'c3q3lmn', 'Claude3-Q3_LMStudio-node'  ]
-             , [ '14.', 'c35sanm', 'Claude3-So_Anthropic-maxi' ]                                  // .(40702.06.2)
-             , [ '15.', 'c35sanu', 'Claude3-So_Anthropic-curl' ]                                  // .(40704.01.1)
-             , [ '16.', 'c35sann', 'Claude3-So_Anthropic-node' ]                                  // .(40704.01.2)
-//           , [ '17.', 'c35sanw', 'Claude3-So_Anthropic-web'  ]                                  // .(40704.01.3)
-//           , [ '17.', 'c35sanw', 'Claude3-So_Anthropic-chatgpt' ]
-             , [ '17.', 'c35sanw', 'Claude3-So_Anthropic-chat' ]                                  // .(40724.01.1 RAM Add)
+             , [ '13.', 'c2q5lmn', 'Claude2-Q5_LMStudio-node'  ]
+             , [ '14.', 'c2q3lmn', 'Claude2-Q3_LMStudio-node'  ]
+//           , [ '14.', 'c3q3lmn', 'Claude3-Q3_LMStudio-node'  ]
+             , [ '15.', 'c35sanm', 'Claude3-So_Anthropic-maxi' ]                                  // .(40702.06.2)
+             , [ '16.', 'c35sanu', 'Claude3-So_Anthropic-curl' ]                                  // .(40704.01.1)
+             , [ '17.', 'c35sann', 'Claude3-So_Anthropic-node' ]                                  // .(40704.01.2)
+//           , [ '18.', 'c35sanw', 'Claude3-So_Anthropic-web'  ]                                  // .(40704.01.3)
+//           , [ '18.', 'c35sanw', 'Claude3-So_Anthropic-chatgpt' ]
+             , [ '18.', 'c35sanw', 'Claude3-So_Anthropic-chat' ]                                  // .(40724.01.1 RAM Add)
 
-             , [ '18.', 'st20lmn', 'StarCoder2_LMStudio-node'  ]
+             , [ '19.', 'st20lmn', 'StarCoder2_LMStudio-node'  ]
 
-             , [ '19.', 'cllalmn', 'CodeLlama_LMStudio-node '  ]
+             , [ '20.', 'cllalmn', 'CodeLlama_LMStudio-node '  ]
 
-             , [ '20.', 'gp4ovcp', 'CodeParrot_VSCode-copy  '  ]
+             , [ '21.', 'gp4ovcp', 'CodeParrot_VSCode-copy  '  ]
 
-             , [ '21.', 'ge15ggw', 'Gemini-15_Google-chat   '  ]                                  // .(40724.01.2 RAM Was -web) 
-             , [ '22.', 'ge15gvw', 'Gemini-15_Vertex-web    '  ]
+             , [ '22.', 'ge15ggw', 'Gemini-15_Google-chat   '  ]                                  // .(40724.01.2 RAM Was -web)
+             , [ '23.', 'ge15gvw', 'Gemini-15_Vertex-web    '  ]
                 ]
 // ----------------------------------------------------------------------------------
 /*
@@ -120,7 +120,7 @@
 
 //          console.log( "getApp:", getApp() )
 //          console.log( "getApp( 0, 'c35' ):",    getApp( 0, 'c35' )    )  // same as no args
-//          console.log( "getApp( 0, 2 ):",        getApp( 0,  2    )    )  // whole row 
+//          console.log( "getApp( 0, 2 ):",        getApp( 0,  2    )    )  // whole row
 //          console.log( "getApp( 1, 2, 3 ):",     getApp( 1,  2, 3 )    )  // Just Appname, no workie
 //          console.log( "getApp( 3, 'c35' ):",    getApp( 3, 'c35' )    )  //
 //          console.log( "getApp( 2, 'c35' ):",    getApp( 2, 'c35' )    )
@@ -133,62 +133,114 @@
 
 //function  getApp(   nFld, aVal ) { return selectRow( Apps,    nFld, aVal ) }          //#.(40718.09.1).(40711.01.1 RAM Added)
   function  getApp(   nFld, aMod, aSub ) {                                              // .(40718.09.1 RAM Enhance getApp )
-            aSub = typeof(aSub) != 'undefined' ? aSub : nFld 
-       if (!aMod     ) { return  selectRow( Apps, nFld ) }                           
+            aSub = typeof(aSub) != 'undefined' ? aSub : nFld
+       if (!aMod     ) { return  selectRow( Apps, nFld ) }
         if (nFld == 0) { return  selectRow( Apps, nFld, aMod ) }
         if (nFld <= 2) { return (selectRow( Apps, nFld, aMod )[aSub] || '').trim() }
     return ''
             } // eof getApp
 // ------------------------------------------------------------------------------
-   
-//          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )   
-//          console.log( "getModel( 2, 'c35sanm', 2 ):", getModel( 2, 'c35sanm', 2 ) )  
+
+//          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )
+//          console.log( "getModel( 2, 'c35sanm', 2 ):", getModel( 2, 'c35sanm', 2 ) )
 //          console.log( "getModel(                 ):", getModel(                 ) )   // all models
-//          console.log( "getModel( 0               ):", getModel( 0               ) )   // all row numbers 
-//          console.log( "getModel( 1               ):", getModel( 1               ) )   // all alaases 
+//          console.log( "getModel( 0               ):", getModel( 0               ) )   // all row numbers
+//          console.log( "getModel( 0, 4            ):", getModel( 0, 4            ) )   // whole row 
+//          console.log( "getModel( 0, 4, 0         ):", getModel( 0, 4, 0         ) )   // whole row 
+//          console.log( "getModel( 0, 4, 0         ):", getModel( 0, 4, 0         ) )   // awhole row ??
+//          console.log( "getModel( 0, 4, 2         ):", getModel( 0, 4, 2         ) )   // awhole row ??
+//          console.log( "getModel( 1               ):", getModel( 1               ) )   // all alaases
 //          console.log( "getModel( 2               ):", getModel( 2               ) )   // all names
-//          console.log( "getModel( 0, 'c35sanm'    ):", getModel( 0, 'c35sanm'    ) )   
-//          console.log( "getModel( 1, 'c35sanm'    ):", getModel( 1, 'c35sanm'    ) )   
-//          console.log( "getModel( 2, 'c35sanm'    ):", getModel( 2, 'c35sanm'    ) )    
-//          console.log( "getModel( 1, 'c35sanm', 0 ):", getModel( 1, 'c35sanm', 0 ) )  
-//          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )  
-//          console.log( "getModel(    'c35sanm'    ):", getModel(    'c35sanm'    ) )  
-//          console.log( "getModel( 3 ,'c35sanm', 'usermsg_.txt' ):", getModel( 3, 'c35sanm', 'usermsg_.txt' ) )  
-//          console.log( "getModel( 3 ,'gp4oopu', 'request_.sh'  ):", getModel( 3, 'gp4oopu', 'request_.sh'  ) )  
-//          process.exit()
- 
+//          console.log( "getModel( 0, 'c35sanm'    ):", getModel( 0, 'c35sanm'    ) )
+//          console.log( "getModel( 1, 'c35sanm'    ):", getModel( 1, 'c35sanm'    ) )
+//          console.log( "getModel( 2, 'c35sanm'    ):", getModel( 2, 'c35sanm'    ) )
+//          console.log( "getModel( 1, 'c35sanm', 0 ):", getModel( 1, 'c35sanm', 0 ) )
+//          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )
+//          console.log( "getModel(    'c35sanm'    ):", getModel(    'c35sanm'    ) )
+//          console.log( "getModel( 3 ,'c35sanm', 'usermsg_.txt' ):", getModel( 3, 'c35sanm', 'usermsg_.txt' ) )
+//          console.log( "getModel( 3 ,'gp4oopu', 'request_.sh'  ):", getModel( 3, 'gp4oopu', 'request_.sh'  ) )
 //          console.log( "getModel(                 ):", getModel() )
+
+//          console.log( "getModels(               ):", getModels(              ) )  // all models
+//          console.log( "getModels( 0             ):", getModels( 0            ) )
+//          console.log( "getModels( 0,   4        ):", getModels( 0,   4       ) )
+//          console.log( "getModels( 0,  14        ):", getModels( 0,  14       ) )
+//          console.log( "getModels( 1,  'bo'      ):", getModels( 1,  'bo'     ) )
+//          console.log( "getModels( 1,  'gp'      ):", getModels( 1,  'gp'     ) )
+//          console.log( "getModels( 2,  'vertex'  ):", getModels( 2,  'vertex' ) )
+//          console.log( "getModels( 0,  '4'       ):", getModels( 0,  '4'      ) )
+//          console.log( "getModels( 0,  '4.'      ):", getModels( 0,  '4.'     ) )
+//          console.log( "getModels( 1 ,'gp4oopu'  ):", getModels( 1, 'gp4oopu' ) )
+//          console.log( "getModels( 1 ,'gp4o'     ):", getModels( 1, 'gp4o'    ) )
+//          console.log( "getModels( 2 ,'gpt4o'    ):", getModels( 2, 'gpt4o'   ) )
+//          console.log( "getModels( 2 ,'claude'   ):", getModels( 2, 'claude'  ) )
+//          console.log( "getModels( 2 ,'openai'   ):\n", getModels( 2, 'openai'  ).map( aRow => aRow.join( " " ) ).join( "\n " ) )
+//          console.log( "getModels( 2 ,'-web'     ):\n", getModels( 2, '-web'    ).map( aRow => aRow.join( " " ) ).join( "\n " ) )
+//          console.log( "getModels( 1 ,'xx'       ):", getModels( 1, 'xx'      ) )
 //          process.exit()
 
 //function  getModel( nFld, aVal ) { return selectRow( Apps,    nFld, aVal ) }          //#.(40718.09.2).(40711.01.1 RAM Added)
   function  getModel( nFld, aMod, aSub ) {                                              // .(40718.09.2 RAM Enhanced getModel )
-            aSub = typeof(aSub) != 'undefined' ? aSub : nFld 
-       if (!aMod     ) { return  selectRow( Models2, nFld ) }                           // return 1 or 0 rows for alias, or all rows if no field 
-        if (nFld == 0) { return  selectRow( Models2, nFld, aMod ) }                     // return 1 or 0 rows for row number,  
-        if (nFld <= 2) { return (selectRow( Models2, nFld, aMod )[aSub] || '').trim() }
-        if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }        // return 1 or 0 rows for field  
+            aSub = typeof(aSub) != 'undefined' ? aSub : nFld
+       if (!aMod     ) { return  selectRow( Models2, nFld ) }                           // return 1 or 0 rows for alias, or all rows if no field
+        if (nFld == 0) { return  selectRow( Models2, nFld, aMod ) }                     // return 1 or 0 rows for row number,
+        if (nFld <= 2) { return (selectRow( Models2, nFld, aMod )[aSub] || '').trim() } // return 1 or 0 rows for field
+        if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }        // return 1 or 0 rows for template
     return ''
             }  // eof getModel
 // ------------------------------------------------------------------------------
 
+    function  getModels( nFld, aMod, aSub ) {                                           // .(40727.03.1 RAM Write getModels )
+              aSub = typeof(aSub) != 'undefined' ? aSub : nFld
+         if (!aMod     ) { return  selectRows( Models2, nFld ) }                        // return n or 0 rows for alias, or all rows if no field
+          if (nFld == 0) { return  selectRows( Models2, nFld, aMod ) }                  // return n or 0 rows for row number,
+          if (nFld <= 2) { return (selectRows( Models2, nFld, aMod ) ) }                // return n or 0 rows for field
+      return ['','','']
+              }  // eof getModels                                                       // .(40727.03.1 End)
+// ------------------------------------------------------------------------------
+
 function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
-       //      if (typeof(nFld) == 'undefined' ||  `${ typeof(nFld) || '' }` == '') { return mRows }       //#.(40721.01.1)
-               if (typeof(nFld) == 'undefined' ||  nFld === ''  ) { return mRows }                         // .(40725.02.1 RAM Wow this is true: 0 == '' ).(40721.01.1 RAM S.B. this)
-       //      if (typeof(nFld) == 'undefined'                  ) { return mRows }                         //#.(40721.01.1 RAM )
+       //      if (typeof(nFld) == 'undefined' ||  `${ typeof(nFld) || '' }` == '') { return mRows }       	//#.(40721.01.1)
+               if (typeof(nFld) == 'undefined' ||  nFld === ''  ) { return mRows }                         	// .(40725.02.1 RAM Wow this is true: 0 == '' ).(40721.01.1 RAM S.B. this)
+       //      if (typeof(nFld) == 'undefined'                  ) { return mRows }                         	//#.(40721.01.1 RAM )
                if (typeof(nFld) == 'string'    ) { aVal = nFld; nFld  =  2 - (1 - nOrigin) }
                if (typeof(aVal) == 'undefined' ) { return mRows.map( mRow => mRow[ nFld - nOrigin ] ) }
                if ( aVal  == '' ) { return ''}
-       //      if (isNaN(aVal)) { var nVal = 0 } else {var nVal = `{aVal * 1}.`.padStart(3) }              // .(40719.02.1 RAM Find ' 1.' )
-               if (isNaN(aVal)) { var nVal = 0 } else  var nVal =   aVal * 1                               // .(40719.02.1 RAM Find ' 1.' )
+       //      if (isNaN(aVal)) { var nVal = 0 } else {var nVal = `{aVal * 1}.`.padStart(3) }              	// .(40719.02.1 RAM Find ' 1.' )
+               if (isNaN(aVal)) { var nVal = 0 } else  var nVal =   aVal * 1                               	// .(40719.02.1 RAM Find ' 1.' )
+
                if (nFld > mRows[0].length - (1 - nOrigin)) {
-                   console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return '' }
-              var  nRow = mRows.findIndex( ( mRow, i ) => { 
-                      var  aFld  = mRow[ nFld - nOrigin ];
-       //          console.log(  aFld.slice( 0, aVal.length ), aVal )
-                   return  nVal ? (mRow[ nFld - nOrigin ] * 1) == nVal : aFld.slice( 0, aVal.length ) == aVal
-                          } )
-           return (nRow  != -1) ?  mRows[ nRow ] : ''
+                   console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return ''
                    }
+              var  nRow = mRows.findIndex( ( mRow, i ) => {
+                      var  aFld  =  mRow[ nFld - nOrigin ];
+       //          console.log(  aFld.slice( 0, aVal.length ), aVal )
+                   return  nVal  ? (mRow[ nFld - nOrigin ] * 1) == nVal : aFld.slice( 0, aVal.length ) == aVal
+                          } )
+           return (nRow  != -1)  ?  mRows[ nRow ] : ''
+              }
+       // ----------------------------------------------------------------------------------
+
+function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                            // .(40727.03.2 RAM Write selectRows)
+               if (typeof(nFld) == 'undefined' ||  nFld === ''  ) { return mRows }      // .(40725.02.2 RAM Wow this is true: 0 == '' ).(40721.01.1 RAM S.B. this)
+               if (typeof(nFld) == 'string'    ) { aVal = nFld; nFld  =  2 - (1 - nOrigin) }
+               if (typeof(aVal) == 'undefined' ) { return mRows.map( mRow => mRow[ nFld - nOrigin ] ) }
+               if ( aVal  == '' ) { return ''}
+//             if (isNaN(aVal)) {   var nVal = 0 } else  var nVal =   aVal * 1          //#.(40727.06.1)
+               if (isNaN(aVal)) {   aVal = aVal  } else  var aVal =   `${aVal  * 1}.`   // .(40727.06.1 RAM fmt numeric id) 
+               if (nFld > mRows[0].length - (1 - nOrigin)) {
+                   console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return ''
+                   }
+//            var  rVal   = new RegExp( `^${aVal.replace( /-/, '' ).toLowerCase()}.*`, 'i' )
+              var  rVal   = new RegExp( `${nFld < 2 ? '^' : '' }${aVal.toLowerCase()}.*`, 'i' )
+              var  mRows2 = mRows.filter( ( mRow, i ) => {
+                    var aFld    =  mRow[ nFld - nOrigin ].replace( /[- ]/, '' ).toLowerCase();
+                    var bFound  =  aFld.match( rVal )
+ //                 console.log(   aFld, `${aVal}: ${ bFound ? "found" : "not found" }` )
+                 return bFound
+                        } )
+           return  mRows2
+              }  // eof selectModels                                                    // .(40727.03.2 End)
        // ----------------------------------------------------------------------------------
 /*
 //          chkArgs( [] )
@@ -206,7 +258,7 @@ function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
             chkArgs( ['1.2.40711.1304', 'c35', 'c35sann' ] )
 */
        var  bTesting_Args   =  false
-//     var  bTesting_Args   =  true 
+//     var  bTesting_Args   =  true
        var  bIsNotCalled    =  FRT.isCalled( import.meta.url, process.argv[1]);
         if (bIsNotCalled && bTesting_Args) {
 //          setArgs( [ 'c55'        ] )   //  ** App alias not found: 'c55'  (if not in mApps)
@@ -239,10 +291,10 @@ function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
   function  setArgs( mArgs, aGetSet, aQuit ) {
 //     var  bSet  = 0,  bGet = 0, aVar;
 //          console.log( `  setArgs[1]  mArgs:  '${ mArgs.join( "'\n                      '" ) }'` )
-//          mArgs       =   mArgs.slice( 2 )                                                          //#.(40721.03.1 RAM ??) 
-//          mArgs       =   mArgs.slice( 2 + ( isNaN( mArgs[3] || '') ? 0 : 1 ) )                     //#.(40721.03.1 ??) 
+//          mArgs       =   mArgs.slice( 2 )                                                          //#.(40721.03.1 RAM ??)
+//          mArgs       =   mArgs.slice( 2 + ( isNaN( mArgs[3] || '') ? 0 : 1 ) )                     //#.(40721.03.1 ??)
 //          console.log( `  isNaN( mArgs[2]: : '${isNaN(mArgs[2])}'`  )
-            mArgs       =   mArgs.slice( 2 + ( isNaN( mArgs[2]      ) ? 0 : 1 ) )                     // .(40721.03.1 Remove Step No from CLI) 
+            mArgs       =   mArgs.slice( 2 + ( isNaN( mArgs[2]      ) ? 0 : 1 ) )                     // .(40721.03.1 Remove Step No from CLI)
 //          console.log( `  setArgs[2]  mArgs:  '${ mArgs.join( "', '" ) }'` )
 //      if (aGetSet    ==  'get') {  aVar = mArgs[0].slice(0,3).toLowerCase(); mArgs.shift(); bGet = 1 }
        var  mParms      =   chkArgs( mArgs, `${aGetSet}${aQuit}`.match(/quit/) ? 'quit' : '' )        // not 'quit'
@@ -274,11 +326,11 @@ function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
             }
 // ------------------------------------------------------------------------------
   function  add2Env( aEnvFile, mNewEnvs ) {                                                         // .(40722.03.x RAM Add vars Beg)
-       var  mOldEnvs = FRT.readFileSync(  aEnvFile ).split( "\n" ) 
+       var  mOldEnvs = FRT.readFileSync(  aEnvFile ).split( "\n" )
             mNewEnvs.forEach(  aEnv  =>   mOldEnvs.push( fmtVar( aEnv ) ) )
             mOldEnvs = Array.from(new Set( mOldEnvs ))
                        FRT.writeFileSync( aEnvFile, mOldEnvs.join( "\n") )
-    function fmtVar( a ) { var m = a.split("="); return `${m[0].trim().padEnd(15)} = "${m[1].trim()}"` }                       
+    function fmtVar( a ) { var m = a.split("="); return `${m[0].trim().padEnd(15)} = "${m[1].trim()}"` }
             }  // eof add2Env                                                                       // .(40722.03.x End)
 //     ---  ------------------------------------------
 
@@ -310,7 +362,7 @@ function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
         if (mArgs[0]  && mArgs[0].length == 3) {   // Check App alias
             mParms[3] = /[cs][0-9]{2}/.test( mArgs[0] || '') ?  mArgs[0] : `* Invalid App alias: '${mArgs[0]}'`
 //          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )[1] || '').trim()     //#.(40718.09.15 ) // origin 0
-//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )                      //#.(40718.xx.x  RAM Keep leading '*') 
+//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )                      //#.(40718.xx.x  RAM Keep leading '*')
             mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] :  getApp(   1, mParms[3] )                      // .(40718.09.15 RAM New getApp)
             mParms[3] =  mParms[3] ? mParms[3] : `* App alias not found: '${mArgs[0]}'`
             mArgs.shift()
@@ -319,7 +371,7 @@ function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
         if (mArgs[n]  && mArgs[n].length == 7) {    // Check Model alias
             mParms[4] = /[a-z0-9]{7}/.test(  mArgs[n] || '') ?  mArgs[n] : `* Invalid Model alias: '${mArgs[0]}'`
 //          mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] : (getModel( 1, mParms[4] )[1] || '').trim()     //#.(40718.09.16)
-            mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] :  getModel( 1, mParms[4] )                      // .(40718.09.16 RAM New getApp)   
+            mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] :  getModel( 1, mParms[4] )                      // .(40718.09.16 RAM New getApp)
             mParms[4] =  mParms[4] ? mParms[4] : `* Model alias not found: '${mArgs[n]}'`
             mArgs.splice(-1)
             }
@@ -339,8 +391,8 @@ function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
             }
 // ----------------------------------------------------------------------------------
 
-            export default { setArgs, getApp, getModel, selectRow                                    // .(40711.01.2 RAM Add getApp).(40711.04.x RAM Add setArgs)
-                           , getDocsPath, setEnv, add2Env }                                          // .(40722.04.x).(40715.04.5)
+            export default { setArgs, getApp, getModel, selectRow                       // .(40711.01.2 RAM Add getApp).(40711.04.x RAM Add setArgs)
+                           , getDocsPath, getModels, setEnv, add2Env }                  // .(40727.03.3).(40722.04.x).(40715.04.5)
 
 // ------------------------------------------------------------------------------
 
@@ -380,7 +432,7 @@ function  selectRow( mRows, nFld, aVal ) {  var nOrigin = 0
 
        if (aTable == 'set' && aRow.slice(0,3) == 'app' ) {
 //     var  aRow           =  process.argv.length > 4 ? process.argv[4] : aRow
-//     var  aAppName       = (getApp(   1, aItem )[2] || '').trim()                                 //#.(40718.09.17) 
+//     var  aAppName       = (getApp(   1, aItem )[2] || '').trim()                                 //#.(40718.09.17)
        var  aAppName       = (getApp(   1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.17)
         if (aAppName == "") {
             console.log( `\n* Invalid app: '${aItem}'` )

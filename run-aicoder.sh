@@ -7,11 +7,15 @@
             AIC98_Tables="AIC98_Apps-n-Models_u02.mjs"
             AIC05_Schema="AIC05_Schema-IO_u09.mjs"
             AIC91_Folders="AIC91_AppFolders_u03.mjs"
-            AIC97_Ports="AIC87_Ports.sh"                                                            # .(40724.01.1 RAM Move script to AICodeR)
+            AIC97_Ports="AIC87_Ports.sh"                                                # .(40724.01.1 RAM Move script to AICodeR)
 
             aPath=$(readlink -f "$0")
             __filename="${aPath##*/}"
             __dirname="${aPath%/*}";
+
+            bDebug=0; if [ "$1" == "debug" ]; then bDebug=1; shift; fi;            		# .(40727.01.1 RAM Add bDebug switch)
+            bNoisy=0; if [ "$1" == "noisy" ]; then bNoisy=1; shift; fi;            		# .(40724.01.1 RAM Add bNoisy switch)
+            bDoit=1
 
 #           echo "__dirname: ${__dirname}"; exit
 #           ThePath='E:/Repos/Robin/AIObjs_/dev03-robin/docs/c35_calendar1-app/GPT-4o_OpenAI-curl'
@@ -24,7 +28,7 @@
 #           exit
 #   -------------------------------------------------------------------------------
 
-  function  set_coder() {                                                                           # .(40722.01.2 Beg)
+  function  set_coder() {                                                               # .(40722.01.2 Beg)
             echo -e "\n  Copying command, aicoder, to /usr/bin/aicoder"
             echo      "----------------------------------------------------------------"
             aAll="\\\"\$@\\\""
@@ -51,11 +55,12 @@
             mv *.code-workspace  AICodeR.code-workspace
             read -n1 -p "  Press any key to continue..."
             code *code*
-            }                                                                            # .(40722.01.2 End)
+            }                                                                           # .(40722.01.2 End)
 #   -------------------------------------------------------------------------------
 
   function  run_node() {
             aStep=$2
+            aDebug=""; if [ "${bDebug}" == "1" ]; then aDebug=" --inspect-brk"; fi      # .(40727.01.2)
 
 #           aSteps=",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,"
 
@@ -66,43 +71,53 @@
 #           aSteps_="$( echo "${aSteps}" | sed "s/${aStep}//g" )"
             aSteps1_="$( echo "${aSteps1}" | awk '{ sub( /',${aStep},'/, "" ); print }' )"
 
-            aSteps2=",0,9,11,12,19,"                # Run and Display AIC98_Tables command    // .(40724.01.9 RA< Add 19)
+#           aSteps2=",0,9,11,12,19,"                # Run and Display AIC98_Tables  command ##.(40728.02.4).(40724.01.9 RAM Add 19)
+            aSteps2=",0,9,11,12,19,16,20,21"        # Run and Display AIC91_Folders command # .(40728.02.4 RAM Add 16, 20 and 21)
+
             aSteps2_="$( echo "${aSteps2}" | awk '{ sub( /,'${aStep},'/, "" ); print }' )"
 
-            bNoisy=0
       if [ "${bNoisy}" == "1" ]; then
             echo -e "aSteps1 '${aSteps1_}' in aStep: ${aStep}\n     != '${aSteps1}'"; # exit
             echo -e "aSteps2 '${aSteps2_}' in aStep: ${aStep}\n     != '${aSteps2}'"; # exit
             echo -e "aSteps3 '${aSteps3_}' in aStep: ${aStep}\n     != '${aSteps3}'"; # exit
             fi
-    if [ "${aSteps3_}" != "${aSteps3}" ]; then
 
-            echo -e "  Running Node $1 $2 $3 $4 $5 $6 $7 $8 $9"
-    if [ "${aSteps1_}"  != "${aSteps1}" ]; then
-    if [ "${bNoisy}" == "1" ]; then
-       echo node           "${aDir}$1" $2 $3 $4 $5 $6 $7 $8 $9
+      if [ "${bNoisy}" == "1" ]; then echo ""; fi
+
+      if [ "${aSteps3_}" != "${aSteps3}" ]; then
+
+            echo -e    "  Running Node $1 $2 $3 $4 $5 $6 $7 $8 $9"
+      if [ "${aSteps1_}"  != "${aSteps1}" ]; then
+      if [ "${bNoisy}" == "1" ]; then
+       echo "  node" ${aDebug} "${aDir}$1" $2 $3 $4 $5 $6 $7 $8 $9                          # .(40727.01.3)
             fi
-            node           "${aDir}$1" $2 $3 $4 $5 $6 $7 $8 $9
-            exit
-            fi;
+      if [ "${bDoit}" == "1" ]; then
+            node     ${aDebug} "${aDir}$1" $2 $3 $4 $5 $6 $7 $8 $9                          # .(40727.01.4)
+            fi
 
             exit; fi
+            exit; fi
 
-    if [ "${aSteps2_}" != "${aSteps2}" ]; then
-    if [ "${aStep}" == "9" ]; then
-            echo -e "  Running Node $1 $4 $5 $6 $7 $8 $9"
-    if [ "${bNoisy}" == "1" ]; then
-       echo node           "${aDir}$1" $4 $5 $6 $7 $8 $9
+      if [ "${aSteps2_}" != "${aSteps2}" ]; then
+      if [ "${aStep}" == "9" ]; then
+            echo -e     "  Running Node $1 $3 $4 $5 $6 $7 $8 $9"
+      if [ "${bNoisy}" == "1" ]; then
+#      echo "  node" ${aDebug} "${aDir}$1" $4 $5 $6 $7 $8 $9                          		# .(40727.01.5)
+       echo "  node" ${aDebug} "${aDir}$1" $3 $4 $5 $6 $7 $8 $9                       		# .(40728.02.x).(40727.01.5)
             fi
-            node           "${aDir}$1" $4 $5 $6 $7 $8 $9; exit; fi
+      if [ "${bDoit}" == "1" ]; then
+            node     ${aDebug} "${aDir}$1" $3 $4 $5 $6 $7 $8 $9                          		# .(40727.01.6)
+            fi
+            exit; fi
 
-            echo -e "  Running Node $1 $3 $4 $5 $6 $7 $8 $9"
-    if [ "${bNoisy}" == "1" ]; then
-       echo node           "${aDir}$1" $3 $4 $5 $6 $7 $8 $9
+            echo -e     "  Running Node $1 $3 $4 $5 $6 $7 $8 $9"
+      if [ "${bNoisy}" == "1" ]; then
+       echo "  node" ${aDebug} "${aDir}$1" $3 $4 $5 $6 $7 $8 $9                          	# .(40727.01.7)
             fi
-            node           "${aDir}$1" $3 $4 $5 $6 $7 $8 $9
-            exit
+      if [ "${bDoit}" == "1" ]; then
+            node     ${aDebug} "${aDir}$1" $3 $4 $5 $6 $7 $8 $9                          	# .(40727.01.8)
             fi
+            exit; fi
             }
 # ------------------------------------------------------------------------------------
 
@@ -128,13 +143,15 @@
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #  9
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" != "app" ]; then aCmd="make app";      aArg1=""; shift;        fi   #  9
 
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9                 # .(40728.02.5)
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9                 # .(40728.02.5)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="save markdown"; aArg1=""; shift; shift; fi   # 10
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="list apps";     aArg1=""; shift; shift; fi   # 11
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="list models";   aArg1=""; shift; shift; fi   # 12
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="show apps";     aArg1=""; shift; shift; fi   # 13                 # .(40711.03.x)
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="list sessions"; aArg1=""; shift; shift; fi   # 14                 # .(40711.04.x)
 
-#   if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="save session";  aArg1=""; shift; shift; fi   # 16                 # .(40711.04.x)
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="new  prompt";   aArg1=""; shift; shift; fi   #  9                 # .(40728.02.6)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="save prompt";   aArg1=""; shift; shift; fi   # 16                 # .(40711.04.x)
 
 #   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="run  session";  aArg1=""; shift; shift; fi   # 15                 # .(40711.04.x)
@@ -144,11 +161,14 @@
     if [ "${aArg1:0:3}" == "kil" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="kill port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.2)
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="show port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.5)
 
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="new  session";  aArg1=""; shift; shift; fi   #  9                 # .(40728.02.7)
+#   if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="save session";  aArg1=""; shift; shift; fi   # 16                 # .(40711.04.x)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="save session";  aArg1=""; shift; fi          # 17
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" != "mar" ]; then aCmd="show markdown"; aArg1=""; shift; fi          # 18                 # .(40717.02.1)
 
-#   echo -e "\n[1]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; exit
-
+if [ "${bNoisy}" == "1" ]; then
+    echo -e "\n[1]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; # exit
+    fi
     if [ "$1" ==  "0" ]; then aCmd="set  $2"; shift; shift; fi
 #   if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model" $@; exit; fi  #  0           # .(40716.01.1)
     if [ "$1" ==  "1" ]; then aCmd="save continue"; shift; fi
@@ -171,9 +191,13 @@
     if [ "$1" == "17" ]; then aCmd="save session";  shift; fi     # .(40711.04.x)
     if [ "$1" == "18" ]; then aCmd="show markdown"; shift; fi     # .(40717.02.2)
     if [ "$1" == "19" ]; then aCmd="kill port";     shift; fi     # .(40724.02.2)
+#   if [ "$1" ==  "9" ]; then aCmd="new  session";  shift; fi     ##.(40728.02.8)
+#   if [ "$1" ==  "9" ]; then aCmd="new  prompt";   shift; fi     ##.(40728.02.9)
+#   if [ "$1" ==  "9" ]; then aCmd="new  markdown"; shift; fi     ##.(40728.02.10)
 
-#   echo -e "\n[2]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; exit
-
+if [ "${bNoisy}" == "1" ]; then
+    echo  "[2]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; # exit
+    fi
     export CALL_IT=1;
 #   if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC05_Schema}"  "0" "$@"; exit; fi
     if [ "${aCmd}" == "save continue" ]; then run_node "${AIC05_Schema}"  "1" "$@"; exit; fi
@@ -199,17 +223,20 @@
 
     export CALL_IT=0;
 #   if [ "${aCmd}" == "make app"      ]; then echo node "../../../.vscode/task-createAppFolders_u02.mjs" $@; exit; fi
-    if [ "${aCmd}" == "make app"      ]; then run_node "${AIC91_Folders}"  "9" "app"       $@; exit; fi  #  9           # .(40714.01.x)
-    if [ "${aCmd}" == "list apps"     ]; then run_node "${AIC98_Tables}"  "11" "apps"      $@; exit; fi  # 11           # .(40711.01.4)
-    if [ "${aCmd}" == "list models"   ]; then run_node "${AIC98_Tables}"  "12" "models"    $@; exit; fi  # 12           # .(40711.01.5)
-    if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC98_Tables}"   "0" "set app"   $@; exit; fi  #  0           # .(40716.01.2)
-    if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model" $@; exit; fi  #  0           # .(40716.01.3)
-    if [ "${aCmd}" == "set  show"     ]; then run_node "${AIC98_Tables}"   "0" "set show"  $@; exit; fi  #  0           # .(40717.02.2)
-    if [ "${aCmd}" == "kill port"     ]; then  "${aDir}/${AIC97_Ports}"                    $@; exit; fi  #  0           # .(40724.01.7)
-    if [ "${aCmd}" == "show port"     ]; then  "${aDir}/${AIC97_Ports}"         "show"     $@; exit; fi  #  0           # .(40724.01.8)
-    if [ "${aCmd}" == "set  coder"    ]; then set_coder                                      ; exit; fi  #  0           # .(40722.01.3)
+    if [ "${aCmd}" == "list apps"     ]; then run_node "${AIC98_Tables}"  "11" "apps"        $@; exit; fi  # 11         # .(40711.01.4)
+    if [ "${aCmd}" == "list models"   ]; then run_node "${AIC98_Tables}"  "12" "models"      $@; exit; fi  # 12         # .(40711.01.5)
+    if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC98_Tables}"   "0" "set app"     $@; exit; fi  #  0         # .(40716.01.2)
+    if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model"   $@; exit; fi  #  0         # .(40716.01.3)
+    if [ "${aCmd}" == "set  show"     ]; then run_node "${AIC98_Tables}"   "0" "set show"    $@; exit; fi  #  0         # .(40717.02.2)
+    if [ "${aCmd}" == "kill port"     ]; then  "${aDir}/${AIC97_Ports}"                      $@; exit; fi  #  0         # .(40724.01.7)
+    if [ "${aCmd}" == "show port"     ]; then  "${aDir}/${AIC97_Ports}"         "show"       $@; exit; fi  #  0         # .(40724.01.8)
+    if [ "${aCmd}" == "set  coder"    ]; then set_coder                                        ; exit; fi  #  0         # .(40722.01.3)
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
+    if [ "${aCmd}" == "new  session"  ]; then run_node "${AIC91_Folders}"  "9" "newSession"  $@; exit; fi               # .(40728.02.11)
+    if [ "${aCmd}" == "new  prompt"   ]; then run_node "${AIC91_Folders}"  "9" "newPrompt"   $@; exit; fi               # .(40728.02.12)
+    if [ "${aCmd}" == "new  markdown" ]; then run_node "${AIC91_Folders}"  "9" "newMarkdown" $@; exit; fi               # .(40728.02.13)
+    if [ "${aCmd}" == "make app"      ]; then run_node "${AIC91_Folders}"  "9" "newApp"      $@; exit; fi  #  9         # .(40728.02.14 Was app).(40714.01.x)
 
     echo ""
     echo "  AICoder Commands (${aVer} ${aDir}):"
@@ -242,14 +269,17 @@
     echo "   11. list apps       [App]                        List App for [App] or all Apps if 'all' or 'mt' in DB"              # .(40711.01.5)
     echo "   12. list models     [Model]                      List Model for [Model] or all Models if 'all' or 'mt' in DB"        # .(40711.01.6)
     echo "   14. list sessions   [App] [Model]                List AI Sessions for [App] in docs folder"                          # .(40711.01.6)
+    echo "   16. new  session    [App] [Model]                Create a new Session for [App] [Model] in docs folder"              # .(40728.02.15)
     echo "   17. save session    [S] [App] [Model]            Save all Messages for Sessios into Single Markdown File "
+    echo "   21. new  markdown   [App] [Model]                Create a new Session Response File for [App] [Model]"               # .(40728.02.16)
     echo "   10. save markdown   [App] [Model]                Save a last Message Markdown File for [App] [Model]"
     echo "   18. show markdown   [S[.M]] [App] [Model]        Open Markdown file in browser for Session / Message "               # .(40717.02.1)
     echo ""
 
     echo "    9. make [app]      {App} {Model}                Create a Folder for [App] (c##_name-of-app or s##_name-of-api)"
     echo "   13. show apps                                    List Apps that have an AI Session in docs folder"                   # .(40711.01.6)
-    echo "   16. save prompt     [S[.M[.TS]]] [App] [Model]   Save a Prompt fpr [next] UsrMessage file for [App] [Model]"
+#   echo "   16. save prompt     [S[.M[.TS]]] [App] [Model]   Save a Prompt for [next] UsrMessage file for [App] [Model]"
+    echo "   20. new  prompt     [App] [Model]                Create a new Session Prompt File for [App] [Model]"                 # .(40728.02.17)
 #   echo "   15. run  [session]  [App} [Model]                Run an AI Session for [last] UsrMessage file"
     echo "   15. run  [model]    [App} [Model]                Run an AI Session Prompt for [last] UsrMessage file for [Model]"
 #   echo "   10. save markdown   [App] [Model]                Save a last Message Markdown File for [App] [Model]"

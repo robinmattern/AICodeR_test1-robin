@@ -49,7 +49,8 @@ app.post('/query', async (req, res) => {
     });
 
     const data = await response.json();
-    res.json(data);
+//  res.json(data);
+    res.json( { answer: data.choices[0].message.content });
   } catch (error) {
     res.status(500).send('Error querying OpenAI');
   }

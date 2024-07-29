@@ -1,7 +1,6 @@
    import { spawn } from 'child_process';
    import   FRT     from './AIC90_FileFns.mjs'
 
-
 // var aMsg = await getLastCommitMessage( )
 // var aNo = await getNextCommitNo( ); console.log(aNo)
 // console.log( `  getNextCommitNo( ): ${ await getNextCommitNo( ) }` ); process.exit()
