@@ -28,10 +28,10 @@
    - Press Enter 
    
 5. Get the latest response, markdown.md, from MaxAI
+   - `aicoder new response` 
    - Go to URL: `https://www.maxai.me/share/?id=483d17073271830d0ec5357b1532a04a1bd0476a8694cabea6b5db98`   
    - Click button in lower left and select, `Copy as plain text`    
-<!-- - Open file:, `docs\c01_calendar-app\GPT-4o_OpenAI-maxi\c01_t000.01.2.40723.0721_markdown.md` -->   
-   - `aicoder new prompt` 
+   - Open file:, `docs\c01_calendar-app\GPT-4o_OpenAI-maxi\c01_t000.01.2.40723.0721_markdown.md` 
    - Paste the copied markdown response into the VSCode editor
    - Make sure Automatic Save is active 
 <!-- - Save the file as, `c01_t020.06.2.40723.0727_markdown.md` --> 
