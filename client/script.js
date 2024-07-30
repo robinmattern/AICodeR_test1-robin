@@ -1,76 +1,50 @@
-File: server/server.mjs
-import express from 'express';
-import multer from 'multer';
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
-import fetch from 'node-fetch';
+const uploadBtn = document.getElementById('uploadBtn');
+const queryBtn = document.getElementById('queryBtn');
+const resultDiv = document.getElementById('result');
 
-dotenv.config();
+uploadBtn.addEventListener('click', async () => {
+    const fileInput = document.getElementById('icsFile');
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Please select a file');
+        return;
+    }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+    const formData = new FormData();
+    formData.append('icsFile', file);
 
-const app = express();
-const upload = multer({ dest: 'uploads/' });
-
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../client')));
-
-let icsContent = '';
-
-app.post('/upload', upload.single('icsFile'), async (req, res) => {
     try {
-        const file = req.file;
-        if (!file) {
-            return res.status(400).send('No file uploaded');
-        }
-
-        icsContent = await fs.readFile(file.path, 'utf-8');
-        await fs.unlink(file.path);
-
-        res.status(200).send('File uploaded successfully');
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.text();
+        alert(result);
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).send('An error occurred during file upload');
+        alert('An error occurred while uploading the file');
     }
 });
 
-app.post('/query', async (req, res) => {
+queryBtn.addEventListener('click', async () => {
+    const query = document.getElementById('query').value;
+    if (!query) {
+        alert('Please enter a query');
+        return;
+    }
+
     try {
-        const { query } = req.body;
-        if (!query) {
-            return res.status(400).send('No query provided');
-        }
-
-        const prompt = `ICS file content:\n${icsContent}\n\nUser query: ${query}\n\nResponse:`;
-
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('/query', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [{ role: 'user', content: prompt }]
-            })
+            body: JSON.stringify({ query })
         });
-
-        if (!response.ok) {
-            throw new Error(`OpenAI API responded with status ${response.status}`);
-        }
-
-        const data = await response.json();
-        res.json({ response: data.choices[0].message.content });
+        const result = await response.json();
+        resultDiv.textContent = JSON.stringify(result, null, 2);
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).send('An error occurred during query processing');
+        alert('An error occurred while processing the query');
     }
 });
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-Explanation: This server-side script sets up an Express server to handle file uploads and queries. It uses multer for file handling, stores the ICS file content in memory, and processes queries using the OpenAI API.
