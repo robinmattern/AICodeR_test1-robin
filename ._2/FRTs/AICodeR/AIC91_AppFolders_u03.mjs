@@ -31,20 +31,23 @@
             aCmd  = (process.argv[1] == 'newMarkdown' ) ? 'newMarkdown' : aCmd
             aCmd  = (process.argv[1] == 'newApp'      ) ? 'newApp'      : aCmd
 
+//          aCmd  = 'newSession'
         if (aCmd == "") { 
             console.log( "\n* Missing command: new session, prompt or response" ) 
             process.exit() 
             }
+
+        var aCR   = "\n"                                                                // .(40729.03.1 RAM Will this work)  
         if (aCmd == 'newSession'   ) { await makNewSession( ) }                                 
         if (aCmd == 'newPrompt'    ) { await makNewPrompt(  ) }
         if (aCmd == 'newMarkdown'  ) { await makNewResponse( ) }
-        if (aCmd == 'newApp'       ) { await createAppFolders( ) }                            // .(40728.02.18 End)
+        if (aCmd == 'newApp'       ) { await createAppFolders( ) }                      // .(40728.02.18 End)
 
 // ---------------------------------------------------------------------------
 
      async  function ask4Model( aMod ) {
         var aModel  =  aMod
-        var aCR     = "\n"
+ //     var aCR     = "\n"                                                               // .(40729.03.2)
         var aMod1   = (aMod === undefined || aMod == null) ? "" : aMod
         if (aMod1 == "") { aCR = ""
             aMod1   =  await readline.question('  Enter a Model to use for this app (or help): ' )
@@ -130,8 +133,7 @@
 // --------------------------------------------------------------
 
     async  function chkApp( aApp ) {                                                    // .(40719.01.x RAM Write chkApp Beg)
-
-        var aCR     = "\n"
+//      var aCR     = "\n"                                                              // .(40729.03.x)
             aApp    = (aApp === undefined || aApp == null) ? "" : aApp
         if (aApp == "") {  aCR = ""
             aApp    =  await readline.question( '\n  Enter an App to use for this app (or help): ' )
@@ -157,7 +159,7 @@
         var aAppName1 =  mApp[2] ? mApp[2].trim() : ''
         if (aAppName1 == "") {
         if (aAppName) {
-            console.log( aCR + `* Invalid App alias, ${aAppName}`) }
+            console.log( aCR + `* Invalid App alias, ${aAppName}`); aCR = "" }          // .(40729.03.4)
             console.log(    "  Here is a list of App you can choose from:")
             console.log(       getApp( ).map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
         if (!aAppName) {
@@ -175,10 +177,10 @@
             }  // eof chkApp                                                            // .(40719.01.x End)
 // --------------------------------------------------------------
 
-     async  function  makNewSession( nSession ) {                                                           // .(40728.01.1 RAM Write makNewSession)
+     async  function  makNewSession( nSession ) {                                       // .(40728.01.1 RAM Write makNewSession)
        var  mFile      =  getLastFile( 'markdown' )
-       if (!nSession) { 
-            nSession   =  await readline.question( '\n  Enter a session number: ' )
+       if (!nSession) {   aCR ? console.log( "" ): ''; aCR = ""                         // .(40729.03.5)
+            nSession   =  await readline.question( '  Enter a session number: ' )
             }
         if (nSession.match( /[0-9]{1,3}/ ) == null) {
             console.log( "* You must enter a session number.")
@@ -202,6 +204,7 @@
        var  aNewFile   = `${mFile[0].slice(0,3)}_${aVer}_usermsg.txt`      
             FRT.writeFileSync( FRT.path( aDir, aNewFile ), '' )
             openCodeEditor( `${aDir}/${aNewFile}` )
+            process.exit()                                                              // .(40729.04.1 RAM Revent hang) 
             }                                                                           // .(40728.01.2 End)
 // --------------------------------------------------------------
 
@@ -220,6 +223,7 @@
        var  aNewFile   = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`      
             FRT.writeFileSync( FRT.path( aDir, aNewFile ), '' )
             openCodeEditor( `${aDir}/${aNewFile}` )
+            process.exit()                                                              // .(40729.04.2) 
             }                                                                           // .(40728.01.4 End)
 // --------------------------------------------------------------
 
@@ -236,9 +240,12 @@
 
 //  try {           spawn( aCodePath, [ FRT.path( aFile ) ] ) 
 //   } catch( pErr ) { }   
-          }
+            }
 
-function getLastFile( aType, aExt ) {                                                   // .(40728.01.4 RAM Write getLastFile)
+//          console.log( 'getLastFile(): ', getLastFile('markdown', '.md' ) ); process.exit() 
+            
+  function  getLastFile( aType, aExt ) {                                                   // .(40728.01.4 RAM Write getLastFile)
+//          console.log( "")
        var  aExt            =  aExt ? aExt : (aType == 'markdown' ?  'md' :  'txt')     // .(40728.01.x
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
 //          console.log(    `  mArgs:  '${mArgs.join("', '")}`)
@@ -249,14 +256,15 @@ function getLastFile( aType, aExt ) {                                           
 //     var  aDayTS          = `${ mArgs[0]}.${ mArgs[1] == '00' ? ''   : mArgs[0] }.${ mArgs[2] }`  //#.(40721.04.1 RAM When only session is in mArgs[1])
        var  aDayTS          = `${ mArgs[0]}.${ mArgs[1] == '00' ? '01' : mArgs[1] }.${ mArgs[2] }`  // .(40721.04.1 RAM S.B. this)
 //     var  aDayTS          = `${ mArgs[0]}.${mArgs[1]}.${ mArgs[2] }`                              //#.(40721.04.1 RAM not this)
-        if (aApp == '') { console.log( "* No App found. Please try again"   ) }
-        if (aMod == '') { console.log( "* No Model found. Please try again" ) }
+        if (aApp == '') { console.log( `${aCR}* No App found. Please try again`  ); aCR = "" }      // .(40729.03.6)
+        if (aMod == '') { console.log( `${aCR}* No Model found. Please try again`); aCR = "" }      // .(40729.03.7)
+        if (!(aApp || aMod)) { process.exit() }                                                     // .(40729.02.1 RAM Abort if not set) 
 
        var  nFld            = (aMod.length == 7) ? 1 : 2; aApp = aApp.slice(0,3)
        var  aAppName        = (getApp(    2,   aApp    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.5).(40715.01.3 RAM Was 2, aApp)
        var  aModel          = (getModel( nFld, aMod    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.6).(40715.01.4 RAM Was 2, aMod)
 
-       var  aSessions_Dir   =  getDocsPath( aAppName, aModel )                                      // .(40715.03.1 Add chk fundtion)
+       var  aSessions_Dir   =  getDocsPath( aAppName, aModel, aCR )                                 // .(40729.03.8).(40715.03.1 Add chk fundtion)
 //     var  aMarkdown_File  = `${aApp.slice(0,3)}_{ver}_markdown`                                   // .(40711.04.3 RAM File is now markdown.md)
        var  aLastFile2Find  = `${aApp.slice(0,3)}_{ver}_${aType}`                                   // .(40728.01.4 RAM Add aType)
 //          console.log(    `  aLastFile2Find: '${aLastFile2Find}'` )
@@ -292,7 +300,7 @@ function getLastFile( aType, aExt ) {                                           
      async  function createAppFolders( aAppName, aModel ) {
 
        var  aAppName        = (aAppName ? aAppName : process.argv[2] || '').trim()              //#.(40728.04.1 RAM Was [2], still is after .slice(1) )
-       var  aModel          = (aModel   ? aModel   : process.argv[2] || '').trim()              //#.(40728.04.1 RAM Was [3])
+       var  aModel          = (aModel   ? aModel   : process.argv[3] || '').trim()              //#.(40728.04.1 RAM Was [3])
 //          aAppName        = "c36_calendar-app"
 /*
         if (aAppName === undefined || aAppName == null) {
@@ -320,12 +328,15 @@ function getLastFile( aType, aExt ) {                                           
 
         if (aAppName == "" || aModel == "") { console.log( "  Try again"); process.exit(1) }
 
-            console.log( `  Creating app folders for: "${aAppName}/${aModel}"` )
+            console.log( `\n  Creating app folders for: "${aAppName}/${aModel}"` )
 
             await createAppFolders_( aAppName, aModel );
 
             AIM.setEnv( "App",    aAppName )                                                        // .(40722.04.1 Set App & Model after making App)
             AIM.setEnv( "Model",  aModel )                                                          // .(40722.04.2)
+            console.log( `  Setting default App and Model in .env file to:` )                       //#.(40729.05.1)
+            console.log( `    FRT_APP         = "${aAppName}"` )                                    //#.(40729.05.4)
+            console.log( `    FRT_MODEL       = "${aModel}"`   )                                    //#.(40729.05.5)
 
             process.exit(0)
          } // eof createAppFolders

@@ -73,12 +73,12 @@
              , [ '13.', 'c2q5lmn', 'Claude2-Q5_LMStudio-node'  ]
              , [ '14.', 'c2q3lmn', 'Claude2-Q3_LMStudio-node'  ]
 //           , [ '14.', 'c3q3lmn', 'Claude3-Q3_LMStudio-node'  ]
-             , [ '15.', 'c35sanm', 'Claude3-So_Anthropic-maxi' ]                                  // .(40702.06.2)
-             , [ '16.', 'c35sanu', 'Claude3-So_Anthropic-curl' ]                                  // .(40704.01.1)
-             , [ '17.', 'c35sann', 'Claude3-So_Anthropic-node' ]                                  // .(40704.01.2)
-//           , [ '18.', 'c35sanw', 'Claude3-So_Anthropic-web'  ]                                  // .(40704.01.3)
-//           , [ '18.', 'c35sanw', 'Claude3-So_Anthropic-chatgpt' ]
-             , [ '18.', 'c35sanw', 'Claude3-So_Anthropic-chat' ]                                  // .(40724.01.1 RAM Add)
+             , [ '15.', 'c35sanm', 'Claude-35s_Anthropic-maxi' ]                                  // .(40702.06.2)
+             , [ '16.', 'c35sanu', 'Claude-35s_Anthropic-curl' ]                                  // .(40704.01.1)
+             , [ '17.', 'c35sann', 'Claude-35s_Anthropic-node' ]                                  // .(40704.01.2)
+//           , [ '18.', 'c35sanw', 'Claude-35s_Anthropic-web'  ]                                  // .(40704.01.3)
+//           , [ '18.', 'c35sanw', 'Claude-35s_Anthropic-chatgpt' ]
+             , [ '18.', 'c35sanw', 'Claude-35s_Anthropic-chat' ]                                  // .(40724.01.1 RAM Add)
 
              , [ '19.', 'st20lmn', 'StarCoder2_LMStudio-node'  ]
 
@@ -101,8 +101,8 @@
             console.log( ` 'appx',sdf :`, getDocsPath( 'appx', getModel( 2, 'sdf' )  ) )
             process.exit()
 */
-  function  getDocsPath( aAppName, aModel_ ) {                                                       // .(40715.04.4 Add function getDocsPath Beg)
-            aAppName       = (aAppName || '').trim()
+  function  getDocsPath( aAppName, aModel_, aCR) {                                                  // .(40729.03.x).(40715.04.4 Add function getDocsPath Beg)
+            aCR            =  aCR ? aCR : ''                                                        // .(40729.03.x)            aAppName       = (aAppName || '').trim()
        var  aModel         = (aModel_  || '').trim()
        var  aDocs_Dir      =  aModel ? `docs/${aAppName}/${aModel}` : `docs/${aAppName}`
        var  aSessions_Dir  =  FRT.path( __basedir, aDocs_Dir )
@@ -110,7 +110,8 @@
        if (!pStat.isDir   ||  aAppName == '' || (aModel == '' && aModel_ == '')) {
 //     var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : ( aModel_ ? `AppName, ''` : `aModel, ''` )
        var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : `AppName/Model, ''`
-            console.log( `* ${aErrMsg}, does not exist.` )
+//          console.log(       `* ${aErrMsg}, does not exist.` ); aCR = ''                          // .(40729.03.x)
+            console.log( `${aCR}* ${aErrMsg}, does not exist.` ); aCR = ''                          //#.(40729.03.x)
             process.exit()
 //   return `* ${aErrMsg}, does not exist.`
             }
@@ -318,7 +319,7 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
        var  aEnvVar   =`${aPreFix}_${aVar.toUpperCase()}`
        var  aVal      =   aVal ? aVal : process.env[  aEnvVar ] || ''
         if (aVal == '') {
-            console.log( `\n* The environment variable, '${aEnvVar}', is not defined` )
+            console.log( `* The environment variable, '${aEnvVar}', is not defined` )
         } else {
 //          console.log( `  getenv[2]  Got default ${ `${aEnvVar}:`.padEnd(10) } '${aVal}'` )
             }
@@ -340,8 +341,8 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
             process.env[    aEnvVar ] = aVal
        var  mEnvs       =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == `${aPreFix}_` )
        var  mMyEnvs     =   mEnvs.map( mEnv => `${ mEnv[0].padEnd(15) } = "${mEnv[1]}"` )
-            console.log( `  Setting default ${ aEnvVar } to: '${ aVal }' in .env file` )
-            console.log( `  mMyEnvs:\n    ${   mMyEnvs.join( "\n    " ) }` )
+//          console.log( `  Setting default ${ aEnvVar } to: '${ aVal }' in .env file` )             //#.(40729.05.2)
+//          console.log( `  mMyEnvs:\n    ${   mMyEnvs.join( "\n    " ) }` )                         //#.(40729.05.3)
             FRT.writeFileSync( FRT.path( __basedir, '.env' ), mMyEnvs.join( "\n" ) )
             }
 // ------------------------------------------------------------------------------

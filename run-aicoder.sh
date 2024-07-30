@@ -2,7 +2,7 @@
 
 # cd ._2/FRTs/AICodeR
 
-            aVer="v1.06 7/25/24"
+            aVer="v1.07 7/29/24"
 
             AIC98_Tables="AIC98_Apps-n-Models_u02.mjs"
             AIC05_Schema="AIC05_Schema-IO_u09.mjs"
@@ -22,7 +22,7 @@
 #           ThePath="${__dirname}/docs/c35_calendar1-app/GPT-4o_OpenAI-curl"
 #           aDir="E:/Repos/Robin/AIObjs_/dev03-robin/._2/FRTs/AICodeR/"
             aDir="${__dirname}/._2/FRTs/AICodeR/"    # with trailing slash
-
+            
 #           Node ._2/FRTs/AICodeR/AIC98_Apps-n-Models_u02.mjs set app c35
 #           node        "${aDir}/AIC98_Apps-n-Models_u02.mjs" set app c35
 #           exit
@@ -37,24 +37,31 @@
 #           echo "  aAWKpgm: '${aAWKpgm}'"; exut
             cat "${aDir}/AIC88_Run-CodeR.sh" | awk "${aAWKpgm}" >aicoder
 #           cat set-aicoder.sh; exit
+            aBasedir="${__dirname:1:1}:/${__dirname:3}"; aBasedir="${aBasedir//\//\\\\}";
 
 #           cp   set-aicoder.sh  /usr/bin/coder
 #           cp   set-aicoder.sh  "C:/Program Files/Git/usr/bin/coder"
-            runas /user:Administrator "cmd /c copy  aicoder  \"C:\\Program Files\\Git\\usr\\bin\\coder\""
+#           runas /user:Administrator "cmd /c copy  aicoder  \"C:\\Program Files\\Git\\usr\\bin\\aicoder\""
+#           runas /user:${USERNAME}   "cmd /c copy  aicoder  \"C:\\Program Files\\Git\\usr\\bin\\aicoder\""
+#     echo "runas /user:${USERNAME}  \"cmd /c copy  \"\"${aBasedir}\\\\aicoder\"\"  \"\"C:\\\\Program Files\\\\Git\\\\usr\\\\bin\\\\aicoder\"\""
+            runas /user:${USERNAME}   "cmd /c copy   \"${aBasedir}\\\\aicoder\"    \"C:\\Program Files\\Git\\usr\\bin\\aicoder\"" 
+       if [ ! -f "C:/Program Files/Git/usr/bin/aicoder" ]; then 
+            echo -e "\n* The command, aicoder, didn't get copied to the Git/usr/bin directory.  Please copy it using Windows Explorer."
+            fi 
 
- #          echo ""
-            cd ${aDir}
-            echo -e "\n  Running, npm install, in server folder"
+            echo -e "\n\n  Running, npm install, in server folder"
             echo      "----------------------------------------------------------------"
+            cd ${aDir}
             npm install
             cd "${__dirname}"
-            pwd
-            echo -e "\n  Opening VSCode, AICodeR.code-workspace"
+#           pwd
+
+            echo -e "\n\n  Opening VSCode, AICodeR.code-workspace"
             echo      "----------------------------------------------------------------"
-#           mv *.code-workspace  AICodeR.code-workspace
             mv *.code-workspace  AICodeR.code-workspace
             read -n1 -p "  Press any key to continue..."
-            code *code*
+#           code *code*
+            code AICodeR.code-workspace
             }                                                                           # .(40722.01.2 End)
 #   -------------------------------------------------------------------------------
 
@@ -122,11 +129,14 @@
 # ------------------------------------------------------------------------------------
 
             aArg1=$1;       aCmd="";       aArg2=$2
+
+    if [ "${aArg1}"   == "setup" ] && [ "${aArg2}" == ""        ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    # .(40729.01.1 RAM Add Setup)
+
 #   if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" != "app" ] && [ "{aArg2:0:3}" != "mod" ]; then aCmd="set  app"; shift; fi
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="set  model";    aArg1=""; shift; shift; fi   #  0
-    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "cod" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    // .(40722.01.1 RAM Add Setup Coder)
-    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "aic" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    // .(40722.01.x)
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "cod" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    # .(40722.01.1 RAM Add Setup Coder)
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "aic" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0    # .(40722.01.x)
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "sho" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "set" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "var" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  0
@@ -140,31 +150,33 @@
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="list continue"; aArg1=""; shift; shift; fi   #  7
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="list frtables"; aArg1=""; shift; shift; fi   #  8
 
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #  9    # .(40728.02.5)
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #  9
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" != "app" ]; then aCmd="make app";      aArg1=""; shift;        fi   #  9
 
-    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9                 # .(40728.02.5)
-    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9                 # .(40728.02.5)
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9    # .(40728.02.5)
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9    # .(40728.02.5)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="save markdown"; aArg1=""; shift; shift; fi   # 10
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="list apps";     aArg1=""; shift; shift; fi   # 11
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="list models";   aArg1=""; shift; shift; fi   # 12
-    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="show apps";     aArg1=""; shift; shift; fi   # 13                 # .(40711.03.x)
-    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="list sessions"; aArg1=""; shift; shift; fi   # 14                 # .(40711.04.x)
+    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="show apps";     aArg1=""; shift; shift; fi   # 13    # .(40711.03.x)
+    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="list sessions"; aArg1=""; shift; shift; fi   # 14    # .(40711.04.x)
 
-    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="new  prompt";   aArg1=""; shift; shift; fi   #  9                 # .(40728.02.6)
-    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="save prompt";   aArg1=""; shift; shift; fi   # 16                 # .(40711.04.x)
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="new  prompt";   aArg1=""; shift; shift; fi   #  9    # .(40728.02.6)
+    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="save prompt";   aArg1=""; shift; shift; fi   # 16    # .(40711.04.x)
 
-#   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="run  session";  aArg1=""; shift; shift; fi   # 15                 # .(40711.04.x)
-    if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="run  prompt";   aArg1=""; shift; shift; fi   # 15                 # .(40711.04.x)
+#   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="run  session";  aArg1=""; shift; shift; fi   # 15    # .(40711.04.x)
+    if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="run  prompt";   aArg1=""; shift; shift; fi   # 15    # .(40711.04.x)
 #   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="run  session";  aArg1=""; shift; fi          # 15
     if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" != "pro" ]; then aCmd="run  prompt";   aArg1=""; shift; fi          # 15
-    if [ "${aArg1:0:3}" == "kil" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="kill port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.2)
-    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="show port";     aArg1=""; shift; shift; fi   # 19                 # .(40724.01.5)
+    if [ "${aArg1:0:3}" == "kil" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="kill port";     aArg1=""; shift; shift; fi   # 19    # .(40724.01.2)
+    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="show port";     aArg1=""; shift; shift; fi   # 19    # .(40724.01.5)
 
-    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="new  session";  aArg1=""; shift; shift; fi   #  9                 # .(40728.02.7)
-#   if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="save session";  aArg1=""; shift; shift; fi   # 16                 # .(40711.04.x)
+    if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="new  session";  aArg1=""; shift; shift; fi   #  9    # .(40728.02.7)
+#   if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="save session";  aArg1=""; shift; shift; fi   # 16    # .(40711.04.x)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="save session";  aArg1=""; shift; fi          # 17
-    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" != "mar" ]; then aCmd="show markdown"; aArg1=""; shift; fi          # 18                 # .(40717.02.1)
+    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" != "mar" ]; then aCmd="show markdown"; aArg1=""; shift; fi          # 18    # .(40717.02.1)
+
 
 if [ "${bNoisy}" == "1" ]; then
     echo -e "\n[1]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; # exit

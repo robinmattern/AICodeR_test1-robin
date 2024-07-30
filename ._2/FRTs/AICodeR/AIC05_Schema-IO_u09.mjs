@@ -295,7 +295,7 @@
 //          console.log(  `\n* Invalid Model, ${aMod}` ); process.exit() }
 //      if (!aModel) {
 //          consolr.log(  `\n* Invalid App, ${aApp}`   ); process.exit() }
-
+      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.2 RAM Abort if not set) 
        var  aSessions_Dir   =  getDocsPath( aAppName, aModel )                                      // .(40715.03.1 Add chk fundtion)
 //     var  aSessions_Dir   = '\E:\\Repos\\Robin\\AIObjs_\\._\\DOCs\\code-sessions'
 //     var  aSessions_Dir   =  FRT.join( __basedir, `docs/${aAppName}/${aModel}` )                  //#.(40715.03.1)
@@ -357,7 +357,7 @@
             aModel          = (getModel( nFld, aMod    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.11).(40715.01.4 RAM Was 2, aMod)
             aMod            = (getModel( nFld, aMod    , 1 )) // (().slice(1,2)[0] || '').trim()    // .(40718.09.12).(40717.05.x RAM Need the alias) 
 //          console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}', aAppName: '${aAppName}',  aMod: '${aMod}', aModel: '${aModel}'`)
-
+      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.3) 
        var  aSessions_Dir   =  getDocsPath( aAppName, aModel )                                      // .(40715.03.2)
 //     var  aSessions_Dir   =  FRT.join( __basedir, `docs/${aAppName}/${aModel}` )                  //#.(40711.04.x RAM was aApp).(40715.03.2)
 
@@ -486,7 +486,9 @@
 //     var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       //#.(40719.10.1).(40718.09.14).(40717.04.1 RAM End)
 //          console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()   
             aModel          =  undefined                                                            // .(40719.10.1 RAM List session sfor all models for app)
-       var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
+
+      if ( !aAppName) { process.exit() }                                                            // .(40729.02.4) 
+            var  aAppPath        =  getDocsPath( aAppName, aModel )                                 // .(40715.03.5 Add chk function)
              
        //     if (!aAppName) {
 //          console.log( '\n* Invalid App: ${aApp}. ' )
@@ -513,12 +515,12 @@
         } else {
             mModels         = [ aModel ]
             }
-       var  mSessions  = [ ];  mModels.forEach( fmtSessions )
+       var  mSessions  = [ ];  mModels.forEach( fmtModelSessions )
 //          mSessions       =  mSessions.filter
 //          console.log(       mSessions.join( "\n" ) )
             return mSessions
 
-  function  fmtSessions( aModel, i )  {
+  function  fmtModelSessions( aModel, i )  {
              
 //     var  aMod            =  getModel( 2, aModel )[1]
        var  aMod            =  getModel( 2, aModel,  1 )
@@ -527,12 +529,16 @@
        var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( /markdown.md|response.md/ ) )
        var  mResponses      =  mResponses.map( mFile  => mFile[2] )
                                          .sort( (a,b) => a > b ? 1 : -1 )
+        if (mResponses.length == 0) { return }                                                      // .(40729.06.1)
 //          mSessions.push(    mResponses.map( fmtSession ) )
 //          mSessions.push([...mResponses.map( fmtSession ) ])
-       if ((mSessions.slice(-1)[0] || '').slice(25,28) != (mResponses[0] || '').slice(0,3)) {
-            mSessions.push( ' ' ) }
+//     if ((mSessions.slice(-1)[0] || '').slice(25,28) != (mResponses[0] || '').slice(0,3)) {       //#.(40729.06.2)
+       if ((mSessions.slice(-1)[0] || '').slice(48,51) != (mResponses[0] || '').slice(0,3)) {       // .(40729.06.2 RAM Kludge comparing App alies)
+            console.log( aModel, (mSessions.slice(-1)[0] || '').slice(48,51), (mResponses[0] || '').slice(0,3))  
+//          if ( (mSessions.slice(-1)[0] || '') != "" ) { mSessions.push( ' ' ) } }                 //#.(40729.06.3)
+                                                          mSessions.push( ' ' ) }                   // .(40729.06.3)
             mSessions       =  mSessions.concat( mResponses.map( fmtSession ));
-//          mSessions.push( ' ' )
+//          mSessions.push( ' ' )                                                                   //#.(40729.06.4)
 
   function  fmtSession( aFile, i )  {
 //     var  j = mSessions.length + ( aModel == '' ? i : i + 1 )
@@ -580,6 +586,7 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
         if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
 
             console.log(    `  aAppName: '${aAppName}', aModel: '${aModel}', aDayTS: '${aDayTS}` )
+      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.5) 
        var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
             console.log(    `  aAppPath: '${aAppPath}'`)
 
