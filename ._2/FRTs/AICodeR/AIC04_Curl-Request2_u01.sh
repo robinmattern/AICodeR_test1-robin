@@ -16,7 +16,7 @@
 #   aTitle="### Result using 31 video frames created with python"
 
 #   aAPI_URL="https://api.openai.com/v1/chat/completions"
-#   aAPI_KEY="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"
+#   aAPI_KEY="openai_api_key"
 
     echo ""
     echo -e "3.aAPI_URL: ${aAPI_URL}\n  aAPI_KEY: ${aAPI_KEY}";

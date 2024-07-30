@@ -8,7 +8,7 @@
     aOufile="${aOufile/.md/.log}"
 #   aTitle="### Result using 31 video frames created with python"
 #   aAPI_URL="https://api.openai.com/v1/chat/completions"
-#   aAPI_KEY="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"
+#   aAPI_KEY="openai_api_key"
 
 #   echo "4. aOufile: ${aOufile}, aMDfile: ${aMDfile}"; exit
 

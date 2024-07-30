@@ -28,14 +28,14 @@
           "envFile": "${workspaceFolder}/.env"
         },
        {
-                "type": "node",
-                "request": "attach",
-                "name": "Attach to Node.js",
-                "port": 9229, // Adjust if necessary
-                "address": "localhost",
-                "restart": true,
-                "protocol": "inspector"
-            }
-        ]
+          "type": "node",
+          "request": "attach",
+          "name": "Attach to Node.js",
+          "port": 9229, // Adjust if necessary
+          "address": "localhost",
+          "restart": true,
+          "protocol": "inspector"
+        }
+      ]
     }
     

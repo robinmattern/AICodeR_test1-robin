@@ -2,7 +2,7 @@
 
    aSession=20
    aMessage=2
-   export OPENAI_API_KEY=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
+   export OPENAI_API_KEY="openai_api_key"
 
 #  -----------------------------------------------------------------------------
 
