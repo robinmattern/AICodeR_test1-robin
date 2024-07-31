@@ -7,17 +7,17 @@
    - Open a Git Bash console 
    - `cd ./Repos`    
    - `git clone https://github.com/robinmattern/AICodeR_test1-robin.git AICodeR`    
-   - `cd AICoder`   
+   - `cd AICodeR`   
 
 2. Create command, aicoder
    - `./run-aicoder.sh setup` 
-   - Enter the password for ${USERNAME}:
-   - AICodeR will run: NPM install dotenv 
-   - VSCode will be opened with AICodeR.code-workspace`  
-   - If password fails, run: `copy aicoder to C:\Program Files\Git\usr\bin`   
+   - Enter the password for `${USERNAME}`:
+   - AICodeR will run: `NPM install dotenv` 
+   - VSCode will be opened with `AICodeR.code-workspace`  
+   - If copy fails, run: `copy aicoder to C:\Program Files\Git\usr\bin`   
 
 3. Run initial aicoder commands
-   - New Termminal
+   - In VSCode, open New Termminal
    - `aicoder`    
    - `aicoder show vars`     
    

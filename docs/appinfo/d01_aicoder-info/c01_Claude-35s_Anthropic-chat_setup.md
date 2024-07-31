@@ -7,17 +7,19 @@
    - Open a Git Bash console 
    - `cd ./Repos`    
    - `git clone https://github.com/robinmattern/AICodeR_test1-robin.git AICodeR`    
-   - `cd AICoder`   
+   - `cd AICodeR` 
+   - If on a Mac, run `chmod 755 run-aicoder.sh` 
+   - Also, make sure you have Node version 20.10+  
 
 2. Create command, aicoder
    - `./run-aicoder.sh setup` 
-   - Enter the password for ${USERNAME}:
-   - AICodeR will run: NPM install dotenv 
-   - VSCode will be opened with AICodeR.code-workspace`  
-   - If password fails, run: `copy aicoder to C:\Program Files\Git\usr\bin`   
+   - Enter the password for `${USERNAME}`:
+   - AICodeR will run: `NPM install dotenv` 
+   - VSCode will be opened with `AICodeR.code-workspace`  
+   - If copy fails, run: `copy aicoder to C:\Program Files\Git\usr\bin`   
 
 3. Run initial aicoder commands
-   - New Termminal
+   - In VSCode, open New Termminal
    - `aicoder`    
    - `aicoder show vars`     
    
@@ -30,20 +32,20 @@
 5. Generate new app with Claude.AI chat site
    - `aicoder new prompt` 
    - Enter session number: 29 
-   - Open file: `code docs\c01_calendar-app\Claude3-So_Anthropic-chat\c01_t0029.01.1.40729.0721_usermsg.txt` 
+   - Open file: `code docs\c01_calendar-app\Claude-35s_Anthropic-chat\c01_t0029.01.1.40729.0721_usermsg.txt` 
    - Copy and paste the first prompt into the VSCode editor
    ```
    Create an app that uses javascript ES6, import not require, fetch and node scripts in .mjs. Create client scripts in a client folder e.g. client/index.html and server scripts in a server folder e.g. server/server.mjs. For each script including launch.json provide the filename preceded by "### File: ". On the next line show the code. On the next line show the explanation of what the code does. When importing javascript files use the filename and extension. Show the folder structure diagram including the filenames. Please provide instructions for installing node modules and for execution and debugging for client and server in VSCode.  Make sure to include any package.json file in the appropriage folder. For these instructions provide a heading of "### Instructions: ". We are using node version 20+.  Please display the generated code as a markdown artifact. 
    
-   Use this to create an application that allows the upload of .ics file then use it as a prompt and let me query it using gbt 3.5-turbo using my OpenAI key. Use the API URL= https://api.openai.com/v1/chat/completions. Please put the .env file in the server folder.
+   Use this to create an application that allows the upload of .ics file then use it as a prompt and let me query it using gbt 3.5-turbo using my OpenAI key. Use the API URL= https://api.openai.com/v1/chat/completions. Please put the package.json file and the .env file in the server folder.
    ```
    - Go to URL: `https://claude.ai`   
    - Paste the first prompt into the chat field
-   - Click on the submit button 
+   - Click on the red button to send the prompt
 
 6. Get the latest response from Claude.AI chat site
    - Click on the button to copy the lastest response
-   - `aicoder new response` 
+   - `aicoder open response` 
    - Open file: `code docs\c01_calendar-app\Claude-35s_Anthropic-chat\c01_t029.01.1.40729.0721_markdown.md` 
    - Paste the copied markdown response into the VSCode editor
    - Make sure Automatic Save is active 

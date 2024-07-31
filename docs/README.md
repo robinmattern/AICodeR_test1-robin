@@ -4,8 +4,8 @@
 
 For instructions on how to use AICodeR to setup these apps using these models--
 - c01_calendar-app
-  - [Claude3-So_Anthropic-chat](./appinfo/d01_aicoder-info/c01_Claude-35s_Anthropic-chat_setup.md)
-  - [Claude3-So_Anthropic-chat](./appinfo/d01_aicoder-info/c01_Claude-35s_Anthropic-maxi_setup.md)
+  - [Claude-35s_Anthropic-chat](./appinfo/d01_aicoder-info/c01_Claude-35s_Anthropic-chat_setup.md)
+  - [Claude-35s_Anthropic-maxi](./appinfo/d01_aicoder-info/c01_Claude-35s_Anthropic-maxi_setup.md)
   - [GPT-4o_OpenAI-maxi       ](./ppinfo/d01_aicoder-info//c01_GPT-4o_OpenAI-maxi_setup.md)
   - [Claude3-So_Anthropic     ]
 

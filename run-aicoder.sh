@@ -2,7 +2,8 @@
 
 # cd ._2/FRTs/AICodeR
 
-            aVer="v1.07 7/29/24"
+#           aVer="v1.07 7/29/24"
+            aVer="v1.08 7/31/24"
 
             AIC98_Tables="AIC98_Apps-n-Models_u02.mjs"
             AIC05_Schema="AIC05_Schema-IO_u09.mjs"
@@ -156,21 +157,25 @@
 
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9    # .(40728.02.5)
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9    # .(40728.02.5)
+    if [ "${aArg1:0:3}" == "ope" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="open markdown"; aArg1=""; shift; shift; fi   #  9    # .(40731.02.1)
+    if [ "${aArg1:0:3}" == "ope" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="open markdown"; aArg1=""; shift; shift; fi   #  9    # .(40731.02.2)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="save markdown"; aArg1=""; shift; shift; fi   # 10
+
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="list apps";     aArg1=""; shift; shift; fi   # 11
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="list models";   aArg1=""; shift; shift; fi   # 12
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="show apps";     aArg1=""; shift; shift; fi   # 13    # .(40711.03.x)
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="list sessions"; aArg1=""; shift; shift; fi   # 14    # .(40711.04.x)
 
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="new  prompt";   aArg1=""; shift; shift; fi   #  9    # .(40728.02.6)
+    if [ "${aArg1:0:3}" == "ope" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="open prompt";   aArg1=""; shift; shift; fi   #  9    # .(40731.02.3)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="save prompt";   aArg1=""; shift; shift; fi   # 16    # .(40711.04.x)
-
-#   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="run  session";  aArg1=""; shift; shift; fi   # 15    # .(40711.04.x)
     if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "pro" ]; then aCmd="run  prompt";   aArg1=""; shift; shift; fi   # 15    # .(40711.04.x)
-#   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="run  session";  aArg1=""; shift; fi          # 15
     if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" != "pro" ]; then aCmd="run  prompt";   aArg1=""; shift; fi          # 15
     if [ "${aArg1:0:3}" == "kil" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="kill port";     aArg1=""; shift; shift; fi   # 19    # .(40724.01.2)
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "por" ]; then aCmd="show port";     aArg1=""; shift; shift; fi   # 19    # .(40724.01.5)
+
+#   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="run  session";  aArg1=""; shift; shift; fi   # 15    # .(40711.04.x)
+#   if [ "${aArg1:0:3}" == "run" ] && [ "${aArg2:0:3}" != "ses" ]; then aCmd="run  session";  aArg1=""; shift; fi          # 15
 
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="new  session";  aArg1=""; shift; shift; fi   #  9    # .(40728.02.7)
 #   if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="save session";  aArg1=""; shift; shift; fi   # 16    # .(40711.04.x)
@@ -203,9 +208,16 @@ if [ "${bNoisy}" == "1" ]; then
     if [ "$1" == "17" ]; then aCmd="save session";  shift; fi     # .(40711.04.x)
     if [ "$1" == "18" ]; then aCmd="show markdown"; shift; fi     # .(40717.02.2)
     if [ "$1" == "19" ]; then aCmd="kill port";     shift; fi     # .(40724.02.2)
+
 #   if [ "$1" ==  "9" ]; then aCmd="new  session";  shift; fi     ##.(40728.02.8)
 #   if [ "$1" ==  "9" ]; then aCmd="new  prompt";   shift; fi     ##.(40728.02.9)
 #   if [ "$1" ==  "9" ]; then aCmd="new  markdown"; shift; fi     ##.(40728.02.10)
+
+#   if [ "$1" == "16" ]; then aCmd="new  session";  shift; fi     ##.(40728.02.8)
+#   if [ "$1" == "19" ]; then aCmd="new  prompt";   shift; fi     ##.(40728.02.9)
+#   if [ "$1" == "20" ]; then aCmd="new  markdown"; shift; fi     ##.(40728.02.10)
+#   if [ "$1" == "23" ]; then aCmd="open prompt";   shift; fi     # .(40731.02.x)
+#   if [ "$1" == "20" ]; then aCmd="open markdown"; shift; fi     # .(40731.02.x)
 
 if [ "${bNoisy}" == "1" ]; then
     echo  "[2]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; # exit
@@ -248,6 +260,8 @@ if [ "${bNoisy}" == "1" ]; then
     if [ "${aCmd}" == "new  session"  ]; then run_node "${AIC91_Folders}"  "9" "newSession"  $@; exit; fi               # .(40728.02.11)
     if [ "${aCmd}" == "new  prompt"   ]; then run_node "${AIC91_Folders}"  "9" "newPrompt"   $@; exit; fi               # .(40728.02.12)
     if [ "${aCmd}" == "new  markdown" ]; then run_node "${AIC91_Folders}"  "9" "newMarkdown" $@; exit; fi               # .(40728.02.13)
+    if [ "${aCmd}" == "open prompt"   ]; then run_node "${AIC91_Folders}"  "9" "opnPrompt"   $@; exit; fi               # .(40731.02.4)
+    if [ "${aCmd}" == "open markdown" ]; then run_node "${AIC91_Folders}"  "9" "opnMarkdown" $@; exit; fi               # .(40731.02.5)
     if [ "${aCmd}" == "make app"      ]; then run_node "${AIC91_Folders}"  "9" "newApp"      $@; exit; fi  #  9         # .(40728.02.14 Was app).(40714.01.x)
 
     echo ""
@@ -280,21 +294,25 @@ if [ "${bNoisy}" == "1" ]; then
     echo ""
     echo "   11. list apps       [App]                        List App for [App] or all Apps if 'all' or 'mt' in DB"              # .(40711.01.5)
     echo "   12. list models     [Model]                      List Model for [Model] or all Models if 'all' or 'mt' in DB"        # .(40711.01.6)
-    echo "   14. list sessions   [App] [Model]                List AI Sessions for [App] in docs folder"                          # .(40711.01.6)
+
     echo "   16. new  session    [App] [Model]                Create a new Session for [App] [Model] in docs folder"              # .(40728.02.15)
     echo "   17. save session    [S] [App] [Model]            Save all Messages for Sessios into Single Markdown File "
-    echo "   21. new  markdown   [App] [Model]                Create a new Session Response File for [App] [Model]"               # .(40728.02.16)
-    echo "   10. save markdown   [App] [Model]                Save a last Message Markdown File for [App] [Model]"
+    echo "   14. list sessions   [App] [Model]                List AI Sessions for [App] in docs folder"                          # .(40711.01.6)
+#   echo "   15. run  [session]  [App} [Model]                Run an AI Session for [last] UsrMessage file"
+
+    echo "   21. new  markdown   [S[.M]] [App] [Model]        Create a new Session Response File for [App] [Model]"               # .(40728.02.16)
+    echo "   22. open markdown   [S[.M]] [App] [Model]        Open a Session Response File for [App] [Model]"                     # .(40731.02.7)
+    echo "   10. save markdown   [S[.M]] [App] [Model]        Save a last Message Markdown File for [App] [Model]"
     echo "   18. show markdown   [S[.M]] [App] [Model]        Open Markdown file in browser for Session / Message "               # .(40717.02.1)
     echo ""
-
     echo "    9. make [app]      {App} {Model}                Create a Folder for [App] (c##_name-of-app or s##_name-of-api)"
     echo "   13. show apps                                    List Apps that have an AI Session in docs folder"                   # .(40711.01.6)
+
 #   echo "   16. save prompt     [S[.M[.TS]]] [App] [Model]   Save a Prompt for [next] UsrMessage file for [App] [Model]"
-    echo "   20. new  prompt     [App] [Model]                Create a new Session Prompt File for [App] [Model]"                 # .(40728.02.17)
-#   echo "   15. run  [session]  [App} [Model]                Run an AI Session for [last] UsrMessage file"
+    echo "   20. new  prompt     [S[.M]] [App] [Model]        Create a new Session Prompt File for [App] [Model]"                 # .(40728.02.17)
+    echo "   23. open prompt     [S[.M]] [App] [Model]        Open a Session Prompt File for [App] [Model]"                       # .(40731.02.8)
+
     echo "   15. run  [model]    [App} [Model]                Run an AI Session Prompt for [last] UsrMessage file for [Model]"
-#   echo "   10. save markdown   [App] [Model]                Save a last Message Markdown File for [App] [Model]"
 #   echo "   15. run  [prompt]   [App} [Model]                Run an AI Session Prompt for [last] UsrMessage file"
     echo ""
     echo "    5. list scripts    [S[.M[.TS]]] [App] [Model]   Show App scripts for [last] Message Markdown File for [App] [Model]"

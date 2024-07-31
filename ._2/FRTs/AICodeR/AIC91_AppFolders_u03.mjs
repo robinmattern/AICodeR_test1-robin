@@ -8,12 +8,12 @@
    import   AIM               from './AIC98_Apps-n-Models_u02.mjs'                      // .(40719.01.x RAM Change file name)
    import   FRT               from './AIC90_FileFns.mjs'
 
-       var  readline        =  createInterface( { input: process.stdin, output: process.stdout } );
-       var  getModels       =  AIM.getModels                                            // .(40727.03.4)
-       var  getModel        =  AIM.getModel
-       var  getApp          =  AIM.getApp                                               // .(40718.01.2)
-       var  setArgs         =  AIM.setArgs                                              // .(40728.01.3)
-       var  getDocsPath     =  AIM.getDocsPath                                          // .(40728.01.3)
+       var  readline       =  createInterface( { input: process.stdin, output: process.stdout } );
+       var  getModels      =  AIM.getModels                                             // .(40727.03.4)
+       var  getModel       =  AIM.getModel
+       var  getApp         =  AIM.getApp                                                // .(40718.01.2)
+       var  setArgs        =  AIM.setArgs                                               // .(40728.01.3)
+       var  getDocsPath    =  AIM.getDocsPath                                           // .(40728.01.3)
   
 //   ----------------------------------------------------------------------
 
@@ -28,10 +28,14 @@
             process.argv = process.argv.slice(1)
        var  aCmd  = (process.argv[1] == 'newSession'  ) ? 'newSession'  : ''                              
             aCmd  = (process.argv[1] == 'newPrompt'   ) ? 'newPrompt'   : aCmd
+            aCmd  = (process.argv[1] == 'opnPrompt'   ) ? 'opnPrompt'   : aCmd          // .(40731.01.6)
             aCmd  = (process.argv[1] == 'newMarkdown' ) ? 'newMarkdown' : aCmd
+            aCmd  = (process.argv[1] == 'opnMarkdown' ) ? 'opnMarkdown' : aCmd          // .(40731.01.7)
             aCmd  = (process.argv[1] == 'newApp'      ) ? 'newApp'      : aCmd
 
 //          aCmd  = 'newSession'
+//          aCmd  = 'newMarkdown'
+
         if (aCmd == "") { 
             console.log( "\n* Missing command: new session, prompt or response" ) 
             process.exit() 
@@ -39,9 +43,12 @@
 
         var aCR   = "\n"                                                                // .(40729.03.1 RAM Will this work)  
         if (aCmd == 'newSession'   ) { await makNewSession( ) }                                 
-        if (aCmd == 'newPrompt'    ) { await makNewPrompt(  ) }
-        if (aCmd == 'newMarkdown'  ) { await makNewResponse( ) }
+        if (aCmd == 'newPrompt'    ) { await makPrompt( 'new' ) }                       // .(40730.02.1)
+        if (aCmd == 'opnPrompt'    ) { await makPrompt( 'open' ) }                     // .(40730.02.2)
+        if (aCmd == 'newMarkdown'  ) { await makResponse( 'new' ) }                     // .(40730.02.3)
+        if (aCmd == 'opnMarkdown'  ) { await makResponse( 'open' ) }                    // .(40730.02.4)
         if (aCmd == 'newApp'       ) { await createAppFolders( ) }                      // .(40728.02.18 End)
+//          process.exit()                                                              // .(40730.03.1 RAM Seems to be needed)
 
 // ---------------------------------------------------------------------------
 
@@ -177,8 +184,10 @@
             }  // eof chkApp                                                            // .(40719.01.x End)
 // --------------------------------------------------------------
 
-     async  function  makNewSession( nSession ) {                                       // .(40728.01.1 RAM Write makNewSession)
+     async  function  makNewSession( nSession, bCalled ) {                              // .(40730.07.1 RAM Add bCalled).(40728.01.1 RAM Write makNewSession)
        var  mFile      =  getLastFile( 'markdown' )
+            nSession   =  process.argv[2] ? process.argv[2] : nSession                  // .(40730.01.1 RAM Use Argv if exists)
+            nSession   =  bCalled ? undefined : nSession                                // .(40730.07.2) 
        if (!nSession) {   aCR ? console.log( "" ): ''; aCR = ""                         // .(40729.03.5)
             nSession   =  await readline.question( '  Enter a session number: ' )
             }
@@ -191,39 +200,166 @@
        var  aDir       = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
        var  aNewFile   = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`      
             FRT.writeFileSync( FRT.path( aDir, aNewFile ), '')
+            console.log( "\n  Created new Session Starter (markdown.md) file: ")        // .(40730.08.1)
+            console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aNewFile}"`)       // .(40730.08.2)
     return  aSession          
             }                                                                           // .(40728.01.1 End)
 // --------------------------------------------------------------
+/*
+            console.log( `  getSessionMsg(   ): ${ await getSessionMsg(   ) }` )
+            console.log( `  getSessionMsg( 1 ): ${ await getSessionMsg( 1 ) }` )
+            console.log( `  getSessionMsg( 0 ): ${ await getSessionMsg( 0 ) }` )
+            process.argv[2] = 4523  
+            console.log( `  getSessionMsg(   ): ${ await getSessionMsg(   ) }` )
+            process.argv[2] = 23  
+            console.log( `  getSessionMsg(   ): ${ await getSessionMsg(   ) }` )
+            console.log( `  getSessionMsg( 1 ): ${ await getSessionMsg( 1 ) }` )
+            process.argv[3] = 523  
+            console.log( `  getSessionMsg(   ): ${ await getSessionMsg(   ) }` )
+            process.argv[3] = 2  
+            console.log( `  getSessionMsg(   ): ${ await getSessionMsg(   ) }` )
+            console.log( `  getSessionMsg( 1 ): ${ await getSessionMsg( 1 ) }` )
+*//*
+            process.argv[2] = 40  
+//          console.log( `  getSessionMsg( 0, 'usermsg' ): ${ await getSessionMsg( 0, 'usermsg' ) }` )
+            console.log( `  getSessionMsg( 1, 'usermsg' ): ${ await getSessionMsg( 1, 'usermsg' ) }` )
+            process.argv[2] = 33  
+            console.log( `  getSessionMsg( 0, 'usermsg' ): ${ await getSessionMsg( 0, 'usermsg' ) }` )
+            console.log( `  getSessionMsg( 1, 'usermsg' ): ${ await getSessionMsg( 1, 'usermsg' ) }` )
+            process.argv[3] = 5  
+//          console.log( `  getSessionMsg( 0, 'usermsg' ): ${ await getSessionMsg( 0, 'usermsg' ) }` )
+            console.log( `  getSessionMsg( 1, 'usermsg' ): ${ await getSessionMsg( 1, 'usermsg' ) }` )
+*//*            
+            process.argv[2] = 40  
+            console.log( `  getSessionMsg( 0, 'usermsg' ): ${ await getSessionMsg( 0, 'usermsg' ) }` )
+            console.log( `  getSessionMsg( 1, 'usermsg' ): ${ await getSessionMsg( 1, 'usermsg' ) }` )
+            process.argv[2] = 23  
+            console.log( `  getSessionMsg( 0, 'usermsg' ): ${ await getSessionMsg( 0, 'usermsg' ) }` )
+            console.log( `  getSessionMsg( 1, 'usermsg' ): ${ await getSessionMsg( 1, 'usermsg' ) }` )
+            process.argv[3] = 5  
+            console.log( `  getSessionMsg( 0, 'usermsg' ): ${ await getSessionMsg( 0, 'usermsg' ) }` )
+            console.log( `  getSessionMsg( 1, 'usermsg' ): ${ await getSessionMsg( 1, 'usermsg' ) }` )
+            process.argv[3] = 2  
+            console.log( `  getSessionMsg( 0, 'usermsg' ): ${ await getSessionMsg( 0, 'usermsg' ) }` )
+            console.log( `  getSessionMsg( 1, 'usermsg' ): ${ await getSessionMsg( 1, 'usermsg' ) }` )
+*/
+            process.exit() 
 
-     async  function  makNewPrompt() {                                                            // .(40728.01.2 RAM Write makNewPrompt)
-       var  mFile      =  getLastFile( 'markdown' )
-       var  aSession   =  mFile[2].slice(1,4)
-        if (aSession == '000') { aSession = await makNewSession() }
-       var  aVer       = `t${aSession}.01.1.${FRT._TS}`
-       var  aDir       = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
-       var  aNewFile   = `${mFile[0].slice(0,3)}_${aVer}_usermsg.txt`      
+// ---------------------------------------------------------------------------------
+
+     async  function  getSessionMsg( nNew, aType ) {                                    // .(40730.01.1 RAM Write getSessionMsg Beg)
+            nNew      =  nNew  ? nNew  :  0 
+            aType     =  aType ? aType : 'markdown'
+            aType     =  aType == 'usermsg'  ? 'usermsg_' : aType
+            aType     =  aType == 'usermsg_' ? 'markdown' : aType                       // .(40730.02.x ) 
+
+       var  mFile     =  getLastFile( aType )
+       var  nSession  =  mFile[2].slice(1,4) * 1
+            nSession  =  process.argv[2] ? process.argv[2] : nSession                   // .(40730.01.1 RAM Use Argv if exists)
+       var  aSession  = `${nSession}`.padStart( 3,'0' ) 
+        if (aSession.match( /^[0-9]{3}$/ ) == null) {
+            console.log( `${aCR}* Invalid Session number` )
+            return ''
+            }     
+        if (aSession == '000') {                                                        
+            aSession  =  await makNewSession( '', 1 )                                   // .(40730.07.3 RAM Okay here??)
+//          mFile[2]  =  FRT._TS
+            mFile[2]  = `t${aSession}.01.2.${FRT._TS}`                                  // .(40731.01.1 RAM Opps) 
+       var  nMsg      =  1
+        } else {
+       var  nMsg      = (mFile[2].slice(5,7) * 1) + nNew                                // .(40730.01.x RAM Add nNew)
+            }
+       var  nMsg      =  process.argv[3] ? process.argv[3] : nMsg                       // .(40730.01.1 RAM Use Argv if exists)
+//     var  aMsg      = `${ nMsg + nNew }`.padStart( 2,'0' )                            //#.(40730.02.x )
+       var  aMsg      = `${ nMsg }`.padStart( 2,'0' )                                   // .(40730.02.x RAM nNew already added)
+        if (aMsg.match( /^[0-9]{2}$/ ) == null) {
+            console.log( `${aCR}* Invalid Message number` )
+            return ''
+           } 
+       if (!nNew) {
+       var  mFile2    =   getLastFile( aType, '', `${aSession}.${aMsg}` )
+        if (mFile2 == '') { return '' }
+            }       
+  return [ aSession, aMsg, mFile[2].slice(10) ]   
+           } // eof getSessionMsg                                                       // .(40730.01.1 End)
+// -----------------------------------------------------                
+
+     async  function  makPrompt( aCmd ) {                                               // .(40730.02.2 RAM Write makPrompt Beg)
+            if (aCmd == 'new' ) {  await makNewPrompt() }   
+            if (aCmd == 'open') {  await openPrompt() }   
+            }                                                                           // .(40730.02.2 End)    
+// -------------------------------------------------------
+
+     async  function  openPrompt( ) {                                                   // .(40730.02.4 RAM Write openResponse Beg)
+       var  mFile     =  getLastFile( 'usermsg' )
+        var [ aSession, aMsg, aTS ] = await getSessionMsg( 0, 'usermsg' )               // .(40730.02.x)
+       var  aVer      = `t${aSession}.${aMsg}.2.${aTS}`
+       var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
+       var  aOldFile  = `${mFile[0].slice(0,3)}_${aVer}_usermsg.txt`      
+ //         openCodeEditor( `${aDir}/${aOldFile}` )       
+            console.log( "\n  Open Session Prompt into usermsg.txt file: ")             // .(40730.08.3)
+            console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aOldFile}"`)       // .(40730.08.4)            
+            }                                                                           // .(40730.02.4 End)
+// -------------------------------------------------------
+   async  function  makNewPrompt() {                                                    // .(40728.01.2 RAM Write makNewPrompt)
+       var  mFile     =  getLastFile( 'markdown' )                               
+      var [ aSession, aMsg, aTS ] = await getSessionMsg( 1, 'usermsg' )                 // .(40730.02.x)
+//      if (aSession == '000') {                                                        //#.(40730.02.x Beg)
+//          aSession  =  await makNewSession( '', 1 );                                  // .(40730.07.4) 
+//          aMsg      = '01'  
+//          aTS       =  FRT._TS 
+//          }                                                                           //#.(40730.02.x End)
+            aMsg      =  aMsg == '00' ? '01' : aMsg                                     // .(40730.02.x)           
+//     var  aVer      = `t${aSession}.01.1.${FRT._TS}`                                  //#.(40730.01.x)
+       var  aVer      = `t${aSession}.${aMsg}.1.${FRT._TS}`                             // .(40730.01.x)
+       var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
+       var  aNewFile  = `${mFile[0].slice(0,3)}_${aVer}_usermsg.txt`      
             FRT.writeFileSync( FRT.path( aDir, aNewFile ), '' )
-            openCodeEditor( `${aDir}/${aNewFile}` )
-            process.exit()                                                              // .(40729.04.1 RAM Revent hang) 
+//          openCodeEditor( `${aDir}/${aNewFile}` )                                     //#.(40730.08.3)
+            console.log( "\n  Enter new Session Prompt into usermsg.txt file: ")        // .(40730.08.3)
+            console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aNewFile}"`)       // .(40730.08.4)            
+//          process.exit()                                                              // .(40729.04.1 RAM Revent hang) 
             }                                                                           // .(40728.01.2 End)
 // --------------------------------------------------------------
 
-     async  function  makNewResponse() {                                                          // .(40728.01.3 RAM Write makNewResponse)
-       var  mFile      =  getLastFile( 'markdown' )
-       var  aSession   =  mFile[2].slice(1,4)
-       var  aMsg       =  `${ (mFile[2].slice(5,7) * 1) + 1 }`.padStart( 2, '0' ) 
-       var  aTS        =  mFile[2].slice(-10)
-        if (aSession == '000') { 
-            aSession = await makNewSession(); 
-            aMsg       = '01'  
-            aTS        = FRT._TS 
-            }
-       var  aVer       = `t${aSession}.${aMsg}.2.${aTS}`
-       var  aDir       = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
-       var  aNewFile   = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`      
+     async  function  makResponse( aCmd ) {                                             // .(40730.02.3 RAM Write makResponse Beg)
+        if (aCmd == 'new' ) {  await makNewResponse() }   
+        if (aCmd == 'open') {  await openResponse() }   
+            }                                                                           // .(40730.02.3 End)    
+// -------------------------------------------------------
+
+     async  function  openResponse( ) {                                                 // .(40730.02.4 RAM Write openResponse Beg)
+       var  mFile     =  getLastFile( 'markdown' )
+      var [ aSession, aMsg, aTS ] = await getSessionMsg( 0, 'markdown' )                // .(40730.02.x)
+       var  aVer      = `t${aSession}.${aMsg}.2.${aTS}`
+       var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
+       var  aOldFile  = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`      
+//          openCodeEditor( `${aDir}/${aOldFile}` )       
+            console.log( "\n  Open Session Response into usermsg.txt file: ")           // .(40730.08.3)
+            console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aOldFile}"`)       // .(40730.08.4)            
+            }                                                                           // .(40730.02.4 End)
+// -------------------------------------------------------
+            
+     async  function  makNewResponse() {                                                // .(40728.01.3 RAM Write makNewResponse)
+       var  mFile     =  getLastFile( 'markdown' )
+//     var  aSession  =  mFile[2].slice(1,4)
+//     var  aMsg      =  `${ (mFile[2].slice(5,7) * 1) + 1 }`.padStart( 2, '0' ) 
+//     var  aTS       =  mFile[2].slice(-10)
+      var [ aSession, aMsg, aTS ] = await getSessionMsg( 1, 'markdown' )                // .(40730.02.x)
+//      if (aSession == '000') {                                                        //#.(40730.02.x Beg)
+//          aSession  =  await makNewSession( '', 1 );                                  // .(40730.07.5 RAM Added args: '', 1 ) 
+//          aMsg      = '01'  
+//          aTS       =  FRT._TS 
+//          }                                                                           //#.(40730.02.x End)
+            aMsg      =  aMsg == '00' ? '01' : aMsg                                     // .(40730.02.x)           
+       var  aVer      = `t${aSession}.${aMsg}.2.${aTS}`
+       var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
+       var  aNewFile  = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`      
             FRT.writeFileSync( FRT.path( aDir, aNewFile ), '' )
-            openCodeEditor( `${aDir}/${aNewFile}` )
-            process.exit()                                                              // .(40729.04.2) 
+//          openCodeEditor( `${aDir}/${aNewFile}` )                                     //#.(40730.08.5)
+            console.log( "\n  Paste new Session Response into markdown.md file: ")      // .(40730.08.5)
+            console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aNewFile}"`)       // .(40730.08.6)            
+//          process.exit()                                                              // .(40729.04.2) 
             }                                                                           // .(40728.01.4 End)
 // --------------------------------------------------------------
 
@@ -244,7 +380,7 @@
 
 //          console.log( 'getLastFile(): ', getLastFile('markdown', '.md' ) ); process.exit() 
             
-  function  getLastFile( aType, aExt ) {                                                   // .(40728.01.4 RAM Write getLastFile)
+  function  getLastFile( aType, aExt, aToday ) {                                        // .(40730.04.1 RAM aToday can be any leading nSession, nMsg, TS).40728.01.4 RAM Write getLastFile)
 //          console.log( "")
        var  aExt            =  aExt ? aExt : (aType == 'markdown' ?  'md' :  'txt')     // .(40728.01.x
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
