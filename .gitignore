@@ -30,6 +30,7 @@ uploads
 node_modules
 *_v[0-9]*
 *_t[0-9]*
+*ZIPs*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

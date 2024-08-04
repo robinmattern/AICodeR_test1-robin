@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run Bash Script on File",
+        "type": "shell",
+        "command": "bash",
+        "args": ["Node AIC05_Schema-IO_u09.mjs 15 ", "${file}"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": []
+      }
+    , {
+        "label": "Create and Open File",
+        "type": "shell",
+        "command": "node",
+        "args": ["._2/FRTs/AICodeR/AIC05_Schema-IO_u09.mjs", "15" ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "echo": true,
+          "focus": true,
+          "panel": "new"
+        }
+      }
+    , {
+        "label": "Open File Dynamically",
+        "type": "shell",
+        "command": "bash",
+        "args": ["-c", "node ._2/FRTs/AICodeR/AIC05_Schema-IO_u09.mjs 15 && code ${GENERATED_FILE_PATH}"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": []
+      }
+      , {
+        "label": "Open File1",
+        "type": "shell",
+        "command": "code",
+        "args": ["docs/c01_calendar-app/Claude-35s_Anthropic-curl/c01_t000.01.1.40802.1134_usermsg_.txt"],
+      }
+      , {
+        "label": "Open File",
+        "type": "shell",
+        "command": "code",
+        "args": ["-g", "docs/${FRT_AICODER_PROMPT}"],
+      }
+    ]
+}
