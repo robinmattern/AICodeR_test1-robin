@@ -105,7 +105,6 @@ if [ ! -f "${aMessages_File}" ]; then
 
 cat ${aMarkdown_File}
 
-
 #!/bin/bash
 
 # Define the folder path (replace with your actual path)
