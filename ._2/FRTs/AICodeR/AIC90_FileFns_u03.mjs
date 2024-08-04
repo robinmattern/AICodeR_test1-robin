@@ -20,11 +20,13 @@
         }   // eof getAppName()
 //  --------------------------------------------------------------
 
-  function  isCalled(a,b) { 
-        var aScript1 = a.split( /[\\\/]/ ).slice(-1)[0] // Calling script 
-        var aScript2 = b.split( /[\\\/]/ ).slice(-1)[0] // Called script
+  function  isCalled( aImportMetaURL, aProcessArgv1 ) {                                 // .(40802.03.1 RAM Add var names)
+            aImportMetaURL = aImportMetaURL ? `${aImportMetaURL}` : import.meta.url     // .(40802.03.2 RAM Will be for this script, not calling script) 
+            aProcessArgv1  = aProcessArgv1  ? `${aProcessArgv1}`  : process.argv[1]     // .(40802.03.3 RAM Ok for Calling script)
+        var aScript1 = aImportMetaURL.split( /[\\\/]/ ).slice(-1)[0]                    // Called script 
+        var aScript2 = aProcessArgv1.split( /[\\\/]/ ).slice(-1)[0]                     // Calling script
 //          console.log( `${aScript1}\n${aScript2}`)
-            return aScript1 == aScript2
+            return aScript1 == aScript2                                                // Script is not called 
             }
 //  --------------------------------------------------------------
 
@@ -208,36 +210,36 @@ function  listFiles( aPath ) {
       }
 // -------------------------------------------------------------- 
 
-    function  myPath(  ...args ) { return cleanPath( path.join(...args ) ) }
+  function  myPath(  ...args ) { return cleanPath( path.join(...args ) ) }
 
-    function  cleanPath( aPath ) {      
-        aPath            =  aPath.replace( /^~/, `${process.env['SystemDrive']}/${process.env['HOMEPATH']}` )                                                    
-        aPath            =  aPath.match( /^\./ ) ? path.join( __dirname, aPath ) : aPath;   // .(40527.01.1 CoP Only paths starting with '.' are relative) 
-//      aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z])/, '$1:' ) )            // .(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
-        aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z]):*/, '$1:' ) )            // .(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
-        return  aPath
-        }    // eof cleanPath
+  function  cleanPath( aPath ) {      
+            aPath            =  aPath.replace( /^~/, `${process.env['SystemDrive']}/${process.env['HOMEPATH']}` )                                                    
+            aPath            =  aPath.match( /^\./ ) ? path.join( __dirname, aPath ) : aPath;   // .(40527.01.1 CoP Only paths starting with '.' are relative) 
+//          aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z])/, '$1:' ) )            // .(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
+            aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z]):*/, '$1:' ) )            // .(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
+    return  aPath
+            }  // eof cleanPath
 // --------------------------------------------------------------
 
- async function  writeFileASync( aFilePath, aData, pOptions = { encoding: 'utf8' } ) {
-//      pOptions         =  pOptions ? pOptions : { encoding: 'utf8' } 
-        aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.3) 
-try {
-    if (typeof( aData ) == 'object') { aData = JSON.stringify( aData, null, 2 ); }
+     async  function  writeFileASync( aFilePath, aData, pOptions = { encoding: 'utf8' } ) {
+//          pOptions         =  pOptions ? pOptions : { encoding: 'utf8' } 
+            aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.3) 
+      try {
+        if (typeof( aData ) == 'object') { aData = JSON.stringify( aData, null, 2 ); }
 //                          await fsync.writeFile( aFilePath, aData, pOptions);
                                    fsync.writeFileSync( aFilePath, aData, pOptions);
-//      console.log(`File '${aFilePath}' written successfully!`);
+//          console.log(`File '${aFilePath}' written successfully!`);
 //turn  Promise.resolve();
-    } catch(pError) {
-        console.error(   `* Error writing file: ${pError}` );
-        aFilePath       = '' 
+        } catch(pError) {
+            console.error(   `* Error writing file: ${pError}` );
+            aFilePath       = '' 
 //turn  Promise.reject(error);
-        }
-return  aFilePath         
-    }   // eof writeFile
+            }
+    return  aFilePath         
+            }  // eof writeFileAsync
 // --------------------------------------------------------------
 
-async function  writeFileSync( aFilePath, aData, pOptions = { encoding: 'utf8' } ) {
+     async  function  writeFileSync( aFilePath, aData, pOptions = { encoding: 'utf8' } ) {
     //      pOptions         =  pOptions ? pOptions : { encoding: 'utf8' } 
             aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.3) 
     try {
@@ -252,54 +254,91 @@ async function  writeFileSync( aFilePath, aData, pOptions = { encoding: 'utf8' }
     //turn  Promise.reject(error);
             }
     return  aFilePath         
-        }   // eof writeFile
+        }   // eof writeFileSync
     // --------------------------------------------------------------
     
-async function  readFileASync(   aFilePath, pOptions ) {
-        pOptions         =  pOptions  ? pOptions : { encoding: 'utf8' } 
-        aFilePath        =  cleanPath(  aFilePath );                                         // .(40618.01.5) 
-  try { aData            = ''
-// if ((await checkFileAsync(    aFilePath ) ).exists) {  
-   var  bOK              = (await checkFileASync( aFilePath )).exists && (await checkFileASync( aFilePath )).isNotDir
-    if (bOK == true) {
-   var  aData            =  await fs.readFile( aFilePath, pOptions ); 
-// var  aData = Promise.resolve( ); // Resolve on success
-//turn  aData  
-    } else {
-        console.error(   `* Error file not found: ${aFilePath}` );
-        }
-    } catch(pError) {
+     async  function  readFileASync(   aFilePath, pOptions ) {
+            pOptions         =  pOptions  ? pOptions : { encoding: 'utf8' } 
+            aFilePath        =  cleanPath(  aFilePath );                                         // .(40618.01.5) 
+      try { aData            = ''
+//     if ((await checkFileAsync(    aFilePath ) ).exists) {  
+       var  bOK              = (await checkFileASync( aFilePath )).exists && (await checkFileASync( aFilePath )).isNotDir
+        if (bOK == true) {
+       var  aData            =  await fs.readFile( aFilePath, pOptions ); 
+    // var  aData = Promise.resolve( ); // Resolve on success
+    //turn  aData  
+        } else {
+            console.error(   `* Error file not found: ${aFilePath}` );
+            }
+        } catch(pError) {
         if (pError.code === 'ENOENT') {            
             console.error(`* Error file not found: ${aFilePath}` );
         } else {
             console.error(`* Error reading file: ${pError}` );
         }   }   
-return  aData
-    }   // eof readFile
+    return  aData
+            }   // eof readFileAsync
 // --------------------------------------------------------------
     
-function readFileSync(   aFilePath, pOptions ) {
-        pOptions         =  pOptions ? pOptions : { encoding: 'utf8' } 
-        aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.6) 
-  try { aData            = ''
-// var  bOK              =  fsync.existsSync( aFilePath )
-   var  bOK              =  checkFileSync( aFilePath ).exists && checkFileSync( aFilePath ).isNotDir
-    if (bOK == true) {
-   var  aData            =  fsync.readFileSync( aFilePath, pOptions ); 
-    } else {
-        console.error(   `* Error file not found: ${aFilePath}` );
-        }
-} catch(pError) {
-    if (pError.code  ===   'ENOENT') {            
-        console.error(   `* Error file not found: ${aFilePath}` );
-    } else {
-        console.error(   `* Error reading file: ${pError}` );
-    }   }   
-return  aData
-        }
+  function  readFileSync(   aFilePath, pOptions ) {
+            pOptions         =  pOptions ? pOptions : { encoding: 'utf8' } 
+            aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.6) 
+      try { aData            = ''
+    // var  bOK              =  fsync.existsSync( aFilePath )
+       var  bOK              =  checkFileSync( aFilePath ).exists && checkFileSync( aFilePath ).isNotDir
+        if (bOK == true) {
+       var  aData            =  fsync.readFileSync( aFilePath, pOptions ); 
+        } else {
+            console.error(   `* Error file not found: ${aFilePath}` );
+            }
+    } catch(pError) {
+        if (pError.code  ===   'ENOENT') {            
+            console.error(   `* Error file not found: ${aFilePath}` );
+        } else {
+            console.error(   `* Error reading file: ${pError}` );
+        }   }   
+    return  aData
+            }  // readFileSync
+    // ---------------------------------------------------------------------------------
+
+     async  function  deleteFileASync( aFilePath ) {                                                // .(40801.10.1 RAM Write deleteFileASync Beg) 
+            aFilePath        =  cleanPath(  aFilePath );                                            // .(40618.01.5) 
+      try { 
+       var  bOK              = (await checkFileASync( aFilePath )).exists && (await checkFileASync( aFilePath )).isNotDir
+//     var  bOK              =  true                                                                // .(40801.10.9 RAM ???)
+        if (bOK == true) {      await fs.unlink( aFilePath ); 
+//      } else {
+//          console.error(   `* Error file not found: ${aFilePath}` );
+            }
+        } catch(pError) {
+//          if (pError.code === 'ENOENT') {            
+//              console.error(`* Error file not found: ${aFilePath}` );
+//          } else {
+                console.error(`* Error deleting file: ${pError}` );
+            }   // }   
+//  return  aData
+            }   // eof deleteFileAsync                                                              // .(40801.10.1 End) 
+    // --------------------------------------------------------------
+        
+  function  deleteFileSync( aFilePath ) {                                                           // .(40801.10.2 RAM Write deleteFileSync Beg) 
+            aFilePath        =  cleanPath( aFilePath );                                             // .(40618.01.6) 
+      try { 
+       var  bOK              =  checkFileSync( aFilePath ).exists && checkFileSync( aFilePath ).isNotDir
+        if (bOK == true) {      fsync.unlinkSync( aFilePath ); 
+//      } else {
+//          console.error(   `* Error file not found: ${aFilePath}` );
+            }
+    } catch(pError) {
+//      if (pError.code  ===   'ENOENT') {            
+//          console.error(   `* Error file not found: ${aFilePath}` );
+//      } else {
+            console.error(   `* Error reading file: ${pError}` );
+        }   // }   
+//  return  aData
+            }   // eof deleteFileSync                                                               // .(40801.10.2 End) 
 // ---------------------------------------------------------------------------------
 
- async  function fetchFromOpenAI( aAPI_URL, pMessageObject, aAPI_KEY ) {                            // .(40701.06.1 RAM Add API_URL and API_KEY)
+async  function fetchFromOpenAI( aAPI_URL, pMessageObject, aAPI_KEY ) {                             // .(40701.06.1 RAM Add API_URL and API_KEY)
     try {
 //          ---------------------------------------------------------
 
@@ -350,13 +389,14 @@ return  aData
 // var  pFileFns = { setPaths, readFile, readFile2, writeFile, getDate }
         setPaths( ) 
 
-        dotenv.config( { path: path.join( __basedir, '.env' ) } );              // .(40607.02.1 RAM Load environment variables from .env file in script's folder)
+        dotenv.config( { path: path.join( __basedir, '.env' ) } );                                  // .(40607.02.1 RAM Load environment variables from .env file in script's folder)
 
- export default { setPaths,  isCalled, listFiles, lastFile, getAPI: fetchFromOpenAI
+ export default { setPaths, isCalled, listFiles, lastFile, getAPI: fetchFromOpenAI
                 , getDate,  join: path.join, path: myPath, _TS 
-                , checkFileSync, checkFileASync, checkFile: checkFileASync 
-                , writeFileSync, writeFileASync, writeFile: writeFileASync
-                , readFileSync,  readFileASync,  readFile:  readFileASync
-                , makDirSync,    makDirASync,    makDir:    makDirASync 
+                , checkFileSync,  checkFileASync,  checkFile:  checkFileASync 
+                , writeFileSync,  writeFileASync,  writeFile:  writeFileASync
+                , readFileSync,   readFileASync,   readFile:   readFileASync
+                , makDirSync,     makDirASync,     makDir:     makDirASync 
+                , deleteFileSync, deleteFileASync, deleteFile: deleteFileASync                      // .(40801.10.3) 
                   } 
 

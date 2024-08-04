@@ -23,49 +23,34 @@
 // ----------------------------------------------------------------------------------
 
        var  Model_Templates =
-             { 'gp4oopu': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-uesrmsg__template.txt'         // GPT-4o_OpenAI-curl
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.1 RAM Added systmsg file)
-                          , 'request_.json': '.JSONs/GPT-4o_OpenAI-request__template.json'          // .(40801.02.1)
-//                        , 'messages.json': '.JSONs/GPT-4o_OpenAI-messages_template.json'          //#.(40801.02.1 RAM Created by run prompt Step 15) 
-                          , 'request_.sh'  :   '.SHs/GPT-4o_OpenAI-curl_u02_template.sh'            // .(40801.02.2 RAM Includes request.json -- Nope!) 
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             { 'gp4oopu': { 'usermsg_.txt' : 'AnyModel_Prompt-usrmsg_template.txt'              // GPT-4o_OpenAI-curl
+                          , 'request_.json': 'GPT-4o_OpenAI-request__template.json'
+                          , 'messages.json': 'GPT-4o_OpenAI-messages_template.json'
+                          , 'request_.sh'  : 'GPT-4o_OpenAI-curl_u02_template.sh'
                              }
-             , 'gp4oopu': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-uesrmsg__template.txt'         // GPT-4o_OpenAI-curl
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.2)
-                          , 'request_.json': '.JSONs/GPT-4o_OpenAI-request__template.json'          // .(40801.02.3)
-//                        , 'messages.json': '.JSONs/GPT-4o_OpenAI-messages_template.json'          //#.(40801.02.3)
-                          , 'request_.mjs' :   '.SHs/GPT-4o_OpenAI-curl_u01_template.sh'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'gp4oopn': { 'usermsg_.txt' : 'AnyModel_Prompt-usrmsg_template.txt'              // GPT-4o_OpenAI-curl
+                          , 'request_.json': 'GPT-4o_OpenAI-request__template.json'
+                          , 'messages.json': 'GPT-4o_OpenAI-messages_template.json'
+                          , 'request_.mjs' : 'GPT-4o_OpenAI-node_u01_template.mjs'
                              }
-             , 'gp35opn': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // GPT-35_OpenAI-node
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.3)
-                          , 'request_.json': '.JSONs/GPT-35_OpenAI-request__template.json'          // .(40801.02.4)
-//                        , 'messages.json': '.JSONs/GPT-35_OpenAI-messages_template.json'          //#.(40801.02.4)
-                          , 'request_.mjs' :   '.SHs/GPT-35_OpenAI-node_u01_template.mjs'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'gp35opn': { 'usermsg_.txt' : 'AnyModel_Prompt-usrmsg_template.txt'              // GPT-35_OpenAI-curl
+                          , 'request_.json': 'GPT-35_OpenAI-request__template.json'
+                          , 'messages.json': 'GPT-35_OpenAI-messages_template.json'
+                          , 'request_.mjs' : 'GPT-35_OpenAI-node_u01_template.mjs'
                              }
-             , 'gp4oopm': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // GPT-4o_OpenAI-maxi
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'gp4oopm': { 'usermsg_.txt' : 'AnyModel_Prompt-usrmsg_template.txt'              // GPT-4o_OpenAI-maxi
                              }
-             , 'c35sanm': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // Claude-35s_Anthropic-maxi
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
-                             }            
-             , 'c35sanw': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // Claude-35s_Anthropic-chat
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.mjs'       // .(40801.02.7)  
-                             }            
-             , 'c35sanu': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usermsg__template.txt'         // Claude-35s_Anthropic-curl     
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.4)
-                          , 'request_.json': '.JSONs/Claude-35s_Anthropic-request__template.json'   // .(40801.02.5)
-//                        , 'messages.json': '.JSONs/Claude-35s_Anthropic-messages_template.json'   //#.(40801.02.5)
-                          , 'request_.sh'  :   '.SHs/Claude-35s_Anthropic-curl_u02_template.sh'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'c35sanm': { 'usermsg_.txt' : 'AnyModel_Prompt-usrmsg_template.txt'              // Claude-35s_Anthropic-maxi
                              }
-             , 'c35sann': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg_template.txt'           // Claude-35s_Anthropic-node
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg_template.txt'          // .(40801.03.5)
-                          , 'request_.json': '.JSONs/Claude-35s_Anthropic-request__template.json'   // .(40801.02.6)
-//                        , 'messages.json': '.JSONs/Claude-35s_Anthropic-messages_template.json'   //#.(40801.02.6)
-                          , 'request_.mjs' :   '.SHs/Claude-35s_Anthropic-node_u01_template.mjs'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'c35sanu': { 'usermsg_.txt' : 'AnyModel_Prompt-usrmsg_template.txt'              // Claude-35s_Anthropic-curl
+                          , 'request_.json': 'GPT-4o_OpenAI-request__template.json'
+                          , 'messages.json': 'GPT-4o_OpenAI-messages_template.json'
+                          , 'request_.sh'  : 'GPT-4o_OpenAI-curl_u02_template.sh'
+                             }
+             , 'c35sann': { 'usermsg_.txt' : 'AnyModel_Prompt-usrmsg_template.txt'              // Claude-35s_Anthropic-node
+                          , 'request_.json': 'Claude-35s_Anthropic-request__template.json'
+                          , 'messages.json': 'Claude-35s_Anthropic-messages_template.json'
+                          , 'request_.mjs' : 'Claude-35s_Anthropic-node_u01_template.mjs'
                              }
                 }
 
@@ -94,16 +79,15 @@
 //           , [ '18.', 'c35sanw', 'Claude-35s_Anthropic-web'  ]                                  // .(40704.01.3)
 //           , [ '18.', 'c35sanw', 'Claude-35s_Anthropic-chatgpt' ]
              , [ '18.', 'c35sanw', 'Claude-35s_Anthropic-chat' ]                                  // .(40724.01.1 RAM Add)
-             , [ '19.', 'c35sgou', 'Claude-35s_Google-curl'    ]                                  // .(40801.01.1 RAM Add)
 
-             , [ '20.', 'st20lmn', 'StarCoder2_LMStudio-node'  ]
+             , [ '19.', 'st20lmn', 'StarCoder2_LMStudio-node'  ]
 
-             , [ '21.', 'cllalmn', 'CodeLlama_LMStudio-node '  ]
+             , [ '20.', 'cllalmn', 'CodeLlama_LMStudio-node '  ]
 
-             , [ '22.', 'gp4ovcp', 'CodeParrot_VSCode-copy  '  ]
+             , [ '21.', 'gp4ovcp', 'CodeParrot_VSCode-copy  '  ]
 
-             , [ '23.', 'ge15ggw', 'Gemini-15_Google-chat   '  ]                                  // .(40724.01.2 RAM Was -web)
-             , [ '24.', 'ge15gvw', 'Gemini-15_Vertex-web    '  ]
+             , [ '22.', 'ge15ggw', 'Gemini-15_Google-chat   '  ]                                  // .(40724.01.2 RAM Was -web)
+             , [ '23.', 'ge15gvw', 'Gemini-15_Vertex-web    '  ]
                 ]
 // ----------------------------------------------------------------------------------
 /*
@@ -173,19 +157,9 @@
 //          console.log( "getModel( 2, 'c35sanm'    ):", getModel( 2, 'c35sanm'    ) )
 //          console.log( "getModel( 1, 'c35sanm', 0 ):", getModel( 1, 'c35sanm', 0 ) )
 //          console.log( "getModel( 1, 'c35sanm', 2 ):", getModel( 1, 'c35sanm', 2 ) )
-//          console.log( "getModel( 2, 'xxxxxxx', 1 ):", getModel( 2, 'xxxxxxx', 1 ) )
-
 //          console.log( "getModel(    'c35sanm'    ):", getModel(    'c35sanm'    ) )
 //          console.log( "getModel( 3 ,'c35sanm', 'usermsg_.txt' ):", getModel( 3, 'c35sanm', 'usermsg_.txt' ) )
 //          console.log( "getModel( 3 ,'gp4oopu', 'request_.sh'  ):", getModel( 3, 'gp4oopu', 'request_.sh'  ) )
-
-//          console.log( "getModel( 3 ,'xxxxxxx', 'usermsg_.txt' ):", getModel( 3, 'xxxxxxx', 'usermsg_.txt' ) )
-//          console.log( "getModel( 3 ,'xxxxxxx', 'xxxxxxx_.txt' ):", getModel( 3, 'c35sanm', 'xxxxxxx_.txt' ) )
-
-//          console.log( "getModel( 4 ,'GPT-4o_OpenAI-curl', 'systmsg_.txt' ):", getModel( 4, 'GPT-4o_OpenAI-curl', 'systmsg_.txt' ) )
-//          console.log( "getModel( 4 ,'GPT-4o_OpenAI-xxxx', 'usermsg_.txt' ):", getModel( 4, 'GPT-4o_OpenAI-xxxx', 'usermsg_.txt' ) )
-//          console.log( "getModel( 4 ,'GPT-4o_OpenAI-curl', 'xxxxxxx_.txt' ):", getModel( 4, 'GPT-4o_OpenAI-curl', 'xxxxxxx_.txt' ) )
-
 //          console.log( "getModel(                 ):", getModel() )
 
 //          console.log( "getModels(               ):", getModels(              ) )  // all models
@@ -209,14 +183,10 @@
 //function  getModel( nFld, aVal ) { return selectRow( Apps,    nFld, aVal ) }          //#.(40718.09.2).(40711.01.1 RAM Added)
   function  getModel( nFld, aMod, aSub ) {                                              // .(40718.09.2 RAM Enhanced getModel )
             aSub = typeof(aSub) != 'undefined' ? aSub : nFld
-       if (!aMod     ) { return  selectRow( Models2, nFld ) }                           //                  return 1 or 0 rows for alias, or all rows if no field
-        if (nFld == 0) { return  selectRow( Models2, nFld, aMod ) }                     //                  return 1 or 0 rows for row number,
-        if (nFld <= 2) { return (selectRow( Models2, nFld, aMod )[aSub] || '').trim() } //                  return 1 or 0 rows for field
-//      if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }        //#.(40801.06.1 RAM return 1 or 0 rows for template)
-        if (nFld == 3) { aMod =  Model_Templates[ aMod ]                                // .(40801.06.2)
-             if (aMod) { return (aMod[ aSub ] || '').trim() } }                         // .(40801.06.3 RAM return 1 or 0 rows for template)
-        if (nFld == 4) { aMod =  getModel( 2, aMod, 1 )                                 // .(40801.06.4)
-             if (aMod) { return (Model_Templates[ aMod ][ aSub ] || '').trim() } }      // .(40801.06.5 RAM return 1 or 0 rows for template)
+       if (!aMod     ) { return  selectRow( Models2, nFld ) }                           // return 1 or 0 rows for alias, or all rows if no field
+        if (nFld == 0) { return  selectRow( Models2, nFld, aMod ) }                     // return 1 or 0 rows for row number,
+        if (nFld <= 2) { return (selectRow( Models2, nFld, aMod )[aSub] || '').trim() } // return 1 or 0 rows for field
+        if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }        // return 1 or 0 rows for template
     return ''
             }  // eof getModel
 // ------------------------------------------------------------------------------
@@ -257,16 +227,19 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
                if (typeof(nFld) == 'string'    ) { aVal = nFld; nFld  =  2 - (1 - nOrigin) }
                if (typeof(aVal) == 'undefined' ) { return mRows.map( mRow => mRow[ nFld - nOrigin ] ) }
                if ( aVal  == '' ) { return ''}
-//             if (isNaN(aVal)) {   var nVal = 0 } else  var nVal =   aVal * 1          //#.(40727.06.1)
-               if (isNaN(aVal)) {   aVal = aVal  } else  var aVal =   `${aVal  * 1}.`   // .(40727.06.1 RAM fmt numeric id) 
+//             if (isNaN(aVal)) {   var nVal = 0 } else  var nVal =    aVal * 1         //#.(40727.06.1)
+//             if (isNaN(aVal)) {   aVal = aVal  } else  var aVal = `${aVal * 1}.`                          // .(40731.01.1).(40727.06.1 RAM fmt numeric id) 
+               if (isNaN(aVal)) {   aVal = aVal  } else  var aVal = `${aVal * 1}\\.`.padStart(4)            // .(40731.01.1).(40727.06.1 RAM fmt numeric id) 
                if (nFld > mRows[0].length - (1 - nOrigin)) {
                    console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return ''
                    }
 //            var  rVal   = new RegExp( `^${aVal.replace( /-/, '' ).toLowerCase()}.*`, 'i' )
-              var  rVal   = new RegExp( `${nFld < 2 ? '^' : '' }${aVal.toLowerCase()}.*`, 'i' )
+//            var  rVal   = new RegExp( `${nFld < 2 ? '^' : '' }${aVal.toLowerCase()}.*`, 'i' )             //#.(40731.01.2)
+              var  rVal   = new RegExp( `${nFld < 2 ? '^' : '' }#${aVal.trim().toLowerCase()}.*`, 'i' )     // .(40731.01.2)
               var  mRows2 = mRows.filter( ( mRow, i ) => {
-                    var aFld    =  mRow[ nFld - nOrigin ].replace( /[- ]/, '' ).toLowerCase();
-                    var bFound  =  aFld.match( rVal )
+//                  var aFldVal =        mRow[ nFld - nOrigin ].replace( /[- ]/, '' ).toLowerCase();        //#.(40731.01.3)
+                    var aFldVal =  '#' + mRow[ nFld - nOrigin ].replace( /[- ]/, '' ).toLowerCase();        // .(40731.01.3)
+                    var bFound  =  aFldVal.match( rVal )  !== null
  //                 console.log(   aFld, `${aVal}: ${ bFound ? "found" : "not found" }` )
                  return bFound
                         } )
@@ -323,9 +296,9 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
 //     var  bSet  = 0,  bGet = 0, aVar;
 //          console.log( `  setArgs[1]  mArgs:  '${ mArgs.join( "'\n                      '" ) }'` )
 //          mArgs       =   mArgs.slice( 2 )                                                          //#.(40721.03.1 RAM ??)
-//          mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[3] || '') ? 0 : 1 ) )                  //#.(40721.03.1 ??)
-//          console.log( `  isNaN( mArgs[2]: : '${isNaN( mArgs[2])}'`  )
-            mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[2]      ) ? 0 : 1 ) )                  // .(40721.03.1 Remove Step No from CLI)
+//          mArgs       =   mArgs.slice( 2 + ( isNaN( mArgs[3] || '') ? 0 : 1 ) )                     //#.(40721.03.1 ??)
+//          console.log( `  isNaN( mArgs[2]: : '${isNaN(mArgs[2])}'`  )
+            mArgs       =   mArgs.slice( 2 + ( isNaN( mArgs[2]      ) ? 0 : 1 ) )                     // .(40721.03.1 Remove Step No from CLI)
 //          console.log( `  setArgs[2]  mArgs:  '${ mArgs.join( "', '" ) }'` )
 //      if (aGetSet    ==  'get') {  aVar = mArgs[0].slice(0,3).toLowerCase(); mArgs.shift(); bGet = 1 }
        var  mParms      =   chkArgs( mArgs, `${aGetSet}${aQuit}`.match(/quit/) ? 'quit' : '' )        // not 'quit'

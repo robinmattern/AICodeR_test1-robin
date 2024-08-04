@@ -1,11 +1,15 @@
    import { spawn }      from 'child_process';
 
-   import   FRT          from './AIC90_FileFns.mjs'
+   import   FRT          from './AIC90_FileFns_u03.mjs'
    import   AIC          from './AIC06_Code_u06.mjs'                                                // .(40703.03.1 RAM New Version)
    import   AIM          from './AIC98_Apps-n-Models_u02.mjs'                                       // .(40711.01.7 RAM Changed file name)
+   import   AIF          from './AIC91_AppFolders_u03.mjs'                                          // .(40731.03.3)
 
      const  saveScripts     =  AIC.saveScripts
      const  listScripts     =  AIC.listScripts
+
+     const  getLastFile     =  AIF.getLastFile                                                      // .(40731.03.4)
+
      const  selectRow       =  AIM.selectRow
      const  getDocsPath     =  AIM.getDocsPath
      const  getModel        =  AIM.getModel
@@ -100,27 +104,29 @@
        var  aAppName        =  ''
        var  aModel          =  ''
 
-//     var  aSteps =  "1"             // Save Sessions from Original Continue JSON files to Continue JSON file
-//     var  aSteps =  "2"             // Save Continue Sessions from Continue JSON files          to FRTables JSON file
-//     var  aSteps =  "3"             // Show Sessions from Original Continue JSON files to .txt file
-//     var  aSteps =  "4" S.M[].TS]   // Get  FRTable  from FRTables JSON file           to .md  file for nSession, nMessage
-//     var  aSteps =  "5" S[.M.TS]    // List Scripts  from FRTables JSON file                        for nSession, nMessage
-//     var  aSteps =  "6" S[.M.TS]    // Save Scripts  from FRTables JSON file
-//     var  aSteps =  "7"             // List Continue Sessions JSON files
-//     var  aSteps =  "8"             // List FRTables from FRTables JSON file
-//     var  aSteps =  "9"             // Make App"
-//     var  aSteps = "10"             // Save Markdown
-//     var  aSteps = "11"             // List Models
-//     var  aSteps = "12"             // List Apps
-//     var  aSteps = "13"             // Show Apps
-//     var  aSteps = "14"             // List Sessions
-//     var  aSteps = "16"             // Save Prompt
-//     var  aSteps = "15"             // Run  Prompt
-//     var  aSteps = "17"             // Save Session
-//     var  aSteps = "18"             // Show Markdown                                              // .(40717.02.3)
+//     var  aSteps =  "1"                // Save Sessions from Original Continue JSON files to Continue JSON file
+//     var  aSteps =  "2"                // Save Continue Sessions from Continue JSON files          to FRTables JSON file
+//     var  aSteps =  "3"                // Show Sessions from Original Continue JSON files to .txt file
+//     var  aSteps =  "4" S.M[].TS]      // Get  FRTable  from FRTables JSON file           to .md  file for nSession, nMessage
+//     var  aSteps =  "5" S[.M.TS]       // List Scripts  from FRTables JSON file                        for nSession, nMessage
+//     var  aSteps =  "6" S[.M.TS]       // Save Scripts  from FRTables JSON file
+//     var  aSteps =  "7"                // List Continue Sessions JSON files
+//     var  aSteps =  "8"                // List FRTables from FRTables JSON file
+//     var  aSteps =  "9"                // Make App"
+//     var  aSteps = "10"                // Save Markdown
+//     var  aSteps = "11"                // List Models
+//     var  aSteps = "12"                // List Apps
+//     var  aSteps = "13"                // Show Apps
+//     var  aSteps = "14"                // List Sessions
+//     var  aSteps = "15"                // Add  Script                                             // .(40802.02.10)
+//     var  aSteps = "15"                // Save Prompt                                             // .(40802.02.11 RAM Was 16)
+//     var  aSteps = "16"                // Run  Prompt                                             // .(40802.02.12 RAM Was 15)
+//     var  aSteps = "17"                // Save Session
+//     var  aSteps = "18"                // Show Markdown                                           // .(40717.02.3)
 
         if (process.argv.length > 2 ) {  // Process command line arguments
        var  aSteps = process.argv[2]
+//          console.log( `  aSteps: '${aSteps}'`)
             }
             aSteps = `,${aSteps},`
 // --- ---  --------------  =  -------------------------------------------------------------
@@ -262,11 +268,11 @@
 /*
         if (bIsNotCalled) {
        var  mArgs           =  setArgs( ['', '', 5, 20, 5               ], 'get', 'puit' )
-        } else { 
+        } else {
             console.log( `  process.argv:  '${ process.argv.join( "'\n                 '" ) }'` )
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
             }
-*/       
+*/
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
 //          console.log(    `  mArgs:  '${mArgs.join("', '")}`)
         if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
@@ -295,7 +301,7 @@
 //          console.log(  `\n* Invalid Model, ${aMod}` ); process.exit() }
 //      if (!aModel) {
 //          consolr.log(  `\n* Invalid App, ${aApp}`   ); process.exit() }
-      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.2 RAM Abort if not set) 
+      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.2 RAM Abort if not set)
        var  aSessions_Dir   =  getDocsPath( aAppName, aModel )                                      // .(40715.03.1 Add chk fundtion)
 //     var  aSessions_Dir   = '\E:\\Repos\\Robin\\AIObjs_\\._\\DOCs\\code-sessions'
 //     var  aSessions_Dir   =  FRT.join( __basedir, `docs/${aAppName}/${aModel}` )                  //#.(40715.03.1)
@@ -335,8 +341,8 @@
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
 //     var  mArgs           =  setArgs( process.argv       , 'get', 'quit' )
 //          console.log(    `  mArgs:  '${mArgs.join("', '")}`)
-//      if (mArgs.join("', '").match( /'\*/ )) { console.log(          "  process.exit()" ) }       //#.(40723.01.2) 
-        if (mArgs.join("', '").match( /'\*/ ) || mArgs.join('') == '') {  process.exit()    }       // .(40723.01.2 RAM Abort) 
+//      if (mArgs.join("', '").match( /'\*/ )) { console.log(          "  process.exit()" ) }       //#.(40723.01.2)
+        if (mArgs.join("', '").match( /'\*/ ) || mArgs.join('') == '') {  process.exit()    }       // .(40723.01.2 RAM Abort)
 
             aApp            =  mArgs[3]
             aMod            =  mArgs[4]
@@ -355,9 +361,9 @@
         var nFld            = (aMod.length == 7) ? 1 : 2; aApp = aApp.slice(0,3)
             aAppName        = (getApp(    1,   aApp    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.10).(40715.01.3 RAM Was 2, aApp)
             aModel          = (getModel( nFld, aMod    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.11).(40715.01.4 RAM Was 2, aMod)
-            aMod            = (getModel( nFld, aMod    , 1 )) // (().slice(1,2)[0] || '').trim()    // .(40718.09.12).(40717.05.x RAM Need the alias) 
+            aMod            = (getModel( nFld, aMod    , 1 )) // (().slice(1,2)[0] || '').trim()    // .(40718.09.12).(40717.05.x RAM Need the alias)
 //          console.log(    `  aDayTS: '${aDayTS}', aApp: '${aApp}', aAppName: '${aAppName}',  aMod: '${aMod}', aModel: '${aModel}'`)
-      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.3) 
+      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.3)
        var  aSessions_Dir   =  getDocsPath( aAppName, aModel )                                      // .(40715.03.2)
 //     var  aSessions_Dir   =  FRT.join( __basedir, `docs/${aAppName}/${aModel}` )                  //#.(40711.04.x RAM was aApp).(40715.03.2)
 
@@ -475,21 +481,21 @@
 //          aApp            =  aApp ? aApp : process.env['FRT_APP'  ]                               //#.(40717.04.1 RAM Beg)
 //          aMod            =  aMod ? aMod : process.env['FRT_MODEL']
 
-//          aAppName        = (getApp(   1, aApp )[2] || '').tri 
+//          aAppName        = (getApp(   1, aApp )[2] || '').tri
 //          aModel          = (getModel( 1, aMod )[2] || '').trim()                                 // .(40715.03.4)
 
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
-//          console.log(    "  mArgs:", mArgs) 
-//     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3] 
+//          console.log(    "  mArgs:", mArgs)
+//     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3]
 //     var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
        var  aAppName        = (mArgs[3].length == 3) ?  getApp(   1, mArgs[3], 2 ) : mArgs[3]       // .(40718.09.13)
 //     var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       //#.(40719.10.1).(40718.09.14).(40717.04.1 RAM End)
-//          console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()   
+//          console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()
             aModel          =  undefined                                                            // .(40719.10.1 RAM List session sfor all models for app)
 
-      if ( !aAppName) { process.exit() }                                                            // .(40729.02.4) 
-            var  aAppPath        =  getDocsPath( aAppName, aModel )                                 // .(40715.03.5 Add chk function)
-             
+      if ( !aAppName) { process.exit() }                                                            // .(40729.02.4)
+       var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
+
        //     if (!aAppName) {
 //          console.log( '\n* Invalid App: ${aApp}. ' )
 //          process.exit()
@@ -497,7 +503,7 @@
             console.log( "" )
             console.log(    `  Session / Messaage files in ${aAppPath}` )
             console.log(    "  ---------------------------------------------------------------------------------------------------------------------" )
-            
+
         var mSessions       =  shoSessions( aAppPath, aModel )                                      // .(40615.03.x RAM Can contain Model path)
             console.log(       mSessions.join( "\n" ).slice(2) )
             process.exit()
@@ -521,7 +527,7 @@
             return mSessions
 
   function  fmtModelSessions( aModel, i )  {
-             
+
 //     var  aMod            =  getModel( 2, aModel )[1]
        var  aMod            =  getModel( 2, aModel,  1 )
        var  aModelPath      = `docs/${aAppName}/${aModel.trim()}`
@@ -534,7 +540,7 @@
 //          mSessions.push([...mResponses.map( fmtSession ) ])
 //     if ((mSessions.slice(-1)[0] || '').slice(25,28) != (mResponses[0] || '').slice(0,3)) {       //#.(40729.06.2)
        if ((mSessions.slice(-1)[0] || '').slice(48,51) != (mResponses[0] || '').slice(0,3)) {       // .(40729.06.2 RAM Kludge comparing App alies)
-            console.log( aModel, (mSessions.slice(-1)[0] || '').slice(48,51), (mResponses[0] || '').slice(0,3))  
+    //      console.log( aModel, (mSessions.slice(-1)[0] || '').slice(48,51), (mResponses[0] || '').slice(0,3))  // .(40802.04.1 RAM ??)
 //          if ( (mSessions.slice(-1)[0] || '') != "" ) { mSessions.push( ' ' ) } }                 //#.(40729.06.3)
                                                           mSessions.push( ' ' ) }                   // .(40729.06.3)
             mSessions       =  mSessions.concat( mResponses.map( fmtSession ));
@@ -548,19 +554,85 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
         }   }  // eif Step 14                                                            		  // .(40711.02.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
-//     var  aSteps = bRun ? `,15,` : aSteps                                             		  /#.(40715.02.1 RAM Added Step 15 Beg)
-        if (aSteps.match(   /,15,/  )) { // Run Prompt, i.e. Session, Message
-
-//          "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
-
-            } // eif Step 15                                                                        // .(40715.02.1 End)
+//     var  aSteps = bRun ? `,15,` : aSteps                                             	         //#.(40716.02.1 RAM Added Step 16 Beg)
+        if (aSteps.match(   /,15,/  )) { // Save Prompt or Add Script                               // .(40802.01.1 RAM Write VSCode task)
+       var  [ aAppName, aModel, aVer, aType ] = getLastFile( 'usermsg_' )
+//          console.log( `  aAppName: '${aAppName}', aModel: ${aModel}, aVer: '${aVer}', aType: '${aType}'` ) 
+       var  aPrompt_File = `docs/${aAppName}/${aModel}/${aAppName.slice(0,3)}_${aVer}_${aType}`
+//          console.log( FRT.path( __basedir, aPrompt_File ) ) 
+//          console.log( aPrompt_File ) 
+            process.env.GENERATED_FILE_PATH = aPrompt_File 
+            process.exit() 
+            } // eif Step 15                                                                        // .(40716.02.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
-//     var  aSteps = bRun ? `,16,` : aSteps                                             	           //#.(40716.02.1 RAM Added Step 16 Beg)
-        if (aSteps.match(   /,16,/  )) { // Save Prompt
 
+//     var  aSteps = bRun ? `,16,` : aSteps                                                         //#.(40802.02.13).(40715.02.1 RAM Added Step 15 Beg)
+        if (aSteps.match(   /,16,/  )) { // Run Prompt, i.e. Session, Message                       // .(40802.02.14 RAM Was Step 15).(40731.03.1 RAM Write it Beg)
 
-            } // eif Step 16                                                                        // .(40716.02.1 End)
+       var  mFile = getLastFile( 'usermsg_' )
+//          console.log( mFile )
+        if (!mFile[2]) {
+            console.log( '\n* No Prompt file found' )
+            process.exit()
+            }
+       var  aApp      =  mFile[0].slice(0,3)
+       var  aAppName  =  mFile[0]
+       var  aModel    =  mFile[1]
+       var  aVer      =  mFile[2]
+//     var  aFileType =  mFile[3]
+
+       var  aDocsDir      =  `${__basedir}/docs/${aAppName}/${aModel}` 
+ 
+        if (mFile[2] > "") {
+       var  mFile         =  getLastFile( 'systmsg_' )
+       var  aVer0         =  mFile[2]
+       var  aSystMsg_File =  FRT.path( aDocsDir, `${aApp}_${aVer0}_systmsg_.txt` )
+       var  aSystemMsg    =  await FRT.readFile(  aSystMsg_File )
+        } else {
+            aSystemMsg    = ""
+            }
+
+       var  aUserMsg_File =  FRT.path( aDocsDir, `${aApp}_${aVer}_usermsg_.txt` )
+       var  aPromptMsg    =  await FRT.readFile(  aUserMsg_File )
+//          console.log(  "  aPrompt:\n", aPrompt )
+
+       var  mMessages =  [ ]
+        if (aSystemMsg) {
+            mMessages.push( { role: 'system', content: [
+              { "type": "text", "text": aSystemMsg }
+                 ] }
+              ) } 
+            mMessages.push( { role: 'user', content: [
+              { "type": "text", "text": aPromptMsg }
+                 ] } )
+
+       var  aRequest_File =  FRT.path( aDocsDir, `${aApp}_${aVer}_request_.txt` )
+        var pRequest      =  await FRT.readFile(  aRequest_File )                       // .(40801.05.1 RAM Get new request file for each prompt
+            pRequest.messages    =  mMessages                                           // .(40801.05.2)
+/*      var pMessages =                                                                 // .(40801.05.3 RAM Really S.B. pRequest)
+            { "messages"         :  mMessages
+            , "temperature"      :  1             # 0.7
+            , "max_tokens"       : -1             # 4070 
+            , "stream"           :  false
+            , "top_p"            :  1
+            , "frequency_penalty":  0
+            , "presence_penalty" :  0               
+               }
+*/            
+//      var aJSON           =  JSON.stringify( pMessages,  null,  2 ); // console.log( aJSON )
+//      var aMessages_File  =  FRT.path( aDocsDir, `${aApp}_${aVer}_messages.json` )
+//                             FRT.writeFile( aMessages_File, aJSON )
+        var aJSON         =  JSON.stringify( pRequest,   null,  2 ); // console.log( aJSON )
+        var aRequest_File =  FRT.path( aDocsDir, `${aApp}_${aVer}_request_.json` )
+                             FRT.writeFile( aRequest_File,  aJSON )
+
+            spawn( FRT.path( aDocsDir, `c01_t000.01.1.40731.1800_request.sh`), aVer.slice( 1, 4 ) )                  
+//                                                                                 c01_t023.02.1.40731.1818_usermsg.txt
+//          E:\Repos\Robin\AIObjs_\test1-robin\c01_calendar-app_GPT-4o_OpenAI-curl_t023.02.1.40731.1818_usermsg.txt
+//          E:\Repos\Robin\AIObjs_\test1-robin\c01_calendar-app\GPT-4o_OpenAI-curl\c01_t023.02.1.40731.1818_usermsg.txt
+
+            } // eif Step 16                                                                        // .(40731.03.1 End).(40715.02.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
 //     var  aSteps = bRun ? `,17,` : aSteps                                             		  //#.(40715.04.1 RAM Added Step 17 Beg)
@@ -572,26 +644,26 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
 
 //     var  aSteps = bRun ? `,18,` : aSteps                                             		    //#.(40717.02.6 RAM Added Step 18 Beg)
         if (aSteps.match(   /,18,/  )) { // Open Session or Message Markdown file in browsewr
- 
-       var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
-       var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3] 
-       var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4] 
-       var  aDayTS          = `${mArgs[0]}.${mArgs[1]}.${mArgs[2]}`     
 
-        if (aDayTS == "..") { 
-            console.log(  `\n* Please enter a session / message number, e.g. 20.2`)   
-            process.exit() 
+       var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
+       var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3]
+       var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]
+       var  aDayTS          = `${mArgs[0]}.${mArgs[1]}.${mArgs[2]}`
+
+        if (aDayTS == "..") {
+            console.log(  `\n* Please enter a session / message number, e.g. 20.2`)
+            process.exit()
             }
             console.log(    `  mArgs:    '${mArgs.join("', '")}`)
         if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
 
             console.log(    `  aAppName: '${aAppName}', aModel: '${aModel}', aDayTS: '${aDayTS}` )
-      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.5) 
+      if (!(aAppName || aModel)) { process.exit() }                                                 // .(40729.02.5)
        var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
             console.log(    `  aAppPath: '${aAppPath}'`)
 
        var  aMarkdown_File  = `${aAppName.slice(0,3)}_{ver}_markdown`                               // .(40702.05.2 RAM New pattern)
-     
+
             console.log(    "  aMarkdown_File: ", aMarkdown_File)
        var  aMarkdown_Saved =  getLastVer_Saved(  aAppPath,        aMarkdown_File, 'md', aDayTS )   // .(40702.05.3 RAM Use new function)
             console.log(    "  aMarkdown_Saved:", aMarkdown_Saved)
@@ -599,15 +671,14 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
 //     var  openChrome = spawn(  'cmd.exe', ['/c', 'start chrome', '--profile-directory="Profile 1"', aMarkdown_Saved ]);
 //     var  openChrome = spawn(  'cmd.exe', ['/c', 'start chrome', '--profile-directory="Profile 1"', aMarkdown_Saved ]);
        var  openChrome = spawn(  'cmd.exe', ['/c', 'start chrome', aMarkdown_Saved ]);
-            
+
             openChrome.stdout.on('data',  (data) => { console.log(  `  stdout: ${data}` ); } );
             openChrome.stderr.on('data',  (data) => { console.error(`  stderr: ${data}` ); } );
 //          openChrome.on(       'close', (code) => { console.log(  `  child process exited with code ${code}`); });
-            
+
             } // eif Step 18                                                                        // .(40717.02.6 End)
 // --- ---  --------------  =  -------------------------------------------------------------
-
-
+// --- ---  --------------  =  -------------------------------------------------------------
 
      async  function  fmtSessions( aFmter, aSessions_File_toGet) {                                                              // Step 3  fmtSession_forContinue
 
@@ -1256,9 +1327,9 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
        function  getLastVer1(                aLastFile2Find, aExt, aToday ) {
        var  aToday          =  aToday ? aToday : '' // FRT.getDate( ).substring( 0, 4 )  // YMMD
 //          console.log(    "  aToday:", aToday )
-       var  aToday          =  aToday.match( /^[1-9]{1}\./  ) ? `00${aToday}` : aToday              // .(40717.03.1 RAM Add leading 00s if not there ) 
+       var  aToday          =  aToday.match( /^[1-9]{1}\./  ) ? `00${aToday}` : aToday              // .(40717.03.1 RAM Add leading 00s if not there )
 //          console.log(    "  aToday:", aToday )
-       var  aToday          =  aToday.match( /^[1-9]{2}\./ )  ? `0${aToday}` : aToday               // .(40717.03.2 RAM Add leading 0 if not there ) 
+       var  aToday          =  aToday.match( /^[1-9]{2}\./ )  ? `0${aToday}` : aToday               // .(40717.03.2 RAM Add leading 0 if not there )
 //          console.log(    "  aToday:", aToday )
 //     var  aLastFile_regEx = `${aLastFile2Find}_u${aToday}\\.[0-9]*\\.${aExt}`
 //     var  aLastFile_regEx = `${aLastFile2Find}_t0${aToday}[0-9.]+\\.${aExt}`                      // .(40711.04.x RAM Change 'u'to 't' )
