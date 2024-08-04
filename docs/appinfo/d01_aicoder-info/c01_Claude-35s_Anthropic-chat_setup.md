@@ -35,7 +35,10 @@
    - Open file: `code docs\c01_calendar-app\Claude-35s_Anthropic-chat\c01_t0029.01.1.40729.0721_usermsg.txt` 
    - Copy and paste the first prompt into the VSCode editor
    ```
-   Create an app that uses javascript ES6, import not require, fetch and node scripts in .mjs. Create client scripts in a client folder e.g. client/index.html and server scripts in a server folder e.g. server/server.mjs. For each script including launch.json provide the filename preceded by "### File: ". On the next line show the code. On the next line show the explanation of what the code does. When importing javascript files use the filename and extension. Show the folder structure diagram including the filenames. Please provide instructions for installing node modules and for execution and debugging for client and server in VSCode.  Make sure to include any package.json file in the appropriage folder. For these instructions provide a heading of "### Instructions: ". We are using node version 20+.  Please display the generated code as a markdown artifact. 
+   Create an app that uses javascript ES6, import not require, fetch and node scripts in .mjs. 
+   Create client scripts in a client folder e.g. client/index.html and server scripts in a server folder e.g. server/server.mjs. 
+   When starting the Express server, display: `Server running at http://localhost:${PORT}`: 
+   For each script including launch.json provide the filename preceded by "### File: ". On the next line show the code. On the next line show the explanation of what the code does. When importing javascript files use the filename and extension. Show the folder structure diagram including the filenames. Please provide instructions for installing node modules and for execution and debugging for client and server in VSCode.  Make sure to include any package.json file in the appropriage folder. For these instructions provide a heading of "### Instructions: ". We are using node version 20+.  Please display the generated code as a markdown artifact. 
    
    Use this to create an application that allows the upload of .ics file then use it as a prompt and let me query it using gbt 3.5-turbo using my OpenAI key. Use the API URL= https://api.openai.com/v1/chat/completions. Please put the package.json file and the .env file in the server folder.
    ```
