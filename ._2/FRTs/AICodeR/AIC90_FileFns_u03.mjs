@@ -11,7 +11,7 @@
         var   aLibFile  =  new URL( import.meta.url ).pathname  // this script's file name 
      global.__libpath   =  path.dirname( aLibFile )             // this script's folder name
      global.__dirname   =  path.dirname( process.argv[1] )      // calling folder name 
-     global.__basedir   =  aLibFile.replace( /[\\\/]\._2.+/, ''   ) 
+     global.__basedir   =  aLibFile.replace( /[\\\/]\._2.+/, '' ).replace( /^\/([A-Z]):/, '$1:' )   // .40815.02.1 RAM Remove leading '/C:/)
      global.__appname   =  getAppName( __dirname, aAppName  )
         var   aCS       = (__appname.match( /^c/ ) ?  'client' : 'server') + __appname.substring( 1, 2 )
      global.__apppath   =  path.join(  __basedir, `${aCS}/${ __appname }` )  
@@ -189,7 +189,6 @@ function  lastFile( aPath, reFind ) {
 //  listFiles( '/c/users/robin/.continue/sessions' )
 //  listFiles( 'E:\\Repos\\Robin\\AIObjs_\\._\\DOCs\\Code-Sessions' )
 //  listFiles( '~/.continue/sessions' )
-// --------------------------------------------------------------
 
 function  listFiles( aPath ) { 
           aPath   =  path.join( cleanPath( aPath ) ) 
@@ -387,16 +386,24 @@ async  function fetchFromOpenAI( aAPI_URL, pMessageObject, aAPI_KEY ) {         
 // ---------------------------------------------------------------------------------
 
 // var  pFileFns = { setPaths, readFile, readFile2, writeFile, getDate }
-        setPaths( ) 
+  try {
+       var  aAppName = setPaths( ) 
+            console.log( `  FRT App:   ${aAppName}` )
+            console.log( ` .env:      '${ cleanPath( path.join( __basedir, '.env' ) ) }'` )
+            dotenv.config(  { path: cleanPath( path.join( __basedir, '.env' ) ) } );                                  // .(40607.02.1 RAM Load environment variables from .env file in script's folder)
+//          console.log( `  FRT_VAR:  '${process.env.FRT_VAR}'` )
+       } catch(error) {
+            console.log( "* An error has occured in the imported module" )
+            }
 
-        dotenv.config( { path: path.join( __basedir, '.env' ) } );                                  // .(40607.02.1 RAM Load environment variables from .env file in script's folder)
-
- export default { setPaths, isCalled, listFiles, lastFile, getAPI: fetchFromOpenAI
-                , getDate,  join: path.join, path: myPath, _TS 
-                , checkFileSync,  checkFileASync,  checkFile:  checkFileASync 
-                , writeFileSync,  writeFileASync,  writeFile:  writeFileASync
-                , readFileSync,   readFileASync,   readFile:   readFileASync
-                , makDirSync,     makDirASync,     makDir:     makDirASync 
-                , deleteFileSync, deleteFileASync, deleteFile: deleteFileASync                      // .(40801.10.3) 
-                  } 
-
+//          dotenv.config( { path: path.join( __basedir, '.env' ) } );                              //#.(40607.02.1 RAM Load environment variables from .env file in script's folder)
+//  export  default { getDate, _TS, checkFileASync }
+    export  default 
+         {  setPaths, isCalled, listFiles, lastFile, getAPI: fetchFromOpenAI
+         ,  getDate,  join: path.join, path: myPath, _TS 
+         ,  checkFileSync,  checkFileASync,  checkFile:  checkFileASync 
+         ,  writeFileSync,  writeFileASync,  writeFile:  writeFileASync
+         ,  readFileSync,   readFileASync,   readFile:   readFileASync
+         ,  makDirSync,     makDirASync,     makDir:     makDirASync 
+         ,  deleteFileSync, deleteFileASync, deleteFile: deleteFileASync                            // .(40801.10.3) 
+            } 

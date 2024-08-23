@@ -1,5 +1,8 @@
    import   FRT          from './AIC90_FileFns_u03.mjs'
+//    let   FRT       = (await import( './AIC90_FileFns_u03.mjs' )).default            // .(.40810.01.1 RAM Allow use in CommonJS)
    import   dotenv       from 'dotenv';
+//    let   dotenv    =  await import( 'dotenv' );                                     // .(.40810.01.2) 
+
             dotenv.config( { path: FRT.path( __basedir, '.env' ) } )                   // .(40725.03.1 RA< Added { path: '...' } )
 //          console.log( " ", FRT.path( __basedir, '.env' ) )
        var  mEnvs       =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == 'FRT_' )
@@ -22,60 +25,96 @@
                ]
 // ----------------------------------------------------------------------------------
 
-       var  Model_Templates =
-             { 'gp4oopu': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-uesrmsg__template.txt'         // GPT-4o_OpenAI-curl
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.1 RAM Added systmsg file)
-                          , 'request_.json': '.JSONs/GPT-4o_OpenAI-request__template.json'          // .(40801.02.1)
-//                        , 'messages.json': '.JSONs/GPT-4o_OpenAI-messages_template.json'          //#.(40801.02.1 RAM Created by run prompt Step 15) 
-                          , 'request_.sh'  :   '.SHs/GPT-4o_OpenAI-curl_u02_template.sh'            // .(40801.02.2 RAM Includes request.json -- Nope!) 
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+       var  pTemplates =
+             { 'c35sanm': { 'usermsg_.txt' : ['.TXTs/', 'c35sanm_Claude-35s_Anthropic','_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-maxi
+            ///           , 'request_.json': ['.JSONs/','c35sann_Claude-35s_Anthropic  '_request__u01.1_template.json']
+            ///           , 'messages.json : ['.JSONs/','c35sanm_Claude-35s_Anthropic','_messages_u01.1_template.json']
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'gp4oopu': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-uesrmsg__template.txt'         // GPT-4o_OpenAI-curl
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.2)
-                          , 'request_.json': '.JSONs/GPT-4o_OpenAI-request__template.json'          // .(40801.02.3)
-//                        , 'messages.json': '.JSONs/GPT-4o_OpenAI-messages_template.json'          //#.(40801.02.3)
-                          , 'request_.mjs' :   '.SHs/GPT-4o_OpenAI-curl_u01_template.sh'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'c35sann': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-node
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+            //            , 'request_.json': ['.JSONs/','c35sann_Claude-35s_Anthropic','_request__u01.1_template.json`]  //#.(40801.02.6)
+            //            , 'messages.json': ['.JSONs/','c35sann_Claude-35s_Anthropic','_messages_u01.1_template.json`]  //#.(40801.02.6)
+                          , 'request_.mjs' : ['.MJSs/', 'c35sann_Claude-35s_Anthropic','_node-req_u01.1_template.mjs' ]  // .(40821.02.1)
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'gp35opn': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // GPT-35_OpenAI-node
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.3)
-                          , 'request_.json': '.JSONs/GPT-35_OpenAI-request__template.json'          // .(40801.02.4)
-//                        , 'messages.json': '.JSONs/GPT-35_OpenAI-messages_template.json'          //#.(40801.02.4)
-                          , 'request_.mjs' :   '.SHs/GPT-35_OpenAI-node_u01_template.mjs'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'c35sanu': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-curl
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
+            //            , 'request_.json': ['.JSONs/','c35sanu_Claude-35s_Anthropic','_request__u01.1_template.json`]  //#.(40801.02.6)
+            ///           , 'messages.json': ['.JSONs/','c35sanu_Claude-35s_Anthropic','_messages_u01.1_template.json']
+                          , 'request_.sh'  : ['.SHs/',  'c35sanu_Claude-35s_Anthropic','_curl-req_u01.1_template.sh'  ]  // .(40821.02.1)
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'gp4oopm': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // GPT-4o_OpenAI-maxi
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'c35sanw': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-chat
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
+            ///           , 'messages.json': ['.JSONs/','c35sanw_Claude-35s_Anthropic','_messages_u01.1_template.json']
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'c35sanm': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // Claude-35s_Anthropic-maxi
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
-                             }            
-             , 'c35sanw': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg__template.txt'          // Claude-35s_Anthropic-chat
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.mjs'       // .(40801.02.7)  
-                             }            
-             , 'c35sanu': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usermsg__template.txt'         // Claude-35s_Anthropic-curl     
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg__template.txt'         // .(40801.03.4)
-                          , 'request_.json': '.JSONs/Claude-35s_Anthropic-request__template.json'   // .(40801.02.5)
-//                        , 'messages.json': '.JSONs/Claude-35s_Anthropic-messages_template.json'   //#.(40801.02.5)
-                          , 'request_.sh'  :   '.SHs/Claude-35s_Anthropic-curl_u02_template.sh'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'c35sgou': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-chat
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
+            ///           , 'request_.json': ['.JSONs/','c35sgou_Claude-35s_Google     '_request__u01.1_template.json']
+            ///           , 'messages.json': ['.JSONs/','c35sgou_Claude-35s_Google',   '_messages_u01.1_template-wImage.json']
+                          , 'messages.json': ['.JSONs/','c35sgou_Claude-35s_Google',   '_messages_u01.1_template-wImage.json']
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'c35sann': { 'usermsg_.txt' :  '.TXTs/AnyModel_Prompt-usrmsg_template.txt'           // Claude-35s_Anthropic-node
-                          , 'systmsg_.txt' :  '.TXTs/AnyModel_Prompt-systmsg_template.txt'          // .(40801.03.5)
-                          , 'request_.json': '.JSONs/Claude-35s_Anthropic-request__template.json'   // .(40801.02.6)
-//                        , 'messages.json': '.JSONs/Claude-35s_Anthropic-messages_template.json'   //#.(40801.02.6)
-                          , 'request_.mjs' :   '.SHs/Claude-35s_Anthropic-node_u01_template.mjs'
-                          , 'markdown.md'  :   '.MDs/AnyModel_Response-markdown_template.md'        // .(40801.02.7)  
+             , 'gp35opn': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // GPT-35_OpenAI-node
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+                          , 'request_.json': ['.JSONs/','gp35opn_GPT-35_OpenAI',       '_request__u01.1_template.json']  // .(40801.02.6)
+            ///           , 'messages.json': ['.JSONs/','gp35opn_GPT-35_OpenAI',       '_messages_u01.1_template.json']
+                          , 'request_.mjs' : ['.MJSs/', 'gp35opn_GPT-35_OpenAI',       '_node-req_u01.1_template.mjs' ]  // .(40821.02.1)
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-                }
+             , 'gp4oopm': { 'usermsg_.txt' : ['.TXTs/', 'gp4oopm_GPT-4o_OpenAI',       '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-maxi
+            ///           , 'messages.json': ['.JSONs/','gp4oopm_GPT-4o_OpenAI',       '_messages_u01.1_template.json']
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                             }
+             , 'gp4oopn': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-node
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+                          , 'request_.mjs' : ['.MJSs/', 'gp4oopn_GPT-4o_OpenAI',       '_node-req_u01.1_template.mjs' ]  // .(40821.02.1)
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                             }
+             , 'gp4oopu': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-curl
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+            ///           , 'request_.json': ['.JSONs/','gp4oopu_GPT-4o_OpenAI         '_request__u01.1_template.json']
+            ///           , 'request_.json': ['.JSONs/','gp4oopu_GPT-4o_OpenAI         '_request__u02.1_template.json']
+            ///           , 'messages.json': ['.JSONs/','gp4oopu_GPT-4o_OpenAI',       '_messages_u01.1_template.json']
+                          , 'request_.sh'  : ['.SHs/',  'gp4oopu_GPT-4o_OpenAI',       '_curl-req_u01.1_template.sh'  ]  // .(40821.02.1)
+                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                             }
+            }              
+// ----------------------------------------------------------------------
+            
+       var  Model_Templates = {}
+            Object.entries( pTemplates         ).forEach( mMod_Templates => { var aMod = mMod_Templates[0]; Model_Templates[ aMod ] = {} 
+            Object.entries( pTemplates[ aMod ] ).forEach( m => { var aTyp = m[0]; chkTemplate( m[1].join( '' ) ) 
+                                                                     Model_Templates[ aMod ][ aTyp ] = m[1].join( '' ) } ) } )
+
+//          console.log( fmtTemplates( pTemplates, 'all' ).sort( (a,b) => (a > b) ? 1 : -1 ).join( '\n' ) ); process.exit()  // .(40821.02.1)
+
+  function  chkTemplate( aFile ) {  return  
+      var   aFound     =  FRT.checkFileSync( `${__basedir}/._2/FRTs/AICodeR/templates/${aFile}` ).exists ? 'Found' : 'Not Found'      
+            console.log( ` ${ aFile.padEnd(70) } ${aFound}` )   
+            }
+  function  fmtTemplates(   pTemplates, aSelectTyp ) {           var mTemplates = []
+            Object.entries( pTemplates        ).forEach( mMod_Templates => { var aMod = mMod_Templates[0]
+            Object.entries( mMod_Templates[1] ).forEach( m => {  var aTyp = m[0]; m = m[1] 
+                                                     if (aTyp   ==   aSelectTyp || aSelectTyp == 'all') {
+                                                                     mTemplates.push( `${aTyp.padEnd(14)} ${m[0].padEnd(7)} ${aMod}  ${m[1].padEnd(29)} ${m[2]}` ) } } ) } )
+    return  mTemplates                                                                         
+            }  // eof fmtTemplates 
+//          process.exit() 
+// -----------------------------------------------------------------------------------
 
        var  Models2 =
-             [ [ ' 1.', 'gp4oopw', 'GPT-4o_OpenAI-web       '  ] // ##    markdown, text, json (playground)
-             , [ ' 2.', 'gp4oopu', 'GPT-4o_OpenAI-curl      '  ] // ##    json text
-             , [ ' 3.', 'gp4oopn', 'GPT-4o_OpenAI-node      '  ] //       json object
-             , [ ' 4.', 'gp4oopm', 'GPT-4o_OpenAI-maxi      '  ] //       json object             // .(40702.06.1 RAM New Models)
-             , [ ' 5.', 'gp4oopf', 'GPT-4o_OpenAI-fetch     '  ] //       json object
-             , [ ' 6.', 'gp4oopc', 'GPT-4o_OpenAI-cont      '  ] //       markdown /share
+             [ [ ' 0.', 'anymowa', 'AnyModel_Owner-all      '  ] // internal remove 
+             , [ ' 1.', 'gp35opw', 'GPT-35_OpenAI-web       '  ] // on (playground)
+
+             , [ ' 1.', 'gp4oopw', 'GPT-4o_OpenAI-web       '  ] // 
+             , [ ' 2.', 'gp4oopu', 'GPT-4o_OpenAI-curl      '  ] // 
+             , [ ' 3.', 'gp4oopn', 'GPT-4o_OpenAI-node      '  ] // 
+             , [ ' 4.', 'gp4oopm', 'GPT-4o_OpenAI-maxi      '  ] //                                 // .(40702.06.1 RAM New Models)
+             , [ ' 5.', 'gp4oopf', 'GPT-4o_OpenAI-fetch     '  ] // 
+             , [ ' 6.', 'gp4oopc', 'GPT-4o_OpenAI-cont      '  ] // 
 
              , [ ' 7.', 'qw7bolu', 'Qwen2-7b_Ollama-curl    '  ]
              , [ ' 8.', 'qw7boln', 'Qwen2-7b_Ollama-node    '  ]
@@ -105,6 +144,9 @@
              , [ '23.', 'ge15ggw', 'Gemini-15_Google-chat   '  ]                                  // .(40724.01.2 RAM Was -web)
              , [ '24.', 'ge15gvw', 'Gemini-15_Vertex-web    '  ]
                 ]
+
+            Models2   =  Models2.map( (mRec,i) => [ i + 0, ...mRec.slice(-2) ] ).slice(1)
+
 // ----------------------------------------------------------------------------------
 /*
             console.log( ` 'c37','...':`, getDocsPath( getApp( 2, 'c37' )[2], 'Claude3-So_Anthropic-chatgpt' ) )
@@ -117,20 +159,24 @@
             console.log( ` 'appx',sdf :`, getDocsPath( 'appx', getModel( 2, 'sdf' )  ) )
             process.exit()
 */
-  function  getDocsPath( aAppName, aModel_, aCR) {                                                  // .(40729.03.x).(40715.04.4 Add function getDocsPath Beg)
-            aCR            =  aCR ? aCR : ''                                                        // .(40729.03.x)            aAppName       = (aAppName || '').trim()
+  function  getDocsPath( aApp, aMod, aCR) {                                                         // .(40729.03.x).(40715.04.4 Add function getDocsPath Beg)
+//     var  aAppName   = (AIM.getApp(                            2, aApp, 2 ))                      //#.(40814.02.1)
+//     var  aModel_    = (AIM.getModel( (aMod.length == 7) ? 1 : 2, aMod, 2 ))                      //#.(40814.02.2)
+       var  aAppName       =  getApp(                            2, aApp, 2 )                       // .(40814.02.1)
+//     var  aModel_        =  getModel( (aMod.length == 7) ? 1 : 2, aMod, 2 )                       //#.(40821.05.1).(40814.02.2)
+       var  aModel_        =  aMod ? getModel( (aMod.length == 7) ? 1 : 2, aMod, 2 ) : ''           // .(40821.05.1 RAM aMod is MT for list sessions)
        var  aModel         = (aModel_  || '').trim()
        var  aDocs_Dir      =  aModel ? `docs/${aAppName}/${aModel}` : `docs/${aAppName}`
        var  aSessions_Dir  =  FRT.path( __basedir, aDocs_Dir )
        var  pStat          =  FRT.checkFileSync( aSessions_Dir )
-       if (!pStat.isDir   ||  aAppName == '' || (aModel == '' && aModel_ == '')) {
-//     var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : ( aModel_ ? `AppName, ''` : `aModel, ''` )
+       if (!pStat.isDir   ||  aAppName == '' || (aModel == '' && aModel_ != '')) {                   // .(40821.05.1 RAM aModel_ is not MT is aMod is passed)
+                     //     var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : ( aModel_ ? `AppName, ''` : `aModel, ''` )
        var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : `AppName/Model, ''`
 //          console.log(       `* ${aErrMsg}, does not exist.` ); aCR = ''                          // .(40729.03.x)
-            console.log( `${aCR}* ${aErrMsg}, does not exist.` ); aCR = ''                          //#.(40729.03.x)
+            console.log( `${ aCR ? aCR : '' }* ${aErrMsg}, does not exist.` ); aCR = ''             //#.(40729.03.x)
             process.exit()
 //   return `* ${aErrMsg}, does not exist.`
-            }
+            }  // eif !pStat.isDir 
      return aSessions_Dir
             }                                                                                       // .(40715.04.4 End)
 // ----------------------------------------------------------------------------------
@@ -262,9 +308,9 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
                if (nFld > mRows[0].length - (1 - nOrigin)) {
                    console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return ''
                    }
-//            var  rVal   = new RegExp( `^${aVal.replace( /-/, '' ).toLowerCase()}.*`, 'i' )
-              var  rVal   = new RegExp( `${nFld < 2 ? '^' : '' }${aVal.toLowerCase()}.*`, 'i' )
-              var  mRows2 = mRows.filter( ( mRow, i ) => {
+//            var  rVal   =  new RegExp( `^${aVal.replace( /-/, '' ).toLowerCase()}.*`, 'i' )
+              var  rVal   =  new RegExp( `${nFld < 2 ? '^' : '' }${aVal.toLowerCase()}.*`, 'i' )
+              var  mRows2 =  mRows.filter( ( mRow, i ) => {
                     var aFld    =  mRow[ nFld - nOrigin ].replace( /[- ]/, '' ).toLowerCase();
                     var bFound  =  aFld.match( rVal )
  //                 console.log(   aFld, `${aVal}: ${ bFound ? "found" : "not found" }` )
@@ -325,7 +371,8 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
 //          mArgs       =   mArgs.slice( 2 )                                                          //#.(40721.03.1 RAM ??)
 //          mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[3] || '') ? 0 : 1 ) )                  //#.(40721.03.1 ??)
 //          console.log( `  isNaN( mArgs[2]: : '${isNaN( mArgs[2])}'`  )
-            mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[2]      ) ? 0 : 1 ) )                  // .(40721.03.1 Remove Step No from CLI)
+            mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[2]      ) ? 0 : 1 ) )                  // .(40721.03.1 Remove Step No  or from CLI)
+            mArgs       =  (mArgs[0] == 'prompt') ? mArgs.slice(1) : mArgs                            // .(40820.04.x RAM Kloodgy)
 //          console.log( `  setArgs[2]  mArgs:  '${ mArgs.join( "', '" ) }'` )
 //      if (aGetSet    ==  'get') {  aVar = mArgs[0].slice(0,3).toLowerCase(); mArgs.shift(); bGet = 1 }
        var  mParms      =   chkArgs( mArgs, `${aGetSet}${aQuit}`.match(/quit/) ? 'quit' : '' )        // not 'quit'
@@ -343,11 +390,12 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
             }
 // ------------------------------------------------------------------------------
 
-  function  getEnv( aVar, aVal, aPreFix ) {
-//         console.log( `  getEnv[1]  aVar: '${aVar}'`)
+  function  getEnv( aVar, aDefVal, aPreFix ) {
+//          console.log(`  getEnv[1]  aVar: '${aVar}'`)
             aPreFix   =   aPreFix ? `${aPreFix}` : "FRT"
+            aVar      =   aVar.match( '^FRT_' ) ? aVar.slice(4) : aVar                              // .(40804.06.1 RAM Remove Leading 'FRT_' )
        var  aEnvVar   =`${aPreFix}_${aVar.toUpperCase()}`
-       var  aVal      =   aVal ? aVal : process.env[  aEnvVar ] || ''
+       var  aVal      =   aDefVal ? aDefVal : process.env[ aEnvVar ] || ''
         if (aVal == '') {
             console.log( `* The environment variable, '${aEnvVar}', is not defined` )
         } else {
@@ -423,7 +471,8 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
 // ----------------------------------------------------------------------------------
 
             export default { setArgs, getApp, getModel, selectRow                       // .(40711.01.2 RAM Add getApp).(40711.04.x RAM Add setArgs)
-                           , getDocsPath, getModels, setEnv, add2Env }                  // .(40727.03.3).(40722.04.x).(40715.04.5)
+                           , getDocsPath, getModels, setEnv, add2Env                    // .(40727.03.3).(40722.04.x).(40715.04.5)
+                           , getEnv }                                                   // .(40804.05.2)
 
 // ------------------------------------------------------------------------------
 
@@ -501,13 +550,15 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
 //     var  aRow           = '' // 'gp4oopm'
 //     var  aRow           =  process.argv.length > 3 ? process.argv[3] : ''
 
-            console.log(   `  aTable: ${aTable}, aRow: '${aRow}'` )
-       var  xTable         = (aTable.slice(0,3) == 'mod') ? getModel : getApp
+            console.log(   `  aTable:   '${aTable}', aRow: '${aRow}'` )
+//     var  xTable         = (aTable.slice(0,3) == 'mod') ? getModel : getApp
+       var  xTable         = (aTable.slice(0,3) == 'app') ? getApp   : getModel                                              // .(40821.01.1 RAM Reverse App and Model)  
 //          console.log(      getModel( aRow ).map( m => '  ' + m.join( '  ' )).join( '\n' ) );
        var  mRows          =  aRow ? [ xTable( aRow ) || [ `* ${aTable.slice(0,-1)} not found: '${aRow}'` ] ] : xTable( aRow );
 //          console.dir(      mRows, { depth: 9} )
             console.log("")
-            console.log(      mRows.map( m => '  ' + m.join( '  ' )).join( '\n' ) );
+//          console.log(      mRows.map( m => '  ' + m.join( '  ' )).join( '\n' ) );                                         //#.(40821.01.2)
+            console.log(      mRows.map( m => { m[0] = `${m[0]}`.padStart(4); return m.join( '  ' ) } ).join( '\n' ) );      // .(40821.01.2 RAM Format No.)
             }
 // ---------------------------------------------------------------------------------------------------
 

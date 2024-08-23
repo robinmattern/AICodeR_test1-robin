@@ -46,22 +46,22 @@
 //     var  aSessions_File  =  FRT.join( aSessions_Dir,   `AICodeR-sessions_${aVer}.json` )
 
        var  pFmters =
-         { "savSessions_forContinue_fromContinue"         : savSessions_forContinue_fromContinue
-         , "fmtSessions_forContinue_fromContinue"         : fmtSessions_forContinue_fromContinue
-         , "getSessions_forContinue_fromContinue"         : getSessions_forContinue_fromContinue
-         , "getSession_forContinue_fromContinue"          : getSession_forContinue_fromContinue
-         , "getMessage_forContinue_fromContinue"          : getMessage_forContinue_fromContinue                                 // Step 1
-         , "getContent_forContinue_fromContinue"          : getContent_forContinue_fromContinue
+         { "savSessions_forContinue_fromContinue"       : savSessions_forContinue_fromContinue
+         , "fmtSessions_forContinue_fromContinue"       : fmtSessions_forContinue_fromContinue
+         , "getSessions_forContinue_fromContinue"       : getSessions_forContinue_fromContinue
+         , "getSession_forContinue_fromContinue"        : getSession_forContinue_fromContinue
+         , "getMessage_forContinue_fromContinue"        : getMessage_forContinue_fromContinue                                 // Step 1
+         , "getContent_forContinue_fromContinue"        : getContent_forContinue_fromContinue
 
-//       , "savSessions_forContinue" 			        : savSessions_forContinue
-//       , "savSession_forContinue"  			        : savSession_forContinue
-         , "fmtSessions_forContinue" 			        : fmtSessions_forContinue
-         , "getSessions_forContinue" 			        : getSessions_forContinue
-         , "getSession_forContinue"  			        : getSession_forContinue
+//       , "savSessions_forContinue" 			: savSessions_forContinue
+//       , "savSession_forContinue"  			: savSession_forContinue
+         , "fmtSessions_forContinue" 			: fmtSessions_forContinue
+         , "getSessions_forContinue" 			: getSessions_forContinue
+         , "getSession_forContinue"  			: getSession_forContinue
          , "fmtSession_forContinue_SessionsOnly"        : fmtSession_forContinue_SessionsOnly                                 // Step 8, part 2
-         , "fmtSession_forContinue"  			        : fmtSession_forContinue
-         , "fmtMessage_forContinue"  			        : fmtMessage_forContinue
-         , "fmtContent_forContinue"  			        : fmtContent_forContinue
+         , "fmtSession_forContinue"  			: fmtSession_forContinue
+         , "fmtMessage_forContinue"  			: fmtMessage_forContinue
+         , "fmtContent_forContinue"  			: fmtContent_forContinue
 
          , "getSessions_fromContinue_forFRTables"       : getSessions_fromContinue_forFRTables
 
@@ -73,20 +73,20 @@
          , "getContent_forFRTables2_fromContinue"       : getContent_forFRTables2_fromContinue
 
 //       , "savSessions_forFRTables2"                   : fmtSessions_forFRTables2_fromFRTables2
-//       , "savSession_forFRTables2"  			        : savSession_forFRTables2
+//       , "savSession_forFRTables2"  			: savSession_forFRTables2
 //       , "fmtSessions_forFRTables2_fromFRTables2"     : fmtSessions_forFRTables2_fromFRTables2
-         , "getMarkdowns_fromFRTables2"			        : getMarkdowns_fromFRTables2                                          // Step 4
-         , "getMarkdown_fromFRTables2"			        : getMarkdown_fromFRTables2
-//       , "getSessions_forFRTables2" 			        : getSessions_forFRTables2
-//       , "getSession_forFRTables2"  			        : getSession_forFRTables2
-         , "fmtSession_forFRTables2" 			        : fmtSession_forFRTables2
-         , "fmtMessage_forFRTables2" 			        : fmtMessage_forFRTables2
-         , "fmtContent_forFRTables2" 			        : fmtContent_forFRTables2
+         , "getMarkdowns_fromFRTables2"			: getMarkdowns_fromFRTables2                                          // Step 4
+         , "getMarkdown_fromFRTables2"			: getMarkdown_fromFRTables2
+//       , "getSessions_forFRTables2" 			: getSessions_forFRTables2
+//       , "getSession_forFRTables2"  			: getSession_forFRTables2
+         , "fmtSession_forFRTables2" 			: fmtSession_forFRTables2
+         , "fmtMessage_forFRTables2" 			: fmtMessage_forFRTables2
+         , "fmtContent_forFRTables2" 			: fmtContent_forFRTables2
 
-         , "fmtSessions_asTable1"     			        : fmtSessions_asTable1
-//       , "fmtSession_asTable1"     			        : fmtSession_asTable1
-//       , "fmtMessage_asTable1"     			        : fmtMessage_asTable1
-//       , "fmtContent_asTable1"     			        : fmtContent_asTable1
+         , "fmtSessions_asTable1"     			: fmtSessions_asTable1
+//       , "fmtSession_asTable1"     			: fmtSession_asTable1
+//       , "fmtMessage_asTable1"     			: fmtMessage_asTable1
+//       , "fmtContent_asTable1"     			: fmtContent_asTable1
             }
         var pConstants =
              {  App            : "c39_login-app"
@@ -104,29 +104,41 @@
        var  aAppName        =  ''
        var  aModel          =  ''
 
-//     var  aSteps =  "1"                // Save Sessions from Original Continue JSON files to Continue JSON file
-//     var  aSteps =  "2"                // Save Continue Sessions from Continue JSON files          to FRTables JSON file
-//     var  aSteps =  "3"                // Show Sessions from Original Continue JSON files to .txt file
-//     var  aSteps =  "4" S.M[].TS]      // Get  FRTable  from FRTables JSON file           to .md  file for nSession, nMessage
-//     var  aSteps =  "5" S[.M.TS]       // List Scripts  from FRTables JSON file                        for nSession, nMessage
-//     var  aSteps =  "6" S[.M.TS]       // Save Scripts  from FRTables JSON file
-//     var  aSteps =  "7"                // List Continue Sessions JSON files
-//     var  aSteps =  "8"                // List FRTables from FRTables JSON file
+//     var  aSteps =  "1"                // Save Sessions   from Original Continue JSON files to Continue JSON file
+//     var  aSteps =  "2"                // Save Continue   from Continue JSON files          to FRTables JSON file
+//     var  aSteps =  "3"                // Show Sessions   from Original Continue JSON files to .txt file
+//#    var  aSteps =  "4" S.M[].TS]    x // Get  FRTable    from FRTables JSON file           to .md  file for nSession, nMessage
+//     var  aSteps =  "4"                // Save Sessions   from FRTables JSON file           to .md  file for nSession, nMessage
+//     var  aSteps =  "5" S[.M.TS]       // List Scripts    from FRTables JSON file                        for nSession, nMessage
+//     var  aSteps =  "6" S[.M.TS]       // Save Scripts    from FRTables JSON file
+//     var  aSteps =  "7"                // List Continue   Session files
+//     var  aSteps =  "8"                // List FRTables   from FRTables JSON file
 //     var  aSteps =  "9"                // Make App"
-//     var  aSteps = "10"                // Save Markdown
-//     var  aSteps = "11"                // List Models
-//     var  aSteps = "12"                // List Apps
-//     var  aSteps = "13"                // Show Apps
-//     var  aSteps = "14"                // List Sessions
-//     var  aSteps = "15"                // Add  Script                                             // .(40802.02.10)
-//     var  aSteps = "15"                // Save Prompt                                             // .(40802.02.11 RAM Was 16)
-//     var  aSteps = "16"                // Run  Prompt                                             // .(40802.02.12 RAM Was 15)
-//     var  aSteps = "17"                // Save Session
-//     var  aSteps = "18"                // Show Markdown                                           // .(40717.02.3)
+//#    var  aSteps =  "9"              x // Show Session    from FRTables JSON file
+
+//#    var  aSteps = "10"                // Save Markdown
+//#    var  aSteps = "11"                // List Models
+//#    var  aSteps = "12"                // List Apps
+//#    var  aSteps = "13"                // Show Apps
+//#    var  aSteps = "14"                // List Sessions
+//#    var  aSteps = "15"                // Add  Script                                             // .(40802.02.10)
+//#    var  aSteps = "15"                // Save Prompt                                             // .(40802.02.11 RAM Was 16)
+//#    var  aSteps = "16"                // Run  Prompt                                             // .(40802.02.12 RAM Was 15)
+//#    var  aSteps = "17"                // Save Session
+//#    var  aSteps = "18"                // Show Markdown                                           // .(40717.02.3)
+
+
+//#    var  aSteps = "10"                // Show Apps
+//?    var  aSteps = "11"                // List Sessions
+//#    var  aSteps = "12"                // Save Prompt or Add Script                               
+//#    var  aSteps = "13"                // Run Prompt, i.e. Session, Message                       
+//#    var  aSteps = "14"                // Save Session ??
+//#    var  aSteps = "15"                // Open Session or Message Markdown file in browsewr
+//     var  aSteps = "25"                // List files                                              // .(40723.02.x)
 
         if (process.argv.length > 2 ) {  // Process command line arguments
        var  aSteps = process.argv[2]
-//          console.log( `  aSteps: '${aSteps}'`)
+            console.log( `  aSteps: '${aSteps}'`)
             }
             aSteps = `,${aSteps},`
 // --- ---  --------------  =  -------------------------------------------------------------
@@ -201,7 +213,7 @@
 //     var  aSteps = bRun ? `,4,` : aSteps
 //     var  aAppName        = 'c39_login-app'
 //     var  aModel          = 'GPT-4o_OpenAI-cont'
-        if (aSteps.match(   /,4,/  )) { // Save Sessions from FRTables JSON file             to .md  file for nSession, nMessage
+        if (aSteps.match(   /,4,/  )) { // Save Sessions   from FRTables JSON file           to .md  file for nSession, nMessage
 
        var  nRecs  =  [ 13, 4 ]
        var  nRecs  =  [ 14,   ]
@@ -253,7 +265,7 @@
 //     ---  --------------  =  -----------------------------------------------
 
 //     var  aSteps = bRun ? `,5,` : aSteps, nSession = 16
-        if (aSteps.match(   /,5,/  )) { // List Scripts  from FRTables JSON file                    //  Step 5 listScripts
+        if (aSteps.match(   /,5,/  )) { // List Scripts    from FRTables JSON file                  //  Step 5 listScripts
 //         console.log(    "  process.argv:", process.argv.slice(2).join( ", ") )
 //          aApp            = 'c35'                                                                 // .(40711.04.1 Need to set via args)
 //          aMod            = 'gp4oopu'                                                             // .(40711.04.2)
@@ -315,10 +327,11 @@
        var  aMarkdown_Saved =  getLastVer_Saved(  aSessions_Dir,   aMarkdown_File, 'md', aDayTS)    // .(40702.05.3 RAM Use new function)
 
                                await listScripts( aMarkdown_Saved )    // <===  Step 5
+            process.exit()                                                                           // .(40820.06.x RAM ??)
             }
 //     ---  --------------  =  -----------------------------------------------
 //     var  aSteps = bRun ? `,6,` : aSteps, nSession = 16
-        if (aSteps.match(   /,6,/  )) { // Save Scripts  from FRTables JSON file                    //  Step 6 saveScripts
+        if (aSteps.match(   /,6,/  )) { // Save Scripts    from FRTables JSON file                  //  Step 6 saveScripts
 
 //     var  aDayTS          =  process.argv.length > 3 ? process.argv[3] : '' // nSession           //#.(40702.04.2 RAM Find 'em all)
 //     var [aDayTS, aApp, aMod ] = AIM.setArgs( process.argv  )                                     //#.(40711.04.x RAM Set Args)
@@ -377,7 +390,7 @@
 //     ---  --------------  =  -----------------------------------------------
 
 //     var  aSteps = bRun ? `,7,` : aSteps
-        if (aSteps.match(   /,7,/  )) { // List Continue Session files
+        if (aSteps.match(   /,7,/  )) { // List Continue   Session files
 
        var  aSessions_File  = `${_Continue_Dir}/sessions.json`
        if ('both' == 'bosh') {
@@ -403,7 +416,7 @@
 //     ---  --------------  =  -----------------------------------------------
 
 //     var  aSteps = bRun ? `,8,` : aSteps
-        if (aSteps.match(   /,8,/  )) { // Show Sessions from FRTables JSON .db file
+        if (aSteps.match(   /,8,/  )) { // Show Sessions   from FRTables JSON .db file
      /*
        var  aSessions_File  =  FRT.join( _Continue_Dir, `sessions.json` )
        var  mSessions       =  JSON.parse( await FRT.readFileSync( aSessions_File ) )
@@ -431,7 +444,7 @@
 //     ---  --------------  =  -----------------------------------------------
 
 //     var  aSteps = bRun ? `,9,` : aSteps
-        if (aSteps.match(   /,9,/  )) { // Show Session  from FRTables JSON file
+        if (aSteps.match(   /,9,/  )) { // Show Session    from FRTables JSON file
 
        var  aSessions_File  =  FRT.join( aSessions_Dir, `Continue-sessions_${aVer}.txt` )
        var  aSessions       = (await mSessions.forEach( fmtSession)).join( "\n" )
@@ -459,7 +472,12 @@
             }                                                                           // .(40711.02.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
-//     var  aSteps = bRun ? `,14,` : aSteps                                             // .(40711.02.1 RAM Added Step 13 Beg)
+       var  rListFiles    = /markdown.md|response.md/                                   // .(40823.02.1 RAM Use List Sessions, with filter var )         
+        if (aSteps.match(   /,25,/  )) { // List files                                  // .(40823.02.2 RAM Add Step 24)
+       var  rListFiles    = /.+/
+            aSteps        = aSteps.replace( /,25,/, ',14,' )
+            }                                                                           // .(40823.02.1 End)         
+//     var  aSteps = bRun ? `,14,` : aSteps                                             //#.(40711.02.1 RAM Add Step 13 Beg)
         if (aSteps.match(   /,14,/  )) { // List Sessions
 /*
        var  aApp            =  process.argv.length > 3 ? process.argv[3] : aApp
@@ -486,17 +504,22 @@
 
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
 //          console.log(    "  mArgs:", mArgs)
+            console.log(  `\n  listSession[1]  mArgs:  '${mArgs.join("', '")}'`)
+//          console.log(    `  listSession[2]  process.argv:  '${process.argv.join("', '")}'`)     
 //     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3]
 //     var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
        var  aAppName        = (mArgs[3].length == 3) ?  getApp(   1, mArgs[3], 2 ) : mArgs[3]       // .(40718.09.13)
-//     var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       //#.(40719.10.1).(40718.09.14).(40717.04.1 RAM End)
+       var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       //#.(40719.10.1).(40718.09.14).(40717.04.1 RAM End)
 //          console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()
-            aModel          =  undefined                                                            // .(40719.10.1 RAM List session sfor all models for app)
+            aModel          =  process.argv[3] ? aModel : undefined                                 // .(40723.02.x RAM Only if no other args).(40719.10.1 RAM List session sfor all models for app)
 
       if ( !aAppName) { process.exit() }                                                            // .(40729.02.4)
        var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
 
-       //     if (!aAppName) {
+       var  rSession        =  mArgs[0] == '000' ? /.+/ : new RegExp( `t${mArgs[0]}` )              // .(40823.02.x) 
+       var  rModel          =  mArgs[3] != ''    ? /.+/ : new RegExp( `t${mArgs[0]}` )              // .(40823.02.x) 
+
+//     if (!aAppName) {
 //          console.log( '\n* Invalid App: ${aApp}. ' )
 //          process.exit()
 //          }
@@ -527,12 +550,13 @@
             return mSessions
 
   function  fmtModelSessions( aModel, i )  {
-
 //     var  aMod            =  getModel( 2, aModel )[1]
        var  aMod            =  getModel( 2, aModel,  1 )
        var  aModelPath      = `docs/${aAppName}/${aModel.trim()}`
        var  mFiles          =  FRT.listFiles(  FRT.path( __basedir, aModelPath ) )
-       var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( /markdown.md|response.md/ ) )
+//     var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( /markdown.md|response.md/ ) )  //#.(40823.02.3 )
+//     var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( rListFiles ) )             // .(40823.02.3 )
+       var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( rSession   ) )             // .(40823.02.5 )
        var  mResponses      =  mResponses.map( mFile  => mFile[2] )
                                          .sort( (a,b) => a > b ? 1 : -1 )
         if (mResponses.length == 0) { return }                                                      // .(40729.06.1)
@@ -569,7 +593,7 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
 
 //     var  aSteps = bRun ? `,16,` : aSteps                                                         //#.(40802.02.13).(40715.02.1 RAM Added Step 15 Beg)
         if (aSteps.match(   /,16,/  )) { // Run Prompt, i.e. Session, Message                       // .(40802.02.14 RAM Was Step 15).(40731.03.1 RAM Write it Beg)
-
+                    
        var  mFile = getLastFile( 'usermsg_' )
 //          console.log( mFile )
         if (!mFile[2]) {
@@ -627,10 +651,10 @@ return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
         var aRequest_File =  FRT.path( aDocsDir, `${aApp}_${aVer}_request_.json` )
                              FRT.writeFile( aRequest_File,  aJSON )
 
-            spawn( FRT.path( aDocsDir, `c01_t000.01.1.40731.1800_request.sh`), aVer.slice( 1, 4 ) )                  
+            spawn( FRT.path( aDocsDir, `c01_t000.01.1.40731.1800_request_.sh`), aVer.slice( 1, 4 )) // .(40804.04.1 Was request.sh)                  
 //                                                                                 c01_t023.02.1.40731.1818_usermsg.txt
-//          E:\Repos\Robin\AIObjs_\test1-robin\c01_calendar-app_GPT-4o_OpenAI-curl_t023.02.1.40731.1818_usermsg.txt
-//          E:\Repos\Robin\AIObjs_\test1-robin\c01_calendar-app\GPT-4o_OpenAI-curl\c01_t023.02.1.40731.1818_usermsg.txt
+//          E:\Repos\Robin\AIObjs_\test1-robin\c01_calendar-app_GPT-4o_OpenAI-curl_t023.02.1.40731.1818_usermsg_.txt
+//          E:\Repos\Robin\AIObjs_\test1-robin\c01_calendar-app\GPT-4o_OpenAI-curl\c01_t023.02.1.40731.1818_usermsg_.txt
 
             } // eif Step 16                                                                        // .(40731.03.1 End).(40715.02.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------

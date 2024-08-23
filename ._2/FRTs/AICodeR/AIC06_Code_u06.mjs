@@ -395,6 +395,7 @@ async function getMarkdownFile( aSessionDir, aUseContinueDir, mSessionMessage ) 
 //          console.log(    `    ${ aScriptCode.replace( /[\r\n]+/g, "\n    " ) }` )
             } // eof savScript()
 //      ----------------------------------------------------------------------------------------------
+//          process.exit()                                                                                  // .(40820.05.1 RAM ?? )
         } // eof getScripts()
 // ------------------------------------------------------------------------------------------------------------------
 

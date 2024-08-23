@@ -3,6 +3,7 @@
 // import { promises as fs  } from 'fs';
 // import { create          } from 'domain';
    import { spawn }           from 'child_process';
+   import { exec  }           from 'child_process';                                     // .(40815.03.x RAM Import it)
    import { createInterface } from 'node:readline/promises';
 // import   AIM               from './AIC98_Models_u01.mjs'                             // not ../._2/FRTs/AICodeR/AIC98_Models_u01.mjs';
    import   AIM               from './AIC98_Apps-n-Models_u02.mjs'                      // .(40719.01.x RAM Change file name)
@@ -26,41 +27,44 @@
 //          createAppFolders( 'c01', ' gp4oopm')
        var  bIsNotCalled    =  FRT.isCalled(import.meta.url) == true 
 //          console.log( `  bIsNotCalled: ${bIsNotCalled}, process.argv[2]: '${process.argv[2]}'` )
-        if (bIsNotCalled && process.argv[2]) {                       // (40731.03.x RAM if bCalled) 
+        if (bIsNotCalled && process.argv[2]) {                                                      // .(40731.03.x RAM if bCalled)
             process.argv =  process.argv.slice(1)
        var  aCmd  = (process.argv[1] == 'newSession'  ) ? 'newSession'  : ''
-            aCmd  = (process.argv[1] == 'delSession'  ) ? 'delSession'  : aCmd          // .(40801.07.14)
-            aCmd  = (process.argv[1] == 'newPrompt'   ) ? 'newPrompt'   : aCmd
-            aCmd  = (process.argv[1] == 'opnPrompt'   ) ? 'opnPrompt'   : aCmd          // .(40731.02.8)
-            aCmd  = (process.argv[1] == 'newMarkdown' ) ? 'newMarkdown' : aCmd
-            aCmd  = (process.argv[1] == 'opnMarkdown' ) ? 'opnMarkdown' : aCmd          // .(40731.02.9)
+            aCmd  = (process.argv[1] == 'delSession'  ) ? 'delSession'  : aCmd                      // .(40801.07.9)
+            aCmd  = (process.argv[1] == 'edtSysMsg'   ) ? 'edtSysMsg'   : aCmd                      // .(40820.04.5) 
+            aCmd  = (process.argv[1] == 'newPrompt'   ) ? 'newPrompt'   : aCmd            
+            aCmd  = (process.argv[1] == 'opnPrompt'   ) ? 'opnPrompt'   : aCmd                      // .(40731.02.8)
+            aCmd  = (process.argv[1] == 'newMarkdown' ) ? 'newMarkdown' : aCmd            
+            aCmd  = (process.argv[1] == 'opnMarkdown' ) ? 'opnMarkdown' : aCmd                      // .(40731.02.9)
             aCmd  = (process.argv[1] == 'newApp'      ) ? 'newApp'      : aCmd
 
 //          aCmd  = 'newSession'
 //          aCmd  = 'newMarkdown'
 
         if (aCmd == "") {
-            console.log( "\n* Missing command: new session, prompt or response" )
+            console.log( "\n* Missing command. Did you  mean: edit system prompt, open prompt" )
+            console.log( "                                or: new session, new prompt or open response" )
             process.exit()
         } else {
-            console.log( `\n  Running command: ${aCmd}`)            
+//         console.log( `\n  Running command: ${aCmd}`)
             }
 
-        var aCR   = "\n"                                                                // .(40729.03.1 RAM Will this work)
-        if (aCmd == 'newSession'   ) { await makNewSession( ) }
-        if (aCmd == 'delSession'   ) { await delSession( ) }                            // .(40801.07.x)
-        if (aCmd == 'newPrompt'    ) { await makPrompt( 'new' ) }                       // .(40730.02.1)
-        if (aCmd == 'opnPrompt'    ) { await makPrompt( 'open' ) }                      // .(40730.02.2)
-        if (aCmd == 'newMarkdown'  ) { await makResponse( 'new' ) }                     // .(40730.02.3)
-        if (aCmd == 'opnMarkdown'  ) { await makResponse( 'open' ) }                    // .(40730.02.4)
-        if (aCmd == 'newApp'       ) { await createAppFolders( ) }                      // .(40728.02.18 End)
-//          process.exit()                                                              // .(40730.03.1 RAM Seems to be needed)
-            }  // eof process.argv[2]                                                   // (40731.03.x 
+        var aCR   = "\n"                                                                            // .(40729.03.1 RAM Will this work)
+        if (aCmd == 'newSession'   ) { await makNewSession( ) }             
+        if (aCmd == 'delSession'   ) { await delSession( ) }                                        // .(40801.07.10)
+        if (aCmd == 'edtSysMsg'    ) { await opnFile( 'systmsg_', 'txt' ) }                         // .(40820.04.5)
+        if (aCmd == 'newPrompt'    ) { await makPrompt( 'new' ) }                                   // .(40730.02.1)
+        if (aCmd == 'opnPrompt'    ) { await makPrompt( 'open' ) }                                  // .(40730.02.2)
+        if (aCmd == 'newMarkdown'  ) { await makResponse( 'new' ) }                                 // .(40730.02.3)
+        if (aCmd == 'opnMarkdown'  ) { await makResponse( 'open' ) }                                // .(40730.02.4)
+        if (aCmd == 'newApp'       ) { await createAppFolders( ) }                                  // .(40728.02.18 End)
+            process.exit()                                                                          // .(40730.03.1 RAM Seems to be needed)
+            }  // eof process.argv[2]                                                               // (40731.03.x 
 // ---------------------------------------------------------------------------
 
      async  function ask4Model( aMod ) {
         var aModel  =  aMod
- //     var aCR     = "\n"                                                               // .(40729.03.2)
+ //     var aCR     = "\n"                                                              // .(40729.03.2)
         var aMod1   = (aMod === undefined || aMod == null) ? "" : aMod
         if (aMod1 == "") { aCR = ""
             aMod1   =  await readline.question('  Enter a Model to use for this app (or help): ' )
@@ -145,7 +149,7 @@
 */
 // --------------------------------------------------------------
 
-    async  function chkApp( aApp ) {                                                    // .(40719.01.x RAM Write chkApp Beg)
+     async  function chkApp( aApp ) {                                                   // .(40719.01.x RAM Write chkApp Beg)
 //      var aCR     = "\n"                                                              // .(40729.03.x)
             aApp    = (aApp === undefined || aApp == null) ? "" : aApp
         if (aApp == "") {  aCR = ""
@@ -192,26 +196,39 @@
 
      async  function  makNewSession( nSession, bCalled ) {                              // .(40730.07.1 RAM Add bCalled).(40728.01.1 RAM Write makNewSession)
        var  mFile     =  getLastFile( 'markdown' )
-            nSession  =  process.argv[2] ? process.argv[2] : nSession                  // .(40730.01.1 RAM Use Argv if exists)
-            nSession  =  bCalled ? undefined : nSession                                // .(40730.07.2)
-       if (!nSession) {  aCR ? console.log( "" ): ''; aCR = ""                         // .(40729.03.5)
-            nSession  =  await readline.question( '  Enter a session number: ' )
+            nSession  =  process.argv[2] ? process.argv[2] : nSession                   // .(40730.01.1 RAM Use Argv if exists)
+            nSession  =  bCalled ? undefined : nSession                                 // .(40730.07.2)
+
+       if (!nSession) {  aCR ? console.log( "" ): ''; aCR = ""                          // .(40729.03.5)
+       var  nSession1 = (mFile[2].slice( 1, 4 ) * 1 ) + 1                               // .(40822.02.1 RAM Beg)
+       var  aSession  =  await readline.question( `  Enter a new session number: ${nSession1}: ` )
+            nSession  = `${ aSession ? aSession : nSession1 }`                          // .(40822.02.1 End)
             }
         if (nSession.match( /[0-9]{1,3}/ ) == null) {
-            console.log( "* You must enter a session number.")
+            console.log( "* You must enter a valid number for the session.")
             process.exit(1)
             }
+//          console.log( `  nSession: ${nSession}`); process.exit()
        var  aSession  = `${nSession * 1}`.padStart(3,'0')
-       var  aVer      = `t${aSession}.01.2.${FRT._TS}`
-       var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
-       var  aNewFile  = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`
-            FRT.writeFileSync( FRT.path( aDir, aNewFile ), '')
-        if (bCalled != "1") {                                                           // .(40731.03.1) 
-            console.log( "\n  Created new Session Starter (markdown.md) file: ")        // .(40730.08.1)
+       var  aVer1     = `t${aSession}.01.1.${FRT._TS}`
+       var  aVer2     = `t${aSession}.01.2.${FRT._TS}`
+//     var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
+//     var  aNewFile  = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`
+//                       FRT.writeFileSync( FRT.path( aDir, aNewFile ), '')
+                         copyLastFile( 'systmsg_', 'txt',  aVer1 )                       // .(40822.02.3)
+                         copyLastFile( 'usermsg_', 'txt',  aVer1 )                       // .(40822.02.4)
+                         copyLastFile( 'messages', 'json', aVer1 )                       // .(40823.03.1)
+                         copyLastFile( 'request_', 'json', aVer1 )                       // .(40823.02.2)
+                         copyLastFile( 'request_', 'sh',   aVer1 )                       // .(40823.02.3)
+                         copyLastFile( 'request_', 'mjs',  aVer1 )                       // .(40823.02.4)
+       var  aNewFile  =  copyLastFile( 'markdown', 'md',   aVer2 )                       // .(40822.02.2)
+
+        if (bCalled != "1") {                                                           // .(40731.03.1)
+            console.log( "\n  Created new Session (markdown.md) file: ")                // .(40730.08.1)
             console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aNewFile}"`)       // .(40730.08.2)
-            }                                                                           // .(40731.03.2 ) 
+            }                                                                           // .(40731.03.2 )
     return  aSession
-            } // eof makNewSession                                                      // .(40728.01.1 End)
+            }  // eof makNewSession                                                     // .(40728.01.1 End)
 // --------------------------------------------------------------
 /*
             console.log( `  getSessionMsg(   ): ${ await getSessionMsg(   ) }` )
@@ -288,31 +305,53 @@
        var  mFile2    =  getLastFile(  aType, '', `${aSession}.${aMsg}` )
         if (mFile2 == '') { return '' }
             }
-  return [ aSession, aMsg, mFile[2].slice(10) ]
-            } // eof getSessionMsg                                                       // .(40730.01.1 End)
+   return [ aSession, aMsg, mFile[2].slice(10) ]
+            }  // eof getSessionMsg                                                     // .(40730.01.1 End)
 // -----------------------------------------------------
+
+     async  function  opnFile( aType, aExt ) {                                          // .(40820.04.x RAM Write openFile Beg)
+       var  mFile     =  getLastFile( aType )                                      
+//    var [ nSession, aMsg, aTS ] = await getSessionMsg( 0, aType )                     //#.(40820.04.x)             
+//    var [ nSession, aMsg, aTS ] = [ mFile[2].slice(1,4), mFile[2].slice(5,9), mFile[2].slice(10) ]    // .(40820.04.x)             
+//     var  aVer      = `t${nSession}.${aMsg}.${aTS}`                                   //#.(40820.04.x)             
+       var  aVer      =   mFile[2]                                                      // .(40820.04.x)             
+       var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
+       var  aOldFile  = `${mFile[0].slice(0,3)}_${aVer}_${aType}_.${aExt}`               
+//     var  aOpnMsg   = `Open Session Prompt into ${aType}.${aExt} file: ` 
+       var  aOpnMsg   = `Open file, ${aType}.${aExt}, with command, AICodeR: 1. Edit System Prompt, or` 
+       var  aOpnFile  = `docs/${mFile[0]}/${mFile[1]}/${aOldFile}`                   
+
+            opnCodeEditor( `${aDir}/${aOldFile}`, aOpnMsg, aOpnFile )            
+//          console.log( `\n  ${aOpnMsg}`)                                       
+//          console.log(   `    code "$aOpnFile"` )                              
+            }  // eof opnFile                                                         // .(40820.04.x End)
+// -------------------------------------------------------
 
      async  function  makPrompt( aCmd ) {                                               // .(40730.02.2 RAM Write makPrompt Beg)
             if (aCmd == 'new' ) {  await makNewPrompt() }
             if (aCmd == 'open') {  await opnPrompt() }
-            }                                                                           // .(40730.02.2 End)
+            }  // eof makPrompt                                                         // .(40730.02.2 End)
 // -------------------------------------------------------
 
-     async  function  opnPrompt( ) {                                                    // .(40730.02.4 RAM Write openResponse Beg)
-       var  mFile     =  getLastFile( 'usermsg' )
-        var [ aSession, aMsg, aTS ] = await getSessionMsg( 0, 'usermsg' )               // .(40730.02.x)
+     async  function  opnPrompt( ) {                                                    // .(40730.02.4 RAM Write openPrompt Beg)
+       var  mFile     =  getLastFile( 'usermsg_' )                                      // .(40804.04.1)
+      var [ aSession, aMsg, aTS ] = await getSessionMsg( 0, 'usermsg_' )                // .(40804.04.2).(40730.02.x)
        var  aVer      = `t${aSession}.${aMsg}.2.${aTS}`
        var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
-       var  aOldFile  = `${mFile[0].slice(0,3)}_${aVer}_usermsg.txt`
- //         opnCodeEditor(   `${aDir}/${aOldFile}` )
-            console.log( "\n  Open Session Prompt into usermsg.txt file: ")             // .(40730.08.3)
-            console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aOldFile}"`)       // .(40730.08.4)
+       var  aOldFile  = `${mFile[0].slice(0,3)}_${aVer}_usermsg_.txt`                   // .(40804.04.3 Was usermsg.sh)                  
+       var  aOpnFile  = `docs/${mFile[0]}/${mFile[1]}/${aOldFile}`                      // .(40730.08.x)
+//     var  aOpnMsg   = `Open Session Prompt into usermsg_.txt file: `                  // .(40730.08.x)
+//     var  aOpnMsg   = `Opening Session Prompt file: usermsg_.txt`                     // .(40730.08.x)
+       var  aOpnMsg   = `Open Session Prompt file, usermsg_.txt, with command, AICodeR: 3. Open User Prompt, or`      // .(40820.08.x)
+            opnCodeEditor( `${aDir}/${aOldFile}`, aOpnMsg, aOpnFile )                   // .(40815.03.1)                            
+//          console.log( `\n  ${aOpnMsg}`)                                              // .(40804.04.4).(40730.08.3)
+//          console.log(   `    code "$aOpnFile"` )                                     // .(40730.08.4)
             }  // eof opnPrompt                                                         // .(40730.02.4 End)
 // -------------------------------------------------------
 
      async  function  makNewPrompt() {                                                  // .(40728.01.2 RAM Write makNewPrompt)
        var  mFile     =  getLastFile( 'markdown' )
-      var [ aSession, aMsg, aTS ] = await getSessionMsg( 1, 'usermsg_' )                 // .(40730.02.x)
+      var [ aSession, aMsg, aTS ] = await getSessionMsg( 1, 'usermsg_' )                // .(40730.02.x)
 //      if (aSession == '000') {                                                        //#.(40730.02.x Beg)
 //          aSession  =  await makNewSession( '', 1 );                                  // .(40730.07.4)
 //          aMsg      = '01'
@@ -324,17 +363,19 @@
        var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
        var  aNewFile  = `${mFile[0].slice(0,3)}_${aVer}_usermsg_.txt`
             FRT.writeFileSync( FRT.path( aDir, aNewFile ), '' )
-//          opnCodeEditor(   `${aDir}/${aNewFile}` )                                     //#.(40730.08.3)
-            console.log( "\n  Enter new Session Prompt into usermsg_.txt file: ")       // .(40730.08.3)
+//          opnCodeEditor(   `${aDir}/${aNewFile}` )                                    //#.(40730.08.3)
+//          console.log( "\n  Enter new Session Prompt into file: usermsg_.txt" )       // .(40730.08.3)
+            console.log( "\n  Open new Session Prompt file, usermsg_.txt, with command, AICodeR: 2. New User Prompt, or" )       // .(40820.08.3)
             console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aNewFile}"`)       // .(40730.08.4)
+            opnCodeEditor( `${aDir}/${aNewFile}`, 'quiet' )                             //#.(40820.05.1)
 //          process.exit()                                                              // .(40729.04.1 RAM Revent hang)
-            } // eof makNewPrompt                                                       // .(40728.01.2 End)
+            }  // eof makNewPrompt                                                      // .(40728.01.2 End)
 // --------------------------------------------------------------
 
      async  function  makResponse( aCmd ) {                                             // .(40730.02.3 RAM Write makResponse Beg)
-        if (aCmd == 'new' ) {  await makNewResponse() }
         if (aCmd == 'open') {  await opnResponse() }
-            }                                                                           // .(40730.02.3 End)
+        if (aCmd == 'new' ) {  await makNewResponse() }
+            }  // eof makResponse                                                       // .(40730.02.3 End)
 // -------------------------------------------------------
 
      async  function  opnResponse( ) {                                                  // .(40730.02.4 RAM Write openResponse Beg)
@@ -344,8 +385,11 @@
        var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
        var  aOldFile  = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`
 //          opnCodeEditor(   `${aDir}/${aOldFile}` )
-            console.log( "\n  Open Session Response into usermsg.txt file: ")           // .(40730.08.3)
+//          console.log( "\n  Open Session Response into usermsg_.txt file: ")          // .(40804.04.5).(40730.08.3)
+//          console.log( "\n  Opening Session Response file: markdown_.md" )            // .(40804.04.5).(40730.08.3)
+            console.log( "\n  Open Session Response file: markdown.md, with command, AICodeR: 7. Open Response, or" )            // .(40804.04.5).(40730.08.3)
             console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aOldFile}"`)       // .(40730.08.4)
+            opnCodeEditor( `${aDir}/${aOldFile}`, 'quiet' )                             //#.(40820.05.2)
             } // eof opnResponse                                                        // .(40730.02.4 End)
 // -------------------------------------------------------
 
@@ -365,35 +409,40 @@
        var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
        var  aNewFile  = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`
             FRT.writeFileSync( FRT.path( aDir, aNewFile ), '' )
-//          opnCodeEditor(     `${aDir}/${aNewFile}` )                                     //#.(40730.08.5)
-            console.log( "\n  Paste new Session Response into markdown.md file: ")    // .(40730.08.5)
+//          opnCodeEditor(     `${aDir}/${aNewFile}` )                                  //#.(40730.08.5)
+//          console.log( "\n  Paste new Session Response into file: markdown.md")       // .(40730.08.5)
+            console.log( "\n  Paste new Session Response into file, markdown.md, with command, AICodeR: 6. New Response, or" )            // .(40804.04.5).(40730.08.3)
             console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aNewFile}"`)       // .(40730.08.6)
+            opnCodeEditor( `${aDir}/${aNewFile}`, 'quiet' )                             //#.(40820.05.3)
 //          process.exit()                                                              // .(40729.04.2)
             } // eof makNewResponse                                                     // .(40728.01.4 End)
 // --------------------------------------------------------------
 
-  function  opnCodeEditor( aFile ) {
-       var  aCodePath = FRT.path( '/C/Program Files/Microsoft VS Code/bin/code' )
-            console.log( `\n  code "${aFile.replace( /.+docs/, 'docs') }"` )
-            // Replace with the correct path to your 'code' executable from step 1
-
-//   const  child = spawn( aCodePath, [ FRT.path( aFile ) ] );
-//          child.on( 'error', ( err ) => {         console.error('Error opening file in VS Code:', err); } );
-//          child.on( 'exit',  ( code ) => {        console.log(`VS Code exited with code: ${code}`);     } );
-//          child.stdout.on( 'data',  ( data ) => { console.log(  `  stdout: ${data}` ); } );
-//          child.stderr.on( 'data',  ( data ) => { console.error(`  stderr: ${data}` ); } );
-
-//  try {           spawn( aCodePath, [ FRT.path( aFile ) ] )
-//   } catch( pErr ) { }
-            }
-// --------------------------------------------------------------
-
 //          console.log( 'getLastFile(): ', getLastFile( 'markdown', '.md' ) )
-//          console.log( 'getLastFile(): ', getLastFile( 'usermsg',  'txt' ) )
+//          console.log( 'getLastFile(): ', getLastFile( 'usermsg_', 'txt' ) )
+//          console.log( 'copyLastFile(): ', copyLastFile( 'usermsg_', 'txt', 't005.01.1.40822.1209' ) )
+//          console.log( 'copyLastFile(): ', copyLastFile( 'markdown', 'md',  't005.02.1.40822.1209' ) )
 //          process.exit()
 
-  function  getLastFile( aType, aExt, aToday ) {                                        // .(40730.04.1 RAM aToday can be any leading nSession, nMsg, TS).40728.01.4 RAM Write getLastFile)
-//          console.log( "")
+  function  copyLastFile( aType, aExt, aVer) {                                            // .(40822.04.4 RAM Write copyLastFile Beg, aVer: 't005.01.1.40822.1209')
+       var  mFile           =  getLastFile( aType, aExt, '', true )
+       if (!mFile[2]) { return }   
+       var  aDir            = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
+       var  aApp            =  mFile[0].slice(0,3)
+       var  aOldFile        = `${aApp}_${mFile[2]}_${aType}.${aExt}`
+       var  aNewFile        = `${aApp}_${aVer}_${aType}.${aExt}`
+       var  mText           =  FRT.readFileSync( FRT.path( aDir, aOldFile )).split( '\n' )
+        if (mText[0].match( /^###/) == null) {
+            mText           = [ "", "", ...mText ] }
+            mText[0]        = `### File: ${aNewFile}`       
+                               FRT.writeFileSync( FRT.path( aDir, aNewFile ), mText.join( '\n' ) )
+    return  aNewFile                            
+            }                                                                         // .(40822.04.4 End)
+// --------------------------------------------------------------
+
+//  function  getLastFile( aType, aExt, aToday ) {                                                  //#.(40822.04.x).(40730.04.1 RAM aToday can be any leading nSession, nMsg, TS).40728.01.4 RAM Write getLastFile)
+    function  getLastFile( aType, aExt, aToday, bQuiet ) {                                          // .(40822.04.x RAM add bQuiet).(40730.04.1 RAM aToday can be any leading nSession, nMsg, TS).40728.01.4 RAM Write getLastFile)
+        //          console.log( "")
 //     var  aExt            =  aExt ? aExt : (aType == 'markdown' ?  'md' : 'txt' ) )                                                  //#(40728.01.x).(40801.08.1)
        var  aExt            =  aExt ? aExt : (aType == 'markdown' ?  'md' :  (aType.match(/request_|messages/) ? 'json' : 'txt' ) )      // .(40801.08.1).(40728.01.x)
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
@@ -408,8 +457,8 @@
         if (aApp == '') { console.log( `${aCR}* No App found. Please try again`  ); aCR = "" }      // .(40729.03.6)
         if (aMod == '') { console.log( `${aCR}* No Model found. Please try again`); aCR = "" }      // .(40729.03.7)
         if (!(aApp || aMod)) { process.exit() }                                                     // .(40729.02.1 RAM Abort if not set)
-
-       var  mFile           =  getLastFile2( aApp, aMod, aToday ? aToday : aDayTS, aType, aExt )    // .(40801.09.2 RAM Split function)
+            aToday          =  aToday ? aToday : aDayTS                                             // .(40822.04.x)
+       var  mFile           =  getLastFile2( aApp, aMod, aToday, aType, aExt, bQuiet )              // .(40822.04.x).(40801.09.2 RAM Split function)
     return  mFile                                                                                   // .(40801.09.3)
             }  // eof getLastFile                                                                   // .(40801.09.4)
 // --------------------------------------------------------------
@@ -453,7 +502,43 @@
             }  // eof  getLastFile2                                                                 // .(40728.01.2 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
-     async  function createAppFolders( aAppName, aModel ) {
+//          console.log( "  aPath:", getFilePath( 'systmsg_', 0 ) )
+//          console.log( "  aPath:", getFilePath( 'usermsg_', 0 ) )
+//          console.log( "  aPath:", getFilePath( 'usermsg_', 1 ) )
+//          console.log( "  aPath:", getFilePath( 'request_', 1 ) )
+//          process.exit()
+
+  function  getFilePath( aType, bNew ) {                                                            // .(40804.05.1 RAM Write getFilePath )
+       var  aAppName    =  AIM.getEnv( 'FRT_APP' )
+       var  aModel      =  AIM.getEnv( 'FRT_MODEL' )
+        if (aAppName == "") {
+//          console.log( `* A default app is not set.` )
+            process.exit()
+            }
+        if (aModel == "") {
+//          console.log( `* A default model is not set.` )
+            process.exit()
+            }
+       var  mFile       =   getLastFile2( aAppName, aModel, '', aType, '', false )
+            mFile[2]    =  (aType == 'systmsg_') ? setVer( mFile[2], 4, '00' ) : nextMsg( mFile[2], bNew )
+            mFile[2]    =  (aType == 'systmsg_') ? setVer( mFile[2], 7,  '0' ) : mFile[2]
+       var  aApp        =   mFile[0].slice(0,3)
+       var  aPath       =  `docs/${mFile[0]}/${mFile[1]}/${aApp}_${mFile[2]}_${mFile[3]}`
+    return  aPath
+
+   function setVer(  aVer, nPos, aVal ) {
+     return `${ mFile[2].slice( 0, nPos ) }.${aVal}.${ mFile[2].slice( nPos + aVal.length + 2 ) }`
+            }
+   function nextMsg( aVer, nNew ) {
+       if (!nNew) { return aVer }
+       var  mVer        =  aVer.split( '.' )
+            mVer[1]     = `${ (mVer[1] * 1) + (nNew == true ? 1 : nNew ) }`.padStart( 2, '0' )
+    return  mVer.join( '.' )
+            }
+            }  // eof getFilePath
+// --------------------------------------------------------------
+
+     async  function  createAppFolders( aAppName, aModel ) {
 
        var  aAppName        = (aAppName ? aAppName : process.argv[2] || '').trim()                  // .(40728.04.1 RAM Was [2], still is after .slice(1) )
        var  aModel          = (aModel   ? aModel   : process.argv[3] || '').trim()                  // .(40728.04.1 RAM Was [3])
@@ -498,7 +583,7 @@
             }  // eof createAppFolders
 // --------------------------------------------------------------
 
-     async  function createAppFolders_( aAppDir, aModel ) {
+     async  function  createAppFolders_( aAppDir, aModel ) {
        var  bDoApps         =  aAppDir.slice(1,2) != '0'                                            // .(40722.06.1)
        var  aStage          = (aAppDir.slice(0,1) == 'c' ? 'client' : 'server') + (bDoApps ? aAppDir.slice(1,2) : '' )   // .(40722.06.2)
        var  aFolderName     =  FRT.path( __basedir, `${aStage}/${aAppDir}` )
@@ -556,20 +641,20 @@
         if (aAppDir.slice(0,1) == 's' && bDoApps) {                                                // (40722.06.7)
 
        var  aServer_File    = `server.mjs`
-        if ((await FRT.checkFile( `${aFolderName}/${aServer_File}`)).exists == false ) {
+       if ((await FRT.checkFile( `${aFolderName}/${aServer_File}`)).exists == false ) {
        var  aServer_Content =  await FRT.readFile( FRT.path( __dirname, `./templates/${aServer_File}` ) );
- //      'E:\\Repos\\Robin\\AIObjs_\\dev03-robin\\._2\\FRTs\\AICodeR\\templates\\server.mjs'
- //       E:\\Repos\\Robin\\AIObjs_\\dev03-robin\\._2\\FRTs\\AICodeR\\templates\\server.mjs
+//         'E:\\Repos\\Robin\\AIObjs_\\dev03-robin\\._2\\FRTs\\AICodeR\\templates\\server.mjs'
+//          E:\\Repos\\Robin\\AIObjs_\\dev03-robin\\._2\\FRTs\\AICodeR\\templates\\server.mjs
                                await FRT.writeFile( `${aFolderName}/${aServer_File}`, aServer_Content);
             console.log(    `  Creating an initial file, "${aServer_File}", inside the server api folder.`);
             }
-            } // eif server files
+            }  // eif server files
 // ----------------------------------------------------------------------------------------------------
 
        var  aApp            =  aAppName.slice(0,3)
        var  aVer            = 't000.01.{n}.' + FRT._TS
 
-                                     delDocsFiles( aApp, aModel, '000', 0, true )         // .(40802.04.1 bQuiet)     
+                                     delDocsFiles( aApp, aModel, '000', 0, true )         // .(40802.04.1 bQuiet)
 
                                await savDocsFile(  aApp, aVer, aModel, 'usermsg_.txt'  )
                                await savDocsFile(  aApp, aVer, aModel, 'systmsg_.txt'  )  // .(40801.02.7 RAM Copy this too)
@@ -577,24 +662,24 @@
 //                             await savDocsFile(  aApp, aVer, aModel, 'messages.json' )  //#.(40801.02.8 RAM Don't copy messages.json, Step 15, run prompt creates it)
                                await savDocsFile(  aApp, aVer, aModel, 'request_.sh'   )
                                await savDocsFile(  aApp, aVer, aModel, 'markdown.md'   )
-                               
- //                              getModel( 3, 'gp4oopu', 'request_.sh'  ) 
+
      async  function savDocsFile( aApp, aVer, aModel, aFile ) {
-//      if (aModel.match(/maxi/       ) != null && aFile.match( /\.json/ )) { return }           //#.(40801.05.1)
-        if (aModel.match(/-maxi|-chat/) != null && aFile.match( /\.json/ )) { return }           // .(40801.05.1 RAM No .json for -maxi or -chat) 
+//      if (aModel.match(/maxi/       ) != null && aFile.match( /\.json/ )) { return }              //#.(40801.05.1)
+        if (aModel.match(/-maxi|-chat/) != null && aFile.match( /\.json/ )) { return }              // .(40801.05.1 RAM No .json for -maxi or -chat)
             aVer            = `${aVer.replace( /{n}/, aFile.match( /^markdown/) ? 2 : 1 ) }`
        var  aDocs_File      = `${aDocsFolderName}/${aModel}/${aApp}_${aVer}_${aFile}`
-       var  aModel1         =  aFile.match( /^usermsg/) ? 'AnyModel_Prompt' : aModel
-//     var  aEXTs           = `.${aFile.replace( /^.+\./, '' ).toUpperCase()}s`                   // .(40801.03.7)
-//     var  aTemplate_File  =  getModel( 3, getModel( 2, aModel, 1 ), aFile )                     // .(40801.03.8 RAM Look up template name)
-       var  aTemplate_File  =  getModel( 4, aModel, aFile )                                       // .(40801.06.6 RAM Updated getModel)
+       var  aModel1         =  aFile.match( /^usermsg_/) ? 'AnyModel_Prompt' : aModel               // .(40804.04.6
+//     var  aEXTs           = `.${aFile.replace( /^.+\./, '' ).toUpperCase()}s`                     // .(40801.03.7)
+//     var  aTemplate_File  =  getModel( 3, getModel( 2, aModel, 1 ), aFile )                       // .(40801.03.8 RAM Look up template name)
+       var  aTemplate_File  =  getModel( 4, aModel, aFile )                                         // .(40801.06.6 RAM Updated getModel)
 //     var  aTemplate_File  = `./templates/${aEXTs}/${aModel1}-${ aFile.replace(/\./, '_template.' ) }`
 //     var  aTemplate_File  = `./templates/${aTemplate_File}`
-        if (aTemplate_File) {                                                                     // .(40801.03.9 RAM Don't create template file if not in Models_Templates
+        if (aTemplate_File) {                                                                       // .(40801.03.9 RAM Don't create template file if not in Models_Templates
        var  aContent        =  await FRT.readFile(  FRT.path( __dirname, 'templates', aTemplate_File ) );
                                await FRT.writeFile( FRT.path( aDocs_File ), aContent );
+            console.log(    `  Using template file,      "${aTemplate_File}.` );
             console.log(    `  Creating an initial file, "${aApp}_${aVer}_${aFile}", inside the docs app model folder.`);
-            } }                                                                                   // .(40801.03.10)
+            } }                                                                                     // .(40801.03.10)
           // eOf docs files
 // ----------------------------------------------------------------------------------------------------
             }  // eof createFolders_
@@ -603,63 +688,102 @@
 //          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl' )
 //          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl',   0 )
 //          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl',   0,    0 )
-//          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl', '00', '00' )  // nope 
-//          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl', '00', '01' )  // yup 
+//          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl', '00', '00' )  // nope
+//          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl', '00', '01' )  // yup
 //          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl', '02', '01' )  // may not exist
-//          process.exit() 
+//          process.exit()
 
-     async  function delSession( ) { 
-            process.argv.unshift( '' ); process.argv[2] = '0'; 
-//          console.log(    `  process.argv: '${process.argv.join("', '")}'`)
+     async  function  delSession( ) {
+            process.argv.unshift( '' ); process.argv[2] = '0';  // Put '' into new 1st row, '0' into cmd row   
+//          console.log(    `  process.argv: '${process.argv.join("', '")}'` )
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
-            console.log(    `  mArgs:  '${mArgs.join("', '")}`)
+            console.log(    `\n  delSession[1]  mArgs:  '${mArgs.join("', '")}`)
         if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
-       var  nSession        =  mArgs[0] == '000' ? '000' : (mArgs[0] ? mArgs[0] : '000') 
+       var  nSession        =  mArgs[0] == '000' ? '000' : (mArgs[0] ? mArgs[0] : '000')
        var  nMsg            =  mArgs[1] == '00'  ?  '01' : (mArgs[1] ? mArgs[1] :  '01')
        var  aApp            =  mArgs[3]
        var  aMod            =  mArgs[4]
-            console.log( `  delDocsFiles( '${aApp}', '${aMod}', ${nSession}, ${nMsg} )` ) 
-            delDocsFiles( aApp, aMod, nSession, nMsg ) 
+            console.log( `  delDocsFiles( '${aApp}', '${aMod}', '${nSession}', '${nMsg}' )` )
+            delDocsFiles( aApp, aMod, nSession, nMsg )
             process.exit()
-            }  // eof delSession 
+            }  // eof delSession
 // --------------------------------------------------------------
 
-     async  function delDocsFiles( aAppName, aModel, nSession_, nMsg, bQuiet ) {                    // ..(40802.04.x)(40801.07.1 RAM Write delDocFiles) 
-       var  bUV             = `${ nSession_ }`.match( '^t' ) != null; 
-       var  nSession        =  bUV ? nSession_.slice(1) : nSession_ 
-       var  aVer            = `${ nSession || '' }`.padStart(3,'0') + '.' + `${ nMsg || '' }`.padStart(2,'0') 
-//         console.log(     `  delDocsFiles( ${nSession_}, ${nMsg} ) == 't${aToday}'` ); return 
+     async  function delDocsFiles( aAppName, aModel, nSession_, nMsg, bQuiet ) {                    // .(40802.04.x).(40801.07.11 RAM Write delDocFiles)
+       var  bUV             = `${ nSession_ }`.match( '^t' ) != null;
+       var  nSession        =  bUV ? nSession_.slice(1) : nSession_
+       var  aVer            = `${ nSession || '' }`.padStart(3,'0') + '.' + `${ nMsg || '' }`.padStart(2,'0')
+//         console.log(     `  delDocsFiles( ${nSession_}, ${nMsg} ) == 't${aToday}'` ); return
 
-//                             FRT.setPaths( aAppName )                                             // .(40801.07.x Not needed for global __baseDir)
+//                             FRT.setPaths( aAppName )                                             //#.(40801.07.12 Not needed for global __baseDir)
 /*
-                               await delDocFile( 'usermsg_', 'txt',  `${aVer}` )                    // .(40801.07.3 RAM not leading t)
+//                             await delDocFile( 'userm  `${aVer}` )                    //#.(40801.07.13 RAM not leading t)
                                await delDocFile( 'systmsg_', 'txt',  `${aVer}` )
                                await delDocFile( 'request_', 'json', `${aVer}` )
                                await delDocFile( 'request_', 'sh',   `${aVer}` )
                                await delDocFile( 'messages', 'json', `${aVer}` )
                                await delDocFile( 'markdown', 'md',   `${aVer}` )
 */
-       var  bDeleted = false                                                                        // .(40802.03.1)   
-                                     delDocFile( 'usermsg_', 'txt',  `${aVer}` )                    // .(40801.07.3 RAM not leading t)
+       var  bDeleted = false                                                                        // .(40802.03.1)
+            console.log( '' );       delDocFile( 'usermsg_', 'txt',  `${aVer}` )                    // .(40801.07.13 RAM not leading t)
                                      delDocFile( 'systmsg_', 'txt',  `${aVer}` )
+                                     delDocFile( 'messages', 'json', `${aVer}` )
                                      delDocFile( 'request_', 'json', `${aVer}` )
                                      delDocFile( 'request_', 'sh',   `${aVer}` )
-                                     delDocFile( 'messages', 'json', `${aVer}` )
+                                     delDocFile( 'request_', 'mjs',  `${aVer}` )
                                      delDocFile( 'markdown', 'md',   `${aVer}` )
-        if (bDeleted == false && (bQuiet ? bQuiet : '0') == '0') { 
-            console.log( `\n  No files were deleted`)
+        if (bDeleted == false && (bQuiet ? bQuiet : '0') == '0') {
+            console.log( `  No files were deleted`)
             }
-//   async  function delDocFile( aType, aExt, aVer ) { ... }
-  function  delDocFile( aType, aExt, aVer ) {     
-       var  mFile           =  getLastFile2( aAppName, aModel, aVer, aType, aExt, true )            // .(40801.09.6) 
+//          -------------------------------------------------------
+
+//   async  function  delDocFile( aType, aExt, aVer ) { ... }
+  function  delDocFile( aType, aExt, aVer ) {
+       var  mFile           =  getLastFile2( aAppName, aModel, aVer, aType, aExt, true )            // .(40801.09.6)
        var  aDoc_File       = `docs/${mFile[0]}/${mFile[1]}/${aAppName.slice(0,3)}_${mFile[2]}_${mFile[3]}`
-        if (mFile[3]) {        console.log( `  Deleting ${aDoc_File}` ); 
+        if (mFile[3]) {        console.log( `  Deleting ${aDoc_File}` );
         if (aDoc_File) {             FRT.deleteFileSync( FRT.path( __basedir, aDoc_File ) ); bDeleted = true }    // .(40802.03.4)
-            }     
-//      if (aDoc_File) {       await FRT.deleteFile(     FRT.path( __basedir, aDoc_File ) ) }      
             }
-        }  // eof delDocsFiles                                                                      // .(40801.07.2) 
+//      if (aDoc_File) {       await FRT.deleteFile(     FRT.path( __basedir, aDoc_File ) ) }
+            }  // eof delDocFile 
+//          -------------------------------------------------------
+        }  // eof delDocsFiles                                                                      // .(40801.07.11 End)
+// ----------------------------------------------------------------
+
+  function  opnCodeEditor_x( aFile ) {
+       var  aCodePath = FRT.path( '/C/Program Files/Microsoft VS Code/bin/code' )
+            console.log( `\n  code "${aFile.replace( /.+docs/, 'docs') }"` )
+         // Replace with the correct path to your 'code' executable from step 1
+
+//   const  child = spawn( aCodePath, [ FRT.path( aFile ) ] );
+//          child.on( 'error', ( err ) => {         console.error('Error opening file in VS Code:', err); } );
+//          child.on( 'exit',  ( code ) => {        console.log(`VS Code exited with code: ${code}`);     } );
+//          child.stdout.on( 'data',  ( data ) => { console.log(  `  stdout: ${data}` ); } );
+//          child.stderr.on( 'data',  ( data ) => { console.error(`  stderr: ${data}` ); } );
+
+//    try { spawn( aCodePath, [ FRT.path( aFile ) ] )
+//      } catch( pErr ) { }
+            }  // eof opnCodeEditor_x
 // --------------------------------------------------------------
 
-export default { createAppFolders, getLastFile }                      // .(40731.06.x)
+     async  function  opnCodeEditor( aFilePath, aOpnMsg, aOpnFile ) {                               // .(40815.03.x RAM Write again)  
+        if (aOpnMsg != 'quiet') {                                                                   // .(40820.05.x)                          
+            console.log( `\n  ${aOpnMsg}`)                                                          // .(40804.04.4).(40730.08.3)
+            console.log(   `    code "${aOpnFile}"` )                                               // .(40730.08.4)
+            }                                                                                       // .(40820.05.x)                          
+//     var  aCmd  = `code -g "${aFilePath}"`
+       var  aCmd  = `code -g "${aFilePath}:1"`
+//          console.log(   `    exec( ${aCmd} )` )
+       //          exec('tasks.run Open File', (error, stdout, stderr) => {
+     await  exec( aCmd, (error, stdout, stderr) => {
+        if (error) { 
+            console.error( `exec error: ${error}`); return; }
+            console.log(   `stdout: ${stdout}`);
+            console.log(   `stderr: ${stderr}`);
+            } );
+        }   // eof opnCodeEditor                                                                    // .(40815.03.x End)                                            
+// ---- --- --------------------------------------------------------------        
+
+
+     export default   { createAppFolders, getLastFile, getFilePath }                                // .(40804.04.7).(40731.06.x)
 
