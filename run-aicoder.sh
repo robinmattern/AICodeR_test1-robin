@@ -95,9 +95,10 @@
 
             echo -e "\n\n  Opening VSCode, AICodeR.code-workspace"
             echo      "----------------------------------------------------------------"
-   if [ -f "AICodeR_*.code-workspace" ]; then
-   if [ -f "AICodeR.code-workspace"   ]; then rm "AICodeR.code-workspace"; fi
-            mv "AICodeR_*.code-workspace"  "AICodeR.code-workspace"
+    if [ -f AICodeR_*.code-workspace ]; then
+#           echo "  Creating AICodeR.code-workspace"
+    if [ -f AICodeR.code-workspace   ]; then rm AICodeR.code-workspace; fi
+            mv AICodeR_*.code-workspace AICodeR.code-workspace
             fi
             read -n1 -p "  Press any key to continue..."
 #           code *code*
@@ -111,7 +112,7 @@
 
 #           aSteps=",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,"
 
-#           aSteps3=",1,2,3,4,5,6,7,8,10,13,14,15,16,"    # Display AIC05_Schema command  ##.(40802.02.15 RAM 15 S.B. here).(40823.01.1) 
+#           aSteps3=",1,2,3,4,5,6,7,8,10,13,14,15,16,"    # Display AIC05_Schema command  ##.(40802.02.15 RAM 15 S.B. here).(40823.01.1)
             aSteps3=",1,2,3,4,5,6,7,8,10,13,14,15,16,25," # Display AIC05_Schema command  # .(40823.01.1  RAM Add 25).(40802.02.15 RAM 15 S.B. here)
             aSteps3_="$( echo "${aSteps3}" | awk '{ sub( /,'${aStep},'/, "" ); print }' )"
 
@@ -135,7 +136,7 @@
 
       if [ "${bNoisy}" == "1" ]; then echo ""; fi
 
-      if [ "${aSteps3_}" != "${aSteps3}" ]; then  # 
+      if [ "${aSteps3_}" != "${aSteps3}" ]; then  #
 
             echo -e    "  Running Node $1 $2 $3 $4 $5 $6 $7 $8 $9"
       if [ "${aSteps1_}" != "${aSteps1}" ]; then
@@ -177,25 +178,25 @@
     if [ "${aArg1}"   == "setup" ] && [ "${aArg2}" == ""        ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40729.01.1 RAM Add Setup)
     if [ "${aArg1}"   == "setup" ] && [ "${aArg2}" != ""        ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40806.02.3)
 #   if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" != "app" ] && [ "{aArg2:0:3}" != "mod" ]; then aCmd="set  app"; shift; f
-    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="set  model";    aArg1=""; shift; shift; fi   #  
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="set  model";    aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "cod" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40722.01.1 RAM Add Setup Coder)
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "aic" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40722.01.x)
-    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "sho" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "set" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "var" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="save continue"; aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="save frtable";  aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="show sessions"; aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "get" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="get  markdown"; aArg1=""; shift; shift; fi   #  
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "sho" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "set" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "var" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="save continue"; aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="save frtable";  aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="show sessions"; aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "get" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="get  markdown"; aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "add" ] && [ "${aArg2:0:3}" == "scr" ]; then aCmd="add  script";   aArg1=""; shift; shift; fi   # 22   # .(40802.02.1)
-    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "scr" ]; then aCmd="list scripts";  aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "scr" ]; then aCmd="save scripts";  aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="list continue"; aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="list frtables"; aArg1=""; shift; shift; fi   #  
+    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "scr" ]; then aCmd="list scripts";  aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "scr" ]; then aCmd="save scripts";  aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="list continue"; aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="list frtables"; aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #  9   # .(40728.02.5)
-    if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #  
-    if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" != "app" ]; then aCmd="make app";      aArg1=""; shift;        fi   #  
+    if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #
+    if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" != "app" ]; then aCmd="make app";      aArg1=""; shift;        fi   #
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9   # .(40728.02.5)
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9   # .(40728.02.5)
     if [ "${aArg1:0:3}" == "ope" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="open markdown"; aArg1=""; shift; shift; fi   #  9   # .(40731.02.1)
@@ -227,7 +228,7 @@
 if [ "${bNoisy}" == "1" ]; then
     echo -e "\n[1]  \$1: '$1', \$2: '$2', aArg1: '${aArg1}', aCmd: '${aCmd}'"; # exit
     fi
-if [ "${aCmd}" == '' ]; then                                                                        # .(40822.01.1 RAM Set number commands if aCmd not set yet)                        
+if [ "${aCmd}" == '' ]; then                                                                        # .(40822.01.1 RAM Set number commands if aCmd not set yet)
     if [ "$1" ==  "0" ]; then aCmd="set  $2"; shift; shift; fi
 #   if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model" $@; exit; fi  #  0           # .(40716.01.1)
     if [ "$1" ==  "1" ]; then aCmd="save continue"; shift; fi
