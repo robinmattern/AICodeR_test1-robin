@@ -1,0 +1,5 @@
+*_v[0-9]*
+*_v[0-9]*/
+docs/
+._3/
+._2/FRTs/AICodeR_VSCodeExt/*_v[0-9]*

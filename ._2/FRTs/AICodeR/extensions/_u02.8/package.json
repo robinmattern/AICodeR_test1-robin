@@ -1,0 +1,80 @@
+{
+  "name": "e05-open-files-ext",
+  "displayName": "AICodeR Extension u02.8.40821.1656",
+  "description": "An extension to open AICodeR Prompt and Response files",
+  "author": "Robin Mattern",
+  "publisher": "AICodeR",
+  "repository": "robin.mattern/AICodeR_test1-robin",
+  "license":"Apache-2.0",
+  "version": "0.2.8",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.editSystemPrompt",
+    "onCommand:extension.newUserPrompt",
+    "onCommand:extension.openUserPrompt",
+    "onCommand:extension.openRequest",
+    "onCommand:extension.runRequest",
+    "onCommand:extension.openResponse",
+    "onCommand:extension.listScripts",
+    "onCommand:extension.saveScripts"
+  ],
+  "main": "./extension_u02.8.40819.1530.js",
+
+  "contributes": {
+    "commands": [
+      { "command" : "extension.editSystemPrompt",
+        "title"   : "1. Edit System Prompt",
+        "category": "AICodeR"
+      },
+      { "command" : "extension.newUserPrompt",
+        "title"   : "2. New User Prompt",
+        "category": "AICodeR"
+      },
+      { "command" : "extension.openUserPrompt",
+        "title"   : "3. Open User Prompt",
+        "category": "AICodeR"
+      },
+      { "command" : "extension.openRequest",
+        "title"   : "4. Open Request",
+        "category": "AICodeR"
+      },
+      { "command" : "extension.runRequest",
+        "title"   : "5. Run Request",
+        "category": "AICodeR"
+      },
+      { "command" : "extension.openResponse",
+        "title"   : "6. Open Response",
+        "category": "AICodeR"
+      },
+      { "command" : "extension.listScripts",
+        "title"   : "7. List Scripts",
+        "category": "AICodeR"
+      },
+      { "command" : "extension.saveScripts",
+        "title"   : "8. Save Scripts",
+        "category": "AICodeR"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "14.x",
+    "eslint": "^7.27.0",
+    "glob": "^7.1.7",
+    "mocha": "^8.4.0",
+    "typescript": "^4.3.2",
+    "vscode-test": "^1.5.2"
+  }
+}
