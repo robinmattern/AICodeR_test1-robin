@@ -1,0 +1,17 @@
+I want you to create an web apps that use JavaScript ES6, that uses `import`, not `require`, and the native `fetch`.
+
+For the backend please use NodeJS version 20+ and scripts with a .mjs extension.
+Put the client scripts in a client folder e.g. `client/index.html` and server scripts, `.env` and `package.json` in a server folder e.g. `server/server.mjs`.
+In `server.mjs`, display "Client is running at http://localhost:${PORT}" for the `app.listen()` command.
+When importing javascript files use the filename and extension.
+
+Display your response as a MarkDown. For each script provide the filename preceded by "### File: ".
+On the next line show the code between ``` marks indicating the language. After the code write an explanation of what the code does.
+
+Please provide a diagram of the folder structure followed by instructions for installing node modules and for executiing the client and server apps.
+Provide debugging instructions for the server app assuming we currently have a `lauch.json`, and Chrome's DevTools for the client apps.
+For these instructions provide a heading of "### Instructions: ".
+
+Use this to create an application that allows the upload of .ics file then use it as a prompt
+Let me query it using gbt 3.5-turbo using my OpenAI key.
+Use the API URL= https://api.openai.com/v1/chat/completions.

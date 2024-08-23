@@ -1,5 +1,5 @@
 {
-  "anthropic_version": "2023-10-16",
+  "anthropic_version": "vertex-2023-10-16",
   "messages": [
     {
       "role": "user",
@@ -9,7 +9,7 @@
           "source": {
             "type": "base64",
             "media_type": "image/png",
-            "data": "{ImageData}"
+            "data": "iVBORw0KGg..."
           }
         },
         {
