@@ -32,7 +32,7 @@
 5. Generate new app with Claude.AI chat site
    - `aicoder new prompt` 
    - Enter session number: 29 
-   - Open file: `code docs\c01_calendar-app\Claude-35s_Anthropic-chat\c01_t0029.01.1.40729.0721_usermsg.txt` 
+   - Open file: `code docs\c01_calendar-app\Claude-35s_Anthropic-chat\c01_t0029.01.1.40729.0721_usermsg_.txt` 
    - Copy and paste the first prompt into the VSCode editor
    ```
    Create an app that uses javascript ES6, import not require, fetch and node scripts in .mjs. 
