@@ -1,4 +1,4 @@
-## AICoder Extension: v02.8.40819.1530
+## AICoder Extension: v02.8
 
 A set of VSCode commands to enable editing of AI Model prompt files
 

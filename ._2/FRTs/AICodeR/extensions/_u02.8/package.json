@@ -1,6 +1,6 @@
 {
   "name": "e05-open-files-ext",
-  "displayName": "AICodeR Extension u02.8.40821.1656",
+  "displayName": "AICodeR Extension u02.8.40907.0900",
   "description": "An extension to open AICodeR Prompt and Response files",
   "author": "Robin Mattern",
   "publisher": "AICodeR",
@@ -23,7 +23,7 @@
     "onCommand:extension.listScripts",
     "onCommand:extension.saveScripts"
   ],
-  "main": "./extension_u02.8.40819.1530.js",
+  "main": "./extension_u02.8.40907.0900.js",
 
   "contributes": {
     "commands": [
@@ -47,16 +47,20 @@
         "title"   : "5. Run Request",
         "category": "AICodeR"
       },
+      { "command" : "extension.newResponse",
+        "title"   : "6. New Response",
+        "category": "AICodeR"
+      },
       { "command" : "extension.openResponse",
-        "title"   : "6. Open Response",
+        "title"   : "7. Open Response",
         "category": "AICodeR"
       },
       { "command" : "extension.listScripts",
-        "title"   : "7. List Scripts",
+        "title"   : "8. List Scripts",
         "category": "AICodeR"
       },
       { "command" : "extension.saveScripts",
-        "title"   : "8. Save Scripts",
+        "title"   : "9. Save Scripts",
         "category": "AICodeR"
       }
     ]
