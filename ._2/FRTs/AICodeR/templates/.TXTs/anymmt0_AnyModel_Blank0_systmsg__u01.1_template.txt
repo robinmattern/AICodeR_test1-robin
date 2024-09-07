@@ -1,4 +1,4 @@
-### File: {App}_{Ver}_usermsg_.txt for gp4oopm_GPT-4o-OpenAI_usermsg__u01.1
+### File: {App}_{Ver}_systmsg_.txt for anymowa-Owner_systmsg__u01.1
 
 I want you to create an web apps that use JavaScript ES6, that uses `import`, not `require`, and the native `fetch`.
 
@@ -14,6 +14,3 @@ Please provide a diagram of the folder structure followed by instructions for in
 Provide debugging instructions for the server app assuming we currently have a `lauch.json`, and Chrome's DevTools for the client apps.
 For these instructions provide a heading of "### Instructions: ".
 
-Use this to create an application that allows the upload of .ics file then use it as a prompt
-Let me query it using gbt 3.5-turbo using my OpenAI key.
-Use the API URL= https://api.openai.com/v1/chat/completions.
