@@ -138,7 +138,7 @@
 
         if (process.argv.length > 2 ) {  // Process command line arguments
        var  aSteps = process.argv[2]
-            console.log( `  aSteps: '${aSteps}'`)
+//          console.log( `  aSteps: '${aSteps}'`)
             }
             aSteps = `,${aSteps},`
 // --- ---  --------------  =  -------------------------------------------------------------
@@ -504,17 +504,17 @@
 
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
 //          console.log(    "  mArgs:", mArgs)
-            console.log(  `\n  listSession[1]  mArgs:  '${mArgs.join("', '")}'`)
+//          console.log(  `\n  listSession[1]  mArgs:  '${mArgs.join("', '")}'`)
 //          console.log(    `  listSession[2]  process.argv:  '${process.argv.join("', '")}'`)     
 //     var  aAppName        = (mArgs[3].length == 3) ? (getApp(   1, mArgs[3] )[2] || '').trim() : mArgs[3]
 //     var  aModel          = (mArgs[4].length == 7) ? (getModel( 1, mArgs[4] )[2] || '').trim() : mArgs[4]   // .(40717.04.1 RAM End)
        var  aAppName        = (mArgs[3].length == 3) ?  getApp(   1, mArgs[3], 2 ) : mArgs[3]       // .(40718.09.13)
-       var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       //#.(40719.10.1).(40718.09.14).(40717.04.1 RAM End)
+       var  aModel          = (mArgs[4].length == 7) ?  getModel( 1, mArgs[4], 2 ) : mArgs[4]       //#.(40719.10.1).(40718.09.13).(40717.04.1 RAM End)
 //          console.log(    "  aAppName, aModel", aAppName, aModel); process.exit()
             aModel          =  process.argv[3] ? aModel : undefined                                 // .(40723.02.x RAM Only if no other args).(40719.10.1 RAM List session sfor all models for app)
 
       if ( !aAppName) { process.exit() }                                                            // .(40729.02.4)
-       var  aAppPath        =  getDocsPath( aAppName, aModel )                                      // .(40715.03.5 Add chk function)
+       var  aAppPath        =  getDocsPath( aAppName, aModel, '\n' )                                // .(40715.03.5 Add chk function)
 
        var  rSession        =  mArgs[0] == '000' ? /.+/ : new RegExp( `t${mArgs[0]}` )              // .(40823.02.x) 
        var  rModel          =  mArgs[3] != ''    ? /.+/ : new RegExp( `t${mArgs[0]}` )              // .(40823.02.x) 
@@ -537,8 +537,8 @@
        var  mFiles          =  FRT.listFiles( aAppPath )                                            // .(40715.03.7 RAM All models for app, or just one)
        var  mFolders        =  mFiles.filter( mFile => mFile[0].match( /^ +0/ ) )                   // .(40715.05.1 RAM Opps was: /^[ 0]+/ )
 //     var  mModels         =  mFolders.map(  mDir  => mDir[2] )                                    //#.(40715.05.1)
-//     var  mModels         =  mFolders.map(  mDir  => getModel( 2, mDir[2] )[2] )                  //#.(40718.09.20).(40715.05.1 RAM Check it)
-       var  mModels         =  mFolders.map(  mDir  => getModel( 2, mDir[2],  2  ) )                // .(40718.09.20)
+//     var  mModels         =  mFolders.map(  mDir  => getModel( 2, mDir[2] )[2] )                  //#.(40715.05.1 RAM Check it).(40718.09.14)
+       var  mModels         =  mFolders.map(  mDir  => getModel( 2, mDir[2],  2  ) )                // .(40718.09.14)
                                       .sort( (a,b)  => a[2] > b[2] ? 1 : -1 )
                                     .filter(  aDir  => aDir )
         } else {

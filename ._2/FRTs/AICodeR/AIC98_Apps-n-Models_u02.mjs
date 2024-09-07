@@ -1,11 +1,13 @@
    import   FRT          from './AIC90_FileFns_u03.mjs'
-//    let   FRT       = (await import( './AIC90_FileFns_u03.mjs' )).default            // .(.40810.01.1 RAM Allow use in CommonJS)
-   import   dotenv       from 'dotenv';
-//    let   dotenv    =  await import( 'dotenv' );                                     // .(.40810.01.2) 
+//    let   FRT       = (await import( './AIC90_FileFns_u03.mjs' )).default             // .(.40810.01.1 RAM Allow use in CommonJS)
+// import   AIF          from './AIC91_AppFolders_u03.mjs'                              //#.(40826.09.10)
+//    var   setVars   =  AIF.setVars                                                    //#.(40826.09.10)
 
-            dotenv.config( { path: FRT.path( __basedir, '.env' ) } )                   // .(40725.03.1 RA< Added { path: '...' } )
+   import   dotenv       from 'dotenv';
+//    let   dotenv    =  await import( 'dotenv' );                                      // .(.40810.01.2) 
+            dotenv.config( { path: FRT.path( __basedir, '.env' ), override: true } )    // .(40829.01.2).(40725.03.1 RA< Added { path: '...' } )
 //          console.log( " ", FRT.path( __basedir, '.env' ) )
-       var  mEnvs       =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == 'FRT_' )
+       var  mEnvs     =  Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == 'FRT_' )
 //          console.log( "${__basedir}/.env:       ", `${__basedir}/.env` );
 //          console.log( "process.env['FRT_APP']:  ", process.env['FRT_APP'  ] );
 //          console.log( "process.env['FRT_MODEL']:", process.env['FRT_MODEL'] );
@@ -14,14 +16,15 @@
 
        var  Apps =                                                                      // .(40711.01.3 RAM Add Apps table)
              [ [ ' 1.', 'c01', 'c01_calendar-app         ' ] //                         // .(40719.01.1 RAM Add C01 App)
-             , [ ' 2.', 'c35', 'c35_calendar1-app        ' ] //
-             , [ ' 3.', 'c36', 'c36_hawaii-contracts-app ' ] //
-             , [ ' 4.', 'c37', 'c37_aicoder-sessions-app ' ] //
-             , [ ' 5.', 'c38', 'c38_login-app            ' ] //
-             , [ ' 6.', 'c42', 'c42_whatever-app         ' ] //
-             , [ ' 7.', 'c43', 'c43_chrome-extension-app ' ] //
-             , [ ' 8.', 'c44', 'c44_a-dancers-dream-app  ' ] //
-             , [ ' 9.', 's35', 's35_calendar-app         ' ] //
+             , [ ' 2.', 'c02', 'c02_Ask-AI-about-PDF-app ' ] //                         // .(40904.01.1 RAM Add C02 App)
+             , [ ' 3.', 'c35', 'c35_calendar1-app        ' ] //
+             , [ ' 4.', 'c36', 'c36_hawaii-contracts-app ' ] //
+             , [ ' 5.', 'c37', 'c37_aicoder-sessions-app ' ] //
+             , [ ' 6.', 'c38', 'c38_login-app            ' ] //
+             , [ ' 7.', 'c42', 'c42_whatever-app         ' ] //
+             , [ ' 8.', 'c43', 'c43_chrome-extension-app ' ] //
+             , [ ' 9.', 'c44', 'c44_a-dancers-dream-app  ' ] //
+             , [ '10.', 's35', 's35_calendar-app         ' ] //
                ]
 // ----------------------------------------------------------------------------------
 
@@ -29,57 +32,61 @@
              { 'c35sanm': { 'usermsg_.txt' : ['.TXTs/', 'c35sanm_Claude-35s_Anthropic','_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-maxi
             ///           , 'request_.json': ['.JSONs/','c35sann_Claude-35s_Anthropic  '_request__u01.1_template.json']
             ///           , 'messages.json : ['.JSONs/','c35sanm_Claude-35s_Anthropic','_messages_u01.1_template.json']
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+//                        , 'markdown.md'  : ['.MDs/',  'anymmt0_AnyModel_Blank0',     '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'c35sanm_Claude-35s_Anthropic','_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'c35sann': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-node
-                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+             , 'c35sann': { 'usermsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-node
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
             //            , 'request_.json': ['.JSONs/','c35sann_Claude-35s_Anthropic','_request__u01.1_template.json`]  //#.(40801.02.6)
             //            , 'messages.json': ['.JSONs/','c35sann_Claude-35s_Anthropic','_messages_u01.1_template.json`]  //#.(40801.02.6)
                           , 'request_.mjs' : ['.MJSs/', 'c35sann_Claude-35s_Anthropic','_node-req_u01.1_template.mjs' ]  // .(40821.02.1)
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'anymms1_AnyModel_Sample1',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'c35sanu': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-curl
-                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
+             , 'c35sanu': { 'usermsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-curl
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
             //            , 'request_.json': ['.JSONs/','c35sanu_Claude-35s_Anthropic','_request__u01.1_template.json`]  //#.(40801.02.6)
-            ///           , 'messages.json': ['.JSONs/','c35sanu_Claude-35s_Anthropic','_messages_u01.1_template.json']
+            ///           , 'messages.json': ['.JSONs/','c35sanu_Claude-35s_Anthropic','_messages_u01.1_template.json']  //#.(40801.02.6)
+                          , 'messages.json': ['.JSONs/','c35sanu_Claude-35s_Anthropic','_messages_u01.1_template.json']  // .(40826.01.2 RAM Copy it initially??)
                           , 'request_.sh'  : ['.SHs/',  'c35sanu_Claude-35s_Anthropic','_curl-req_u01.1_template.sh'  ]  // .(40821.02.1)
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'anymms1_AnyModel_Sample1',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'c35sanw': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-chat
-                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
+             , 'c35sanw': { 'usermsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-chat
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
             ///           , 'messages.json': ['.JSONs/','c35sanw_Claude-35s_Anthropic','_messages_u01.1_template.json']
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'anymms1_AnyModel_Sample1',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'c35sgou': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-chat
-                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
+             , 'c35sgou': { 'usermsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-chat
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.4)
             ///           , 'request_.json': ['.JSONs/','c35sgou_Claude-35s_Google     '_request__u01.1_template.json']
             ///           , 'messages.json': ['.JSONs/','c35sgou_Claude-35s_Google',   '_messages_u01.1_template-wImage.json']
                           , 'messages.json': ['.JSONs/','c35sgou_Claude-35s_Google',   '_messages_u01.1_template-wImage.json']
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'anymms1_AnyModel_Sample1',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'gp35opn': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // GPT-35_OpenAI-node
-                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+             , 'gp35opn': { 'usermsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // GPT-35_OpenAI-node
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
                           , 'request_.json': ['.JSONs/','gp35opn_GPT-35_OpenAI',       '_request__u01.1_template.json']  // .(40801.02.6)
             ///           , 'messages.json': ['.JSONs/','gp35opn_GPT-35_OpenAI',       '_messages_u01.1_template.json']
                           , 'request_.mjs' : ['.MJSs/', 'gp35opn_GPT-35_OpenAI',       '_node-req_u01.1_template.mjs' ]  // .(40821.02.1)
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'anymms0_AnyModel_Sample0',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
              , 'gp4oopm': { 'usermsg_.txt' : ['.TXTs/', 'gp4oopm_GPT-4o_OpenAI',       '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-maxi
+//                        , 'systmsg_.txt' : ['.TXTs/', 'gp4oopm_GPT-4o_OpenAI',       '_systmsg__u01.1_template.txt' ]  
             ///           , 'messages.json': ['.JSONs/','gp4oopm_GPT-4o_OpenAI',       '_messages_u01.1_template.json']
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+//                        , 'markdown.md'  : ['.MDs/',  'anymms0_AnyModel_Sample0',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'gp4oopm_GPT-4o_OpenAI',       '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'gp4oopn': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-node
-                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+             , 'gp4oopn': { 'usermsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-node
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
                           , 'request_.mjs' : ['.MJSs/', 'gp4oopn_GPT-4o_OpenAI',       '_node-req_u01.1_template.mjs' ]  // .(40821.02.1)
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'anymms0_AnyModel_Sample0',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
-             , 'gp4oopu': { 'usermsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-curl
-                          , 'systmsg_.txt' : ['.TXTs/', 'anymowa_AnyModel_Owner',      '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
+             , 'gp4oopu': { 'usermsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // GPT-4o_OpenAI-curl
+                          , 'systmsg_.txt' : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
             ///           , 'request_.json': ['.JSONs/','gp4oopu_GPT-4o_OpenAI         '_request__u01.1_template.json']
             ///           , 'request_.json': ['.JSONs/','gp4oopu_GPT-4o_OpenAI         '_request__u02.1_template.json']
             ///           , 'messages.json': ['.JSONs/','gp4oopu_GPT-4o_OpenAI',       '_messages_u01.1_template.json']
                           , 'request_.sh'  : ['.SHs/',  'gp4oopu_GPT-4o_OpenAI',       '_curl-req_u01.1_template.sh'  ]  // .(40821.02.1)
-                          , 'markdown.md'  : ['.MDs/',  'anymowa_AnyModel_Owner',      '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+                          , 'markdown.md'  : ['.MDs/',  'anymms0_AnyModel_Sample0',    '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
                              }
             }              
 // ----------------------------------------------------------------------
@@ -110,8 +117,8 @@
              , [ ' 1.', 'gp35opw', 'GPT-35_OpenAI-web       '  ] // on (playground)
 
              , [ ' 1.', 'gp4oopw', 'GPT-4o_OpenAI-web       '  ] // 
-             , [ ' 2.', 'gp4oopu', 'GPT-4o_OpenAI-curl      '  ] // 
-             , [ ' 3.', 'gp4oopn', 'GPT-4o_OpenAI-node      '  ] // 
+             , [ ' 2.', 'gp4oopu', 'GPT-4o_OpenAI-curl      '  ] //                                 // .(40826.06.1 RAM S.B. GPT-4o-OpenAI_curl) 
+             , [ ' 3.', 'gp4oopn', 'GPT-4o_OpenAI-node      '  ] //                                 // .(40826.06.2 RAM S.B. GPT-4o-OpenAI_node)  
              , [ ' 4.', 'gp4oopm', 'GPT-4o_OpenAI-maxi      '  ] //                                 // .(40702.06.1 RAM New Models)
              , [ ' 5.', 'gp4oopf', 'GPT-4o_OpenAI-fetch     '  ] // 
              , [ ' 6.', 'gp4oopc', 'GPT-4o_OpenAI-cont      '  ] // 
@@ -124,7 +131,7 @@
              , [ '11.', 'cg2boln', 'CodeGemma-7b_Ollama-node'  ]
              , [ '12.', 'cg2bolc', 'CodeGemma-7b_Ollama-cont'  ]
 
-             , [ '13.', 'c2q5lmn', 'Claude2-Q5_LMStudio-node'  ]
+             , [ '13.', 'c2q5lmn', 'Claude2-Q5_LMStudio-node'  ]                                  // .(40826.06.3 RAM S.B. Claude2-Q5-LMStudio_node)
              , [ '14.', 'c2q3lmn', 'Claude2-Q3_LMStudio-node'  ]
 //           , [ '14.', 'c3q3lmn', 'Claude3-Q3_LMStudio-node'  ]
              , [ '15.', 'c35sanm', 'Claude-35s_Anthropic-maxi' ]                                  // .(40702.06.2)
@@ -145,7 +152,8 @@
              , [ '24.', 'ge15gvw', 'Gemini-15_Vertex-web    '  ]
                 ]
 
-            Models2   =  Models2.map( (mRec,i) => [ i + 0, ...mRec.slice(-2) ] ).slice(1)
+//          Models2   =  Models2.map( (mRec,i) => [ i + 0, ...mRec.slice(-2) ] ).slice(1)
+            Models2   =  Models2.map( (mRec,i) => [ `${i * 1}.`.padStart(4), ...mRec.slice(-2) ] ).slice(1)
 
 // ----------------------------------------------------------------------------------
 /*
@@ -170,8 +178,9 @@
        var  aSessions_Dir  =  FRT.path( __basedir, aDocs_Dir )
        var  pStat          =  FRT.checkFileSync( aSessions_Dir )
        if (!pStat.isDir   ||  aAppName == '' || (aModel == '' && aModel_ != '')) {                   // .(40821.05.1 RAM aModel_ is not MT is aMod is passed)
-                     //     var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : ( aModel_ ? `AppName, ''` : `aModel, ''` )
-       var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : `AppName/Model, ''`
+//     var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : ( aModel_ ? `AppName, ''` : `aModel, ''` )
+//     var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : `AppName/Model, ''`        //#.(40826.13.1)
+       var  aErrMsg        =  aAppName && aModel_ != '' ?  `AppName/Model folder, ./${aDocs_Dir}` : `AppName, '${aAppName}'`       // .(40826.13.1 RAm Show aAppName)
 //          console.log(       `* ${aErrMsg}, does not exist.` ); aCR = ''                          // .(40729.03.x)
             console.log( `${ aCR ? aCR : '' }* ${aErrMsg}, does not exist.` ); aCR = ''             //#.(40729.03.x)
             process.exit()
@@ -258,12 +267,14 @@
        if (!aMod     ) { return  selectRow( Models2, nFld ) }                           //                  return 1 or 0 rows for alias, or all rows if no field
         if (nFld == 0) { return  selectRow( Models2, nFld, aMod ) }                     //                  return 1 or 0 rows for row number,
         if (nFld <= 2) { return (selectRow( Models2, nFld, aMod )[aSub] || '').trim() } //                  return 1 or 0 rows for field
-//      if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }        //#.(40801.06.1 RAM return 1 or 0 rows for template)
-        if (nFld == 3) { aMod =  Model_Templates[ aMod ]                                // .(40801.06.2)
-             if (aMod) { return (aMod[ aSub ] || '').trim() } }                         // .(40801.06.3 RAM return 1 or 0 rows for template)
-        if (nFld == 4) { aMod =  getModel( 2, aMod, 1 )                                 // .(40801.06.4)
-             if (aMod) { return (Model_Templates[ aMod ][ aSub ] || '').trim() } }      // .(40801.06.5 RAM return 1 or 0 rows for template)
-    return ''
+//      if (nFld == 3) { return (Model_Templates[ aMod ][ aSub ] || '').trim() }        //#.(40801.06.1 RAM return 1 or 0 rows for model templates)
+        if (nFld == 3) { var mTemplates =  Model_Templates[ aMod ]                      // .(40801.06.2)
+                         if (mTemplates) { return (mTemplates[ aSub ] || '').trim() } } // .(40801.06.3 RAM return 1 or 0 rows for aMod template file: aSub)
+//      if (nFld == 4) { aMod = getModel( 2, aMod, 1 )                                  //#.(40801.06.4).(40827.03.1)
+//           if (aMod) { return (Model_Templates[ aMod ][ aSub ] || '').trim() } }      // .(40801.06.5 RAM return 1 or 0 rows for aModel template file: aSub).(40827.03.2)
+        if (nFld == 4) { var mTemplates = Model_Templates[ getModel( 2, aMod, 1 ) ]     // .(40827.03.1 RAM Does it have a valid template).(40801.06.4)
+                         if (mTemplates) { return (mTemplates[ aSub ] || '').trim() } } // .(40827.03.2).(40801.06.5 RAM return 1 or 0 rows for aModel template file: aSub)
+     return ''
             }  // eof getModel
 // ------------------------------------------------------------------------------
 
@@ -309,12 +320,16 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
                    console.log( `\n* Invalid field No ${nFld}. (Origin is now ${nOrigin})`); return ''
                    }
 //            var  rVal   =  new RegExp( `^${aVal.replace( /-/, '' ).toLowerCase()}.*`, 'i' )
-              var  rVal   =  new RegExp( `${nFld < 2 ? '^' : '' }${aVal.toLowerCase()}.*`, 'i' )
+//            var  rVal   =  new RegExp( `${nFld < 2 ? '^'   : '' }${aVal.toLowerCase()}.*`, 'i' )  //#.(40826.10.1 RAM Why isn't this working)
+              var  rVal   =  new RegExp( `${nFld < 2 ? '^ *' : '' }${aVal.toLowerCase()}.*`, 'i' )  //#.(40826.10.1 RAM Will this work)
+//            var  rVal   =  new RegExp( `${nFld < 2 ? '^ *' : '' }${aVal.toLowerCase()}*`,  'i' )  // .(40826.10.1 RAM Will this work, perhaps)
               var  mRows2 =  mRows.filter( ( mRow, i ) => {
-                    var aFld    =  mRow[ nFld - nOrigin ].replace( /[- ]/, '' ).toLowerCase();
+//                  var aFld    =    mRow[ nFld - nOrigin   ].replace( /[- ]/, '' ).toLowerCase();  // .(40826.10.2 RAM Why isn't this working)
+                    var aFld    = `${mRow[ nFld - nOrigin ]}`.replace( /[- ]/, '' ).toLowerCase();  // .(40826.10.2 RAM Make fld 0 a string)
+//                      console.log( `aFld: '${aFld}'.match( ${rVal} ) = ${ aFld.match( rVal ) ? 'T' : 'F' }` ) // .(40826.10.3 RAM Show all potential matches)
                     var bFound  =  aFld.match( rVal )
- //                 console.log(   aFld, `${aVal}: ${ bFound ? "found" : "not found" }` )
-                 return bFound
+//                      console.log(   aFld, `${aVal}: ${ bFound ? "found" : "not found" }` )
+                 return bFound != null
                         } )
            return  mRows2
               }  // eof selectModels                                                    // .(40727.03.2 End)
@@ -368,14 +383,19 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
   function  setArgs( mArgs, aGetSet, aQuit ) {
 //     var  bSet  = 0,  bGet = 0, aVar;
 //          console.log( `  setArgs[1]  mArgs:  '${ mArgs.join( "'\n                      '" ) }'` )
-//          mArgs       =   mArgs.slice( 2 )                                                          //#.(40721.03.1 RAM ??)
-//          mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[3] || '') ? 0 : 1 ) )                  //#.(40721.03.1 ??)
+//          mArgs       =   mArgs.slice( 2 )                                                        //#.(40721.03.1 RAM ??)
+//          mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[3] || '') ? 0 : 1 ) )                //#.(40721.03.1 ??)
 //          console.log( `  isNaN( mArgs[2]: : '${isNaN( mArgs[2])}'`  )
-            mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[2]      ) ? 0 : 1 ) )                  // .(40721.03.1 Remove Step No  or from CLI)
-            mArgs       =  (mArgs[0] == 'prompt') ? mArgs.slice(1) : mArgs                            // .(40820.04.x RAM Kloodgy)
+//          mArgs       =   mArgs.slice( 2 )                                                        // .(40827.08.3 RAM Always remove first two rows
+//      if (mArgs[0].match( /AIC05_/ )) {                                                           //#.(40827.08.3 RAM Only if AIC05_Schema-IO script)
+//          mArgs       =   mArgs.slice( 2 + (    isNaN( mArgs[2]      ) ? 0 : 1 ) )                //#.(40721.03.1 RAM Remove Step No or from CLI)
+//          }                                                                                       //#.(40827.08.4)
+            mArgs       =  (/AIC05_/.test( mArgs[1] )) ? mArgs.slice(1) : mArgs                     // .(40827.08.4 Remove Step No or from CLI Only if AIC05_Schema-IO script)
+            mArgs       =  (mArgs[0] == 'prompt'     ) ? mArgs.slice(1) : mArgs                     // .(40820.04.x RAM Kloodgy)
+            mArgs       =   mArgs.slice( 2 )                                                        // .(40827.08.3 RAM Always remove first two rows
 //          console.log( `  setArgs[2]  mArgs:  '${ mArgs.join( "', '" ) }'` )
 //      if (aGetSet    ==  'get') {  aVar = mArgs[0].slice(0,3).toLowerCase(); mArgs.shift(); bGet = 1 }
-       var  mParms      =   chkArgs( mArgs, `${aGetSet}${aQuit}`.match(/quit/) ? 'quit' : '' )        // not 'quit'
+       var  mParms      =   chkArgs( mArgs, `${aGetSet}${aQuit}`.match(/quit/) ? 'quit' : '' )      // not 'quit'
 //      if (mParms[3]  == '' && bGet && aVar == 'app') { mParms[3] = getEnv( 'APP');                    return mParms }
 //      if (mParms[4]  == '' && bGet && aVar == 'mod') { mParms[4] = getEnv( 'Model');                  return mParms }
        var  bGet        =  (aGetSet == 'get' && mParms[5] == '') ? 1 : 0
@@ -440,20 +460,29 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
             }
         if (mArgs[0]  && mArgs[0].length == 3) {   // Check App alias
             mParms[3] = /[cs][0-9]{2}/.test( mArgs[0] || '') ?  mArgs[0] : `* Invalid App alias: '${mArgs[0]}'`
-//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )[1] || '').trim()     //#.(40718.09.15 ) // origin 0
-//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )                      //#.(40718.xx.x  RAM Keep leading '*')
-            mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] :  getApp(   1, mParms[3] )                      // .(40718.09.15 RAM New getApp)
+//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )[1] || '').trim()     //#.(40718.09.19) // origin 0
+//          mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] : (getApp(   1, mParms[3] )                      //#.(40718.09.19 RAM Keep leading '*')
+            mParms[3] = /^\*/.test(  mParms[3] ) ? mParms[3] :  getApp(   1, mParms[3] )                      // .(40718.09.19 RAM New getApp)
             mParms[3] =  mParms[3] ? mParms[3] : `* App alias not found: '${mArgs[0]}'`
             mArgs.shift()
             }
-        if (mArgs.length == 2) { var n = 1 } else { var n = 0 }                                               // .(40718.xx.x RAM ??)
+        if (mArgs.length == 2) { var n = 1 } else { var n = 0 }                                               // .(40718.09.20 RAM ??)
+
+        if (rNums.test(mArgs[n])) {                                                                           // .(40827.08.1 RAM Special case for Session No. Beg)  
+            mParms[0] = (mArgs[n] || '').padStart( 3, '0' )                                                   // nThread (aka Session): 001
+        if (n == 1) { mArgs.splice(-1); n = 0 } else { mArgs.shift() }
+            }                                                                                                 // .(40827.08.1 End)
         if (mArgs[n]  && mArgs[n].length == 7) {    // Check Model alias
             mParms[4] = /[a-z0-9]{7}/.test(  mArgs[n] || '') ?  mArgs[n] : `* Invalid Model alias: '${mArgs[0]}'`
-//          mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] : (getModel( 1, mParms[4] )[1] || '').trim()     //#.(40718.09.16)
-            mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] :  getModel( 1, mParms[4] )                      // .(40718.09.16 RAM New getApp)
+//          mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] : (getModel( 1, mParms[4] )[1] || '').trim()     //#.(40718.09.21)
+            mParms[4] = /^\*/.test(  mParms[4] ) ? mParms[4] :  getModel( 1, mParms[4] )                      // .(40718.09.21 RAM New getApp)
             mParms[4] =  mParms[4] ? mParms[4] : `* Model alias not found: '${mArgs[n]}'`
             mArgs.splice(-1)
             }
+        if (rNums.test(mArgs[0])) {                                                                           // .(40827.08.2 RAM Special case for Session No. Beg)  
+            mParms[0] = (mArgs[0] || '').padStart( 3, '0' )                                                   // nThread (aka Session): 001
+            mArgs.shift()
+            }                                                                                                 // .(40827.08.2 End)
         if (mArgs[0]) {
             n = mArgs.length == 1 ? "" : "s"
             mParms[5] =  `* Invalid argument${n}: '${ mArgs.join("', '") }'`
@@ -498,8 +527,17 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
        var  aItem          = 'c01'
             }
 // ---------------------------------------------------------------------------------------------------
+
 //          console.log( `aTable: '${aTable}', aRow: '${aRow}', aItem: '${aItem}'` )
 //          process.exit()
+
+//          setVars( aTable, aRow, aItem )                                                          //#.(40826.09.10 Call here) 
+/*                                                                                                  //#.(40826.09.10 Move to AIC91 Beg)                        
+       var  aTable         =  process.argv.length > 2 ? process.argv[2] : ''
+       var  aRow           =  process.argv.length > 3 ? process.argv[3] : ''
+       var  aItem          =  process.argv.length > 4 ? process.argv[4] : ''
+
+  function  setVars( aTable, aRow, aItem ) {                                                         
 
         if (aTable == 'set' && aRow.slice(0,3) == 'sho' ) {                                         // .(40717.01.3 RAM Add set show)
        var  mEnvs1        =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == `FRT_` )
@@ -512,8 +550,9 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
 
        if (aTable == 'set' && aRow.slice(0,3) == 'app' ) {
 //     var  aRow           =  process.argv.length > 4 ? process.argv[4] : aRow
-//     var  aAppName       = (getApp(   1, aItem )[2] || '').trim()                                 //#.(40718.09.17)
-       var  aAppName       = (getApp(   1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.17)
+//     var  aAppName       = (getApp(   1, aItem )[2] || '').trim()                                 //#.(40718.09.22)
+            aItem          =  aItem ? aItem : chkApp( )                                              
+       var  aAppName       = (getApp(   1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.22)
         if (aAppName == "") {
             console.log( `\n* Invalid app: '${aItem}'` )
             process.exit()
@@ -527,7 +566,8 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
 
         if (aTable == 'set' && aRow.slice(0,3) == 'mod' ) {
 //     var  aRow           =  process.argv.length > 4 ? process.argv[4] : aRow
-       var  aModel         = (getModel( 1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.18)
+            aItem          =  aItem ? aItem : ask4Model( )                                           
+       var  aModel         = (getModel( 1, aItem,  2 ))         // (()[2] || '').trim()             // .(40718.09.23)
         if (aModel == "") {
             console.log( `\n* Invalid model: '${aItem}'` )
             process.exit()
@@ -538,7 +578,9 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
             process.exit()
             }
 // ---------------------------------------------------------------------------------------------------
-
+       }  // eof setVars
+// ---------------------------------------------------------------------------------------------------
+*/                                                                                                  //#.(40826.09.10 END)                        
        if ("test2" == "text2") {
        var  aTable         = 'apps'
        var  aTable         = 'models'
@@ -550,7 +592,7 @@ function  selectRows( mRows, nFld, aVal ) {  var nOrigin = 0                    
 //     var  aRow           = '' // 'gp4oopm'
 //     var  aRow           =  process.argv.length > 3 ? process.argv[3] : ''
 
-            console.log(   `  aTable:   '${aTable}', aRow: '${aRow}'` )
+            console.log(   `  aTable:   '${aTable}', aRow: '${aRow}'` )                                                      // .(40826.09.11 RAM What is this for? List Apps/Models)
 //     var  xTable         = (aTable.slice(0,3) == 'mod') ? getModel : getApp
        var  xTable         = (aTable.slice(0,3) == 'app') ? getApp   : getModel                                              // .(40821.01.1 RAM Reverse App and Model)  
 //          console.log(      getModel( aRow ).map( m => '  ' + m.join( '  ' )).join( '\n' ) );

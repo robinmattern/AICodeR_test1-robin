@@ -38,6 +38,10 @@
             aCmd  = (process.argv[1] == 'opnMarkdown' ) ? 'opnMarkdown' : aCmd                      // .(40731.02.9)
             aCmd  = (process.argv[1] == 'newApp'      ) ? 'newApp'      : aCmd
 
+            aCmd  = (process.argv[1] == 'setApp'      ) ? 'setApp'      : aCmd                      // .(40826.09.14)
+            aCmd  = (process.argv[1] == 'setModel'    ) ? 'setModel'    : aCmd                      // .(40826.09.15)
+            aCmd  = (process.argv[1] == 'shoVars'     ) ? 'shoVars'     : aCmd                      // .(40826.09.16)
+
 //          aCmd  = 'newSession'
 //          aCmd  = 'newMarkdown'
 
@@ -58,16 +62,127 @@
         if (aCmd == 'newMarkdown'  ) { await makResponse( 'new' ) }                                 // .(40730.02.3)
         if (aCmd == 'opnMarkdown'  ) { await makResponse( 'open' ) }                                // .(40730.02.4)
         if (aCmd == 'newApp'       ) { await createAppFolders( ) }                                  // .(40728.02.18 End)
+
+        if (aCmd == 'shoVars'      ) { await setVars( 'set', 'sho' ) }                              // .(40826.09.17)
+        if (aCmd == 'setApp'       ) { await setVars( 'set', 'app' ) }                              // .(40826.09.18)
+        if (aCmd == 'setModel'     ) { await setVars( 'set', 'model' ) }                            // .(40826.09.19)
+
             process.exit()                                                                          // .(40730.03.1 RAM Seems to be needed)
             }  // eof process.argv[2]                                                               // (40731.03.x 
 // ---------------------------------------------------------------------------
 
+     async  function  setVars( aTable, aRow, aItem ) {                                              // .(40826.09.1 RAM Create setVars Beg) 
+
+//     var  aTable         =  process.argv.length > 2 ? process.argv[2] : ''
+//     var  aRow           =  process.argv.length > 3 ? process.argv[3] : ''
+       var  aItem          =  aItem ? aItem  : (process.argv.length > 2 ? process.argv[2] : '')     // .(40826.09.2 RAM Was [4])
+ 
+// -------------------------------------------------------------
+
+  function  shoVars( ) {                                                                            // .(40826.12.1 RAM Write shoVars)
+       var  mEnvs1        =   Object.entries( process.env ).filter( mEnv => mEnv[0].slice(0,4) == `FRT_` )
+       var  mEnvs1        =   mEnvs1.map( mEnv => `${ mEnv[0].padEnd(12) } = "${mEnv[1]}"` )
+            console.log( "" )
+            console.log(   `  ${mEnvs1.join("\n  ") }`)
+            }  // eof shoVars
+// -------------------------------------------------------------
+
+        if (aTable == 'set' && aRow.slice(0,3) == 'sho' ) {                                         // .(40717.01.3 RAM Add set show)
+            shoVars() 
+            process.exit()
+            }  // eof setVars( 'set', 'sho' )
+// -------------------------------------------------------------
+
+   if (aTable == 'set' && aRow.slice(0,3) == 'app' ) {
+//     var  aRow            =  process.argv.length > 4 ? process.argv[4] : aRow
+//     var  aAppName        = (getApp(   1, aItem )[2] || '').trim()                                //#.(40718.09.15)
+            aItem           =  aItem ? aItem : await chkApp( )                                      // .(40826.09.3 RAM Ask if not given) 
+       var  aAppName        = (getApp(   1, aItem,  2 ))         // (()[2] || '').trim()            // .(40718.09.15)
+        if (aAppName == "") {
+            console.log( `\n* Invalid app: '${aItem}'` )
+            process.exit()
+            }
+//          console.log( `\n  Setting app to: '${aAppName}'` )
+//          process.env[     "FRT_APP"] = aAppName
+                              AIM.setEnv( "App", aAppName )                                         // .(40826.09.4)
+                              shoVars()                                                             // .(40826.12.2)
+            process.exit()
+            }  // eof setVars( 'set', 'app' )
+// -------------------------------------------------------------
+
+    if (aTable == 'set' && aRow.slice(0,3) == 'mod' ) {
+//     var  aRow            =  process.argv.length > 4 ? process.argv[4] : aRow
+            aItem           =  aItem ? aItem : await ask4Model( )                                   // .(40826.09.5 RAM Ask if not given) 
+       var  nFld            =  aItem.length > 7 ? 2 : (isNaN(aItem) ? 1 : 0)                        // .(40826.09.6 RAM What to look for)    
+//          console.log( `  nFld: ${nFld} `)  
+       var  aModel          = (getModel( nFld, aItem,  2 ))         // (()[2] || '').trim()         // .(40826.09.7 RAM Was: nFld = 1).(40718.09.16)
+            aModel          =  (nFld == 0) ? aModel[2].trim() : aModel                              // .(40906.03.1 RAM Add trim()).(40826.09.8 RAM nFld = 0 return whole row) 
+        if (aModel == "") {
+            console.log( `\n* Invalid model: '${aItem}'` )
+            process.exit()
+            }
+//          console.log( `\n  Setting model to: ${aItem}  ${aModel}' ` )
+//          process.env[     "FRT_MODEL"] = aModel
+                              AIM.setEnv( "Model",  aModel )                                        // .(40826.09.9)
+                              shoVars()                                                             // .(40826.12.3)
+            process.exit()
+            }  // eof setVars( 'set', 'model' )
+// -------------------------------------------------------------
+        }  // eof setVars                                                                           // .(40826.09.1 End) 
+// ---------------------------------------------------------------------------------------------------
+
+         async  function chkApp( aApp ) {                                                   // .(40719.01.x RAM Write chkApp Beg)
+    //      var aCR     = "\n"                                                              // .(40729.03.x)
+                aApp    = (aApp === undefined || aApp == null) ? "" : aApp
+            if (aApp == "") {  aCR = ""
+                aApp    =  await readline.question( '\n  Enter an App to use for this app (or help): ' )
+                }
+            if (aApp   == "") {
+                console.log( "* You must enter an app alias, e.g. c11")
+                process.exit(1)
+                }
+                var  aAppName    = (aApp == 'help') ? "" : aApp
+            if (isNaN(aApp) == false) {
+            var mApp    =  getApp( 0, aApp )               // returns whole row for app number or ''
+            } else {
+            if (aApp > "") {
+            if (aApp.length > 3 && aApp != 'help' ) {                                       // .(40725.02.1 RAM Add help check)
+                aApp    =  getApp( 1, aApp.slice(0,3).toLowerCase())
+                }
+    //      var mApp    =  getApp( 1, aApp.toLowerCase() )
+            var mApp    =  getApp( aApp.toLowerCase() )   // returns whole row for app alias, or ''
+                }   }
+    //      -----------------------------------------------------
+    
+                mApp      =  mApp[0] ? mApp : ['','','']                                    // .(40827.07.1 RAM Was: ? mApp. Shouldn't contain all apps)
+            var aAppName1 =  mApp[2] ? mApp[2].trim() : ''
+            if (aAppName1 == "") {
+            if (aAppName) {
+                console.log( aCR + `* Invalid App alias, ${aAppName}`); aCR = "" }          // .(40729.03.4)
+                console.log(    "  Here is a list of App you can choose from:")
+                console.log(       getApp( ).map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
+            if (!aAppName) {
+            if (aApp != 'help') {
+                console.log( "\n* You must enter an App alias.") } }
+                }
+    //          console.log( "  aApp: ask again", aApp)
+    //          console.log( "  aAppName1:", aAppName1)
+    
+            if (aAppName1 == '' ) {
+                aAppName1 = await chkApp()                                                  // .(40727.02.1 RAM Opps)
+                }
+    //          console.log( aCR )
+        return  aAppName1
+                }  // eof chkApp                                                            // .(40719.01.x End)
+    // --------------------------------------------------------------
+    
      async  function ask4Model( aMod ) {
         var aModel  =  aMod
  //     var aCR     = "\n"                                                              // .(40729.03.2)
         var aMod1   = (aMod === undefined || aMod == null) ? "" : aMod
-        if (aMod1 == "") { aCR = ""
-            aMod1   =  await readline.question('  Enter a Model to use for this app (or help): ' )
+        if (aMod1 == "") { // aCR = ""                                                                    // .(40826.11.1)
+            aMod1   =  await readline.question( `${aCR}  Enter a Model to use for this app (or help): ` ) // .(40826.11.2 RAM Use aCR)
+            aCR     = "\n"                                                                                // .(40826.11.3) 
             }
         if (aMod1 == "") {
             console.log( "* You must enter a Model alias, e.g. gp4oopu. ")
@@ -107,10 +222,11 @@
             console.log(    "  Here is a list of Models you can choose from:")
 //          console.log(       getModel( ).map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
         var mModels2  =        mModels
-        var mModels2  = (mModels2.length == 0) ?   getModels( 2, aMod1 ) : mModels2
+        var mModels2  = (mModels2.length == 0) ? getModels( 2, aMod1 ) : mModels2
             mModels2  = (mModels2.length == 0) ? getModels( 1, aMod1 ) : mModels2
             mModels2  = (mModels2.length == 0) ? getModel( ) : mModels2
-            console.log( mModels2.map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
+//          console.log( mModels2.map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
+            console.log( mModels2.map( m => { m[0] = `${m[0]}`.padStart(4); return m.join( '  ' ) } ).join( '\n' ) );      // .(40821.01.2 RAM Format No.)
             }
         if (!aModel) {
         if (aMod == 'help') {
@@ -118,8 +234,9 @@
             }
 //          console.log( "aMod, aMod1, aModel, aModel1", aMod, aMod1, aModel, aModel1)
         if (aModel1 == '' || aMod1 == 'help') {
-            aModel1 = await ask4Model()                                                 // .(40727.02.1 RAM Opps)
-            }  return  aModel1
+            aModel1   =  await ask4Model()                                              // .(40727.02.1 RAM Opps)
+            }  
+    return  aModel1
             console.log( "  aModel1:", aModel1)
             process.exit()
             }  // eof ask4Model
@@ -149,54 +266,10 @@
 */
 // --------------------------------------------------------------
 
-     async  function chkApp( aApp ) {                                                   // .(40719.01.x RAM Write chkApp Beg)
-//      var aCR     = "\n"                                                              // .(40729.03.x)
-            aApp    = (aApp === undefined || aApp == null) ? "" : aApp
-        if (aApp == "") {  aCR = ""
-            aApp    =  await readline.question( '\n  Enter an App to use for this app (or help): ' )
-            }
-        if (aApp   == "") {
-            console.log( "* You must enter an app alias, e.g. c11")
-            process.exit(1)
-            }
-            var  aAppName    = (aApp == 'help') ? "" : aApp
-        if (isNaN(aApp) == false) {
-        var mApp    =  getApp( 0, aApp )               // returns whole row for app number or ''
-        } else {
-        if (aApp > "") {
-        if (aApp.length > 3 && aApp != 'help' ) {                                       // .(40725.02.1 RAM Add help check)
-            aApp    =  getApp( 1, aApp.slice(0,3).toLowerCase())
-            }
-//      var mApp    =  getApp( 1, aApp.toLowerCase() )
-        var mApp    =  getApp( aApp.toLowerCase() )   // returns whole row for app alias, or ''
-            }   }
-//      -----------------------------------------------------
-
-            mApp      =  mApp[0] ? mApp : ['','','']
-        var aAppName1 =  mApp[2] ? mApp[2].trim() : ''
-        if (aAppName1 == "") {
-        if (aAppName) {
-            console.log( aCR + `* Invalid App alias, ${aAppName}`); aCR = "" }          // .(40729.03.4)
-            console.log(    "  Here is a list of App you can choose from:")
-            console.log(       getApp( ).map( aRec => "  " + aRec.join( "  " ) ).join ( "\n" ) )
-        if (!aAppName) {
-        if (aApp != 'help') {
-            console.log( "\n* You must enter an App alias.") } }
-            }
-//          console.log( "  aApp: ask again", aApp)
-//          console.log( "  aAppName1:", aAppName1)
-
-        if (aAppName1 == '' ) {
-            aAppName1 = await chkApp()                                                  // .(40727.02.1 RAM Opps)
-            }
-//          console.log( aCR )
-    return  aAppName1
-            }  // eof chkApp                                                            // .(40719.01.x End)
-// --------------------------------------------------------------
-
      async  function  makNewSession( nSession, bCalled ) {                              // .(40730.07.1 RAM Add bCalled).(40728.01.1 RAM Write makNewSession)
-       var  mFile     =  getLastFile( 'markdown' )
-            nSession  =  process.argv[2] ? process.argv[2] : nSession                   // .(40730.01.1 RAM Use Argv if exists)
+//     var  mFile     =  getLastFile( 'markdown' )                                  //#.(40827.11.1 RAM Tries to find nSession in mArgs, not quietly)
+       var  mFile     =  getLastFile( 'markdown', 'md', '000', true )                   // .(40827.11.1)
+            nSession  =  process.argv[2] ? process.argv[2] : nSession                   // .(40827.11.2 RAM seems to be there).(40730.01.1 RAM Use Argv if exists)
             nSession  =  bCalled ? undefined : nSession                                 // .(40730.07.2)
 
        if (!nSession) {  aCR ? console.log( "" ): ''; aCR = ""                          // .(40729.03.5)
@@ -212,19 +285,20 @@
        var  aSession  = `${nSession * 1}`.padStart(3,'0')
        var  aVer1     = `t${aSession}.01.1.${FRT._TS}`
        var  aVer2     = `t${aSession}.01.2.${FRT._TS}`
+       var  aVer3     = `t${aSession}.01.3.${FRT._TS}`                                  // .(40826.03.1 RAM Change nTyp to 1,2,3)
 //     var  aDir      = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
 //     var  aNewFile  = `${mFile[0].slice(0,3)}_${aVer}_markdown.md`
 //                       FRT.writeFileSync( FRT.path( aDir, aNewFile ), '')
-                         copyLastFile( 'systmsg_', 'txt',  aVer1 )                       // .(40822.02.3)
-                         copyLastFile( 'usermsg_', 'txt',  aVer1 )                       // .(40822.02.4)
-                         copyLastFile( 'messages', 'json', aVer1 )                       // .(40823.03.1)
-                         copyLastFile( 'request_', 'json', aVer1 )                       // .(40823.02.2)
-                         copyLastFile( 'request_', 'sh',   aVer1 )                       // .(40823.02.3)
-                         copyLastFile( 'request_', 'mjs',  aVer1 )                       // .(40823.02.4)
-       var  aNewFile  =  copyLastFile( 'markdown', 'md',   aVer2 )                       // .(40822.02.2)
+                         copyLastFile( 'systmsg_', 'txt',  aVer1 )                      // .(40822.02.3)
+                         copyLastFile( 'usermsg_', 'txt',  aVer1 )                      // .(40822.02.4)
+                         copyLastFile( 'messages', 'json', aVer2 )                      // .(40826.03.2).(40823.03.1)
+                         copyLastFile( 'request_', 'json', aVer2 )                      // .(40826.03.3).(40823.02.2)
+                         copyLastFile( 'request_', 'sh',   aVer2 )                      // .(40826.03.4).(40823.02.3)
+                         copyLastFile( 'request_', 'mjs',  aVer2 )                      // .(40826.03.5).(40823.02.4)
+       var  aNewFile  =  copyLastFile( 'markdown', 'md',   aVer3 )                      // .(40826.03.6).(40822.02.2)
 
         if (bCalled != "1") {                                                           // .(40731.03.1)
-            console.log( "\n  Created new Session (markdown.md) file: ")                // .(40730.08.1)
+            console.log( "\n  Creating new Session (markdown.md) file: ")                // .(40730.08.1)
             console.log(   `    code "docs/${mFile[0]}/${mFile[1]}/${aNewFile}"`)       // .(40730.08.2)
             }                                                                           // .(40731.03.2 )
     return  aSession
@@ -426,18 +500,31 @@
 
   function  copyLastFile( aType, aExt, aVer) {                                            // .(40822.04.4 RAM Write copyLastFile Beg, aVer: 't005.01.1.40822.1209')
        var  mFile           =  getLastFile( aType, aExt, '', true )
+            mFile           =  getLastFile2( mFile[0], mFile[1], '000', aType, aExt, true )
        if (!mFile[2]) { return }   
        var  aDir            = `${__basedir }/docs/${mFile[0]}/${mFile[1]}`
        var  aApp            =  mFile[0].slice(0,3)
        var  aOldFile        = `${aApp}_${mFile[2]}_${aType}.${aExt}`
        var  aNewFile        = `${aApp}_${aVer}_${aType}.${aExt}`
        var  mText           =  FRT.readFileSync( FRT.path( aDir, aOldFile )).split( '\n' )
-        if (mText[0].match( /^###/) == null) {
-            mText           = [ "", "", ...mText ] }
-            mText[0]        = `### File: ${aNewFile}`       
+//      if (mText[0].match( /^### File: /) == null) {                                   //#.(40826.07.1 RAM Revise Comment)
+//          mText         = [ "### File: {App}_{Ver}_${aType]}.${aExt}", "", ...mText ] //#.(40826.07.2)
+//          }                                                                           //#.(40826.07.3)
+//          mText[0]        = `### File: ${aNewFile}`                                   //#.(40826.07.4)       
+   if (mText[0]) { mText[0] =  setComment( mText[0], mFile[0], aVer ) }                 // .(40826.07.5)
+   if (mText[1]) { mText[1] =  setComment( mText[1], mFile[0], aVer ) }                 // .(40826.07.6) 
+
                                FRT.writeFileSync( FRT.path( aDir, aNewFile ), mText.join( '\n' ) )
     return  aNewFile                            
-            }                                                                         // .(40822.04.4 End)
+
+  function  setComment( aLine, aApp, aVer ) {                                           // .(40826.07.7 Beg)
+        if (aLine.match( /### File: /)) { 
+            aLine.replace( /{App}/, aApp )
+            aLine.replace( /{Ver}/, aVer )
+            }
+     return aLine          
+            }                                                                           // .(40826.07.7 End)
+            }                                                                           // .(40822.04.4 End)
 // --------------------------------------------------------------
 
 //  function  getLastFile( aType, aExt, aToday ) {                                                  //#.(40822.04.x).(40730.04.1 RAM aToday can be any leading nSession, nMsg, TS).40728.01.4 RAM Write getLastFile)
@@ -445,7 +532,7 @@
         //          console.log( "")
 //     var  aExt            =  aExt ? aExt : (aType == 'markdown' ?  'md' : 'txt' ) )                                                  //#(40728.01.x).(40801.08.1)
        var  aExt            =  aExt ? aExt : (aType == 'markdown' ?  'md' :  (aType.match(/request_|messages/) ? 'json' : 'txt' ) )      // .(40801.08.1).(40728.01.x)
-       var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
+       var  mArgs           =  setArgs( process.argv, 'get', 'quit' )                               // ,(40827.10.1 RAM This should not be here!)
 //          console.log(    `  mArgs:  '${mArgs.join("', '")}`)
         if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
 
@@ -463,10 +550,11 @@
             }  // eof getLastFile                                                                   // .(40801.09.4)
 // --------------------------------------------------------------
 
-  function  getLastFile2( aApp, aMod, aToday, aType, aExt, bQuiet ) {                               // .(40801.09.5)
+  function  getLastFile2( aApp, aMod, aToday, aType, aExt, bQuiet, bFirstFile ) {                   // .(40827.05.4 RAM Add bFirstFile).(40801.09.5)
+       var  FRT_lastFile    =  bFirstFile ? FRT.firstFile : FRT.lastFile                            // .(40827.05.5)
        var  nFld            = (aMod.length == 7) ? 1 : 2; aApp = aApp.slice(0,3)
-       var  aAppName        = (getApp(    2,   aApp    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.5).(40715.01.3 RAM Was 2, aApp)
-       var  aModel          = (getModel( nFld, aMod    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.6).(40715.01.4 RAM Was 2, aMod)
+       var  aAppName        = (getApp(    2,   aApp    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.17).(40715.01.3 RAM Was 2, aApp)
+       var  aModel          = (getModel( nFld, aMod    , 2 )) // (().slice(2,3)[0] || '').trim()    // .(40718.09.18).(40715.01.4 RAM Was 2, aMod)
 
        var  aSessions_Dir   =  getDocsPath( aAppName, aModel, aCR )                                 // .(40729.03.8).(40715.03.1 Add chk fundtion)
 //     var  aMarkdown_File  = `${aApp.slice(0,3)}_{ver}_markdown`                                   // .(40711.04.3 RAM File is now markdown.md)
@@ -486,10 +574,10 @@
 //     var  aLastFile_regEx = `${aLastFile2Find}_t0${aToday}[0-9.]+\\.${aExt}`                      // .(40711.04.x RAM Change 'u'to 't' )
        var  aLastFile_regEx = `${aLastFile2Find}_t${aToday}[0-9.]+\\.${aExt}`                       // .(40717.03.3 RAM Remove leading 0)
         if (aLastFile2Find.match( /_{ver}/)) {
-            aLastFile_regEx =  aLastFile2Find.replace( /_{ver}/, `_t${aToday}[0-9.]*` ) + `.${aExt}` // .(40717.03.3).(40711.04.x)
+            aLastFile_regEx =  aLastFile2Find.replace( /_{ver}/, `_t${aToday}[0-9.]*`) + `.${aExt}` // .(40717.03.3).(40711.04.x)
             }
 //          console.log( `aLastFile: ${aLastFile}` )
-       var  aLastFile       =  FRT.lastFile( aSessions_Dir, aLastFile_regEx )
+       var  aLastFile       =  FRT_lastFile( aSessions_Dir, aLastFile_regEx )                       // .(40827.05.6)
 //          console.log( `aLastFile: ${aLastFile}` ); process.exit()
        var  aVer            =  aLastFile.match( /t[0-9.]+/ ); aVer = aVer ? aVer[0].replace( /\.$/, '' ) : '' // .(40711.04.x)
         if (aVer == "" && (bQuiet ? bQuiet : 0) == 0 ) {                                                      // .(40801.11.1 RAM Add bQuiet )
@@ -539,6 +627,13 @@
 // --------------------------------------------------------------
 
      async  function  createAppFolders( aAppName, aModel ) {
+       if ('chkArgs' == 'setArgs') {                                                                // .(40827.07.3 Beg)
+       var  mArgs           =  setArgs( process.argv, 'get', 'quit' )                               // .(40827.07.4 RAM Use existing App/Model to create new session)
+//          console.log( `  aAppName: ${mArgs[3]}, aModel: ${mArgs[4]}, nSession: ${mArgs[0]}\n` ); process.exit()
+            mArgs[4]        =  (mArgs[4].length > 7) ?  getModel( 2, mArgs[4], 1 ) : mArgs[4]       
+            process.argv    = [ '', '', mArgs[3], mArgs[4], mArgs[0] ]                              // .(40827.07.5 RAM Use result of setArgs)    
+            }                                                                                       // .(40827.07.3 End) 
+       var  nSession        =                        process.argv[4]                                // .(40827.07.7)
 
        var  aAppName        = (aAppName ? aAppName : process.argv[2] || '').trim()                  // .(40728.04.1 RAM Was [2], still is after .slice(1) )
        var  aModel          = (aModel   ? aModel   : process.argv[3] || '').trim()                  // .(40728.04.1 RAM Was [3])
@@ -563,6 +658,7 @@
         if (aModel == "") { aModel    =  await ask4Model( aModel ) }
 */
 //          console.log( `aAppName: '${aAppName}', aModel: '${aModel}'` )
+            aCR              = '\n'                                                                 // .(40826.11.4)
             aAppName         =  await chkApp( aAppName  )                                           // .(40719.01.x Use chkApp)
             aModel           =  await ask4Model( aModel )                                           // .(40719.01.x Use chkApp)
 //          console.log( `  aAppName: '${aAppName}', aModel: '${aModel}'` ); process.exit()
@@ -571,24 +667,24 @@
 
             console.log( `\n  Creating app folders for: "${aAppName}/${aModel}"` )
 
-            await createAppFolders_( aAppName, aModel );
+            await createAppFolders_( aAppName, aModel, nSession );                                  // .(40827.07.8 RAM Add nSession)
 
             AIM.setEnv( "App",    aAppName )                                                        // .(40722.04.1 Set App & Model after making App)
             AIM.setEnv( "Model",  aModel )                                                          // .(40722.04.2)
-            console.log( `  Setting default App and Model in .env file to:` )                       //#.(40729.05.1)
-            console.log( `    FRT_APP         = "${aAppName}"` )                                    //#.(40729.05.4)
-            console.log( `    FRT_MODEL       = "${aModel}"`   )                                    //#.(40729.05.5)
+            console.log( `  Setting default App and Model in .env file to:` )                       // .(40729.05.1)
+            console.log( `    FRT_APP         = "${aAppName}"` )                                    // .(40729.05.4)
+            console.log( `    FRT_MODEL       = "${aModel}"`   )                                    // .(40729.05.5)
 
             process.exit(0)
             }  // eof createAppFolders
 // --------------------------------------------------------------
 
-     async  function  createAppFolders_( aAppDir, aModel ) {
+     async  function  createAppFolders_( aAppDir, aModel, nSession ) {                              // .(40827.07.9)
        var  bDoApps         =  aAppDir.slice(1,2) != '0'                                            // .(40722.06.1)
        var  aStage          = (aAppDir.slice(0,1) == 'c' ? 'client' : 'server') + (bDoApps ? aAppDir.slice(1,2) : '' )   // .(40722.06.2)
        var  aFolderName     =  FRT.path( __basedir, `${aStage}/${aAppDir}` )
        try {
-        if (bDoApps) {                                                                              // .(40722.06.3)
+        if (bDoApps) {                                                                              // .(40722.06.3 RAM Create client or server app folder)
             console.log(    `  Creating App Folder,      "${aFolderName}"`);
 //          await fs.mkdir(    aFolderName, { recursive: true } ); // Use promises for cleaner async handling
             await FRT.makDir(  aFolderName, { recursive: true } ); // Use promises for cleaner async handling
@@ -601,12 +697,17 @@
 //          console.log(    `  Creating docs App Folder, "${aDocsFolderName}/${aModel}"`);          //#.(70801.04.1)
             console.log(    `  Creating docs App Folder, "${aDocsFolderName.replace( /.+docs[\\\/]/, 'docs/' )}/${aModel}"`);  // .(70801.04.1 RAM Just docs/...)
 //          await fs.makdir(  `${aDocsFolderName}/${aModel}`, { recursive: true } );
-            await FRT.makDir( FRT.path( aDocsFolderName, aModel ), { recursive: true } );           // .(40721.02.1 RAM Add FRT.path)
+       var  aNewDir         =  await FRT.makDir( FRT.path( aDocsFolderName, aModel ), { recursive: true } );  // .(40827.02.1).(40721.02.1 RAM Add FRT.path)
 
         } catch (error) {
             console.error(  `* Error creating app folders: ${error.message}`);
+       var  aNewDir         =  ''                                                                   // .(40827.02.2)
             }
 // ----------------------------------------------------------------------------------------------------
+        if (aNewDir == "" ) {                                                                       // .(40827.02.3 Beg)
+            console.log(    `  Failed to created directory, '${ FRT.path( aDocsFolderName, aModel ) }'.` );   
+            process.exit() 
+            }                                                                                       // .(40827.02.3 End)
 
         if (aAppDir.slice(0,1) === 'c' && bDoApps) {                                                // (40722.06.5)
 
@@ -630,7 +731,7 @@
             } // eif client files
 // ----------------------------------------------------------------------------------------------------
 
-        if (aAppDir.slice(0,2) == 'c0' && bDoApps) {                                                // (40722.06.6)
+        if (aAppDir.slice(0,2) == 'c0' && bDoApps) {                                                // (40722.06.6 RAM Create client app folder)
             aAppDir         =  aAppDir.replace(     /c0/, 's0' )
             aFolderName     =  FRT.path( aFolderName.replace( /client[\\\/]c0/, 'server/s0' ) )
             console.log(    `  Creating App Folder,      "${aFolderName}"` );
@@ -638,8 +739,7 @@
             } // eif create server dir
 // ----------------------------------------------------------------------------------------------------
 
-        if (aAppDir.slice(0,1) == 's' && bDoApps) {                                                // (40722.06.7)
-
+        if (aAppDir.slice(0,1) == 's' && bDoApps) {                                                // (40722.06.7 RAM Create server app file)
        var  aServer_File    = `server.mjs`
        if ((await FRT.checkFile( `${aFolderName}/${aServer_File}`)).exists == false ) {
        var  aServer_Content =  await FRT.readFile( FRT.path( __dirname, `./templates/${aServer_File}` ) );
@@ -653,20 +753,33 @@
 
        var  aApp            =  aAppName.slice(0,3)
        var  aVer            = 't000.01.{n}.' + FRT._TS
-
-                                     delDocsFiles( aApp, aModel, '000', 0, true )         // .(40802.04.1 bQuiet)
-
+//          aVer            =  nSession ? `${nSession}`.padStart( 3, '0' ) : aVer                   //#.(40827.07.10 RAM Use nSession if given)
+//          aVer            =  nSession ? `t${ `${nSession}`.padStart( 3, '0' ) }.01.{n}.${FRT._TS}` : aVer  //#.(40827.07.10 RAM Use nSession if given)
+        if (nSession) {
+            aVer            =  aVer.replace( /000/, `${nSession}`.padStart( 3, '0' ) )              // .(40827.07.10 RAM Use nSession if given)
+            } 
+//                                   delDocsFiles( aApp, aModel, '000', 0, true )                   //#.(40802.04.7 bQuiet).(40826.03.1)
+                               await delDocsFiles( aApp, aModel, '000', 1, false )                  // .(40826.03.7 RAM Was , 0 nMsg)
+       var bSaved           =  false                                                                // .(40827.04.1) 
+                               await savDocsFile(  aApp, aVer, aModel, 'systmsg_.txt'  )            // .(40801.02.7 RAM Copy this too)
                                await savDocsFile(  aApp, aVer, aModel, 'usermsg_.txt'  )
-                               await savDocsFile(  aApp, aVer, aModel, 'systmsg_.txt'  )  // .(40801.02.7 RAM Copy this too)
-                               await savDocsFile(  aApp, aVer, aModel, 'request_.json' )  // .(40801.02.8 RAM Used by Step 15, run prompt creates it)
-//                             await savDocsFile(  aApp, aVer, aModel, 'messages.json' )  //#.(40801.02.8 RAM Don't copy messages.json, Step 15, run prompt creates it)
+                               await savDocsFile(  aApp, aVer, aModel, 'request_.json' )            // .(40801.02.8 RAM Used by Step 15, run prompt creates it)
+//                             await savDocsFile(  aApp, aVer, aModel, 'messages.json' )            //#.(40801.02.8 RAM Don't copy messages.json, Step 15, run prompt creates it).(40826.01.1)
+                               await savDocsFile(  aApp, aVer, aModel, 'messages.json' )            // .(40826.01.1 RAM Maybe it should just update it)
                                await savDocsFile(  aApp, aVer, aModel, 'request_.sh'   )
                                await savDocsFile(  aApp, aVer, aModel, 'markdown.md'   )
+
+        if (bSaved == false) {                                                                      // .(40827.04.2) 
+            console.log( "  No template files were saved to the docs/app/model folder")             // .(40827.04.3)   
+            }                                                                                       // .(40827.04.4)                  
+            console.log( '' )
+// --------------------------------------------------------------
 
      async  function savDocsFile( aApp, aVer, aModel, aFile ) {
 //      if (aModel.match(/maxi/       ) != null && aFile.match( /\.json/ )) { return }              //#.(40801.05.1)
         if (aModel.match(/-maxi|-chat/) != null && aFile.match( /\.json/ )) { return }              // .(40801.05.1 RAM No .json for -maxi or -chat)
-            aVer            = `${aVer.replace( /{n}/, aFile.match( /^markdown/) ? 2 : 1 ) }`
+       var  nTyp            =  aFile.match( /^markdown/) ? 3 : (aFile.match( /^request_|^messages/) ? 2 : 1 )  // .(40826.03.8)
+            aVer            =  aVer.replace( /{n}/, nTyp )                                                     // .(40826.03.9 RAM Change nMsg no)
        var  aDocs_File      = `${aDocsFolderName}/${aModel}/${aApp}_${aVer}_${aFile}`
        var  aModel1         =  aFile.match( /^usermsg_/) ? 'AnyModel_Prompt' : aModel               // .(40804.04.6
 //     var  aEXTs           = `.${aFile.replace( /^.+\./, '' ).toUpperCase()}s`                     // .(40801.03.7)
@@ -675,15 +788,18 @@
 //     var  aTemplate_File  = `./templates/${aEXTs}/${aModel1}-${ aFile.replace(/\./, '_template.' ) }`
 //     var  aTemplate_File  = `./templates/${aTemplate_File}`
         if (aTemplate_File) {                                                                       // .(40801.03.9 RAM Don't create template file if not in Models_Templates
+       var  aType           =  aFile.replace( /\..+$/, '' ).padStart(8)                             // .(40826.02.1 RAM)
+            console.log(    `  Creating ${aType} file, "${aApp}_${aVer}_${aFile}", inside the docs app model folder.`);  // .(40826.02.2)
+            console.log(    `     using template file, "${aTemplate_File}.` );
        var  aContent        =  await FRT.readFile(  FRT.path( __dirname, 'templates', aTemplate_File ) );
-                               await FRT.writeFile( FRT.path( aDocs_File ), aContent );
-            console.log(    `  Using template file,      "${aTemplate_File}.` );
-            console.log(    `  Creating an initial file, "${aApp}_${aVer}_${aFile}", inside the docs app model folder.`);
-            } }                                                                                     // .(40801.03.10)
-          // eOf docs files
-// ----------------------------------------------------------------------------------------------------
-            }  // eof createFolders_
+        if (aContent)       {  await FRT.writeFile( FRT.path( aDocs_File ), aContent ) };
+            bSaved          =  true                                                                 // .(40827.04.5)
+            } }  // eof savDocsFile                                                                 // .(40801.03.10)
 // --------------------------------------------------------------
+                 // eOf docs files
+// ----------------------------------------------------------------------------------
+            }    // eof createFolders_
+// ----------------------------------------------------------------------------------------------------
 
 //          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl' )
 //          delDocsFiles( 'c01', 'Claude-35s_Anthropic-curl',   0 )
@@ -694,17 +810,17 @@
 //          process.exit()
 
      async  function  delSession( ) {
-            process.argv.unshift( '' ); process.argv[2] = '0';  // Put '' into new 1st row, '0' into cmd row   
+//          process.argv.unshift( '' ); process.argv[2] = '0';                                   //#.(40827.07.x RAM Let's not).(40826.08.x RAM Put '' into new 1st row, '0' into cmd row)   
 //          console.log(    `  process.argv: '${process.argv.join("', '")}'` )
        var  mArgs           =  setArgs( process.argv, 'get', 'quit' )
-            console.log(    `\n  delSession[1]  mArgs:  '${mArgs.join("', '")}`)
+//          console.log(    `\n  delSession[1]  mArgs:  '${mArgs.join("', '")}`)
         if (mArgs.join("', '").match( /'\*/ ) ) { console.log( "  process.exit()" ) }
        var  nSession        =  mArgs[0] == '000' ? '000' : (mArgs[0] ? mArgs[0] : '000')
        var  nMsg            =  mArgs[1] == '00'  ?  '01' : (mArgs[1] ? mArgs[1] :  '01')
        var  aApp            =  mArgs[3]
        var  aMod            =  mArgs[4]
-            console.log( `  delDocsFiles( '${aApp}', '${aMod}', '${nSession}', '${nMsg}' )` )
-            delDocsFiles( aApp, aMod, nSession, nMsg )
+ //         console.log( `  delDocsFiles( '${aApp}', '${aMod}', '${nSession}', '${nMsg}' )` )
+                               await delDocsFiles( aApp, aMod, nSession, nMsg, true )                     // .(40826.08.1 RAM Must await if asking about deletes)
             process.exit()
             }  // eof delSession
 // --------------------------------------------------------------
@@ -717,34 +833,48 @@
 
 //                             FRT.setPaths( aAppName )                                             //#.(40801.07.12 Not needed for global __baseDir)
 /*
-//                             await delDocFile( 'userm  `${aVer}` )                    //#.(40801.07.13 RAM not leading t)
+//                             await delDocFile( 'userm  `${aVer}` )                                //#.(40801.07.13 RAM not leading t)
                                await delDocFile( 'systmsg_', 'txt',  `${aVer}` )
                                await delDocFile( 'request_', 'json', `${aVer}` )
                                await delDocFile( 'request_', 'sh',   `${aVer}` )
                                await delDocFile( 'messages', 'json', `${aVer}` )
                                await delDocFile( 'markdown', 'md',   `${aVer}` )
 */
-       var  bDeleted = false                                                                        // .(40802.03.1)
-            console.log( '' );       delDocFile( 'usermsg_', 'txt',  `${aVer}` )                    // .(40801.07.13 RAM not leading t)
-                                     delDocFile( 'systmsg_', 'txt',  `${aVer}` )
-                                     delDocFile( 'messages', 'json', `${aVer}` )
-                                     delDocFile( 'request_', 'json', `${aVer}` )
-                                     delDocFile( 'request_', 'sh',   `${aVer}` )
-                                     delDocFile( 'request_', 'mjs',  `${aVer}` )
-                                     delDocFile( 'markdown', 'md',   `${aVer}` )
-        if (bDeleted == false && (bQuiet ? bQuiet : '0') == '0') {
-            console.log( `  No files were deleted`)
-            }
-//          -------------------------------------------------------
+       var  bDeletes = false,  mDeletes = [], bDefer = true                                         // .(40826.08.1 RAM Defer deletes).(40802.03.1)
+            console.log( '' ); delDocFile( 'usermsg_', 'txt',  `${aVer}` )          
+                               delDocFile( 'systmsg_', 'txt',  `${aVer}` )
+                               delDocFile( 'messages', 'json', `${aVer}` )
+                               delDocFile( 'request_', 'json', `${aVer}` )
+                               delDocFile( 'request_', 'sh',   `${aVer}` )
+                               delDocFile( 'request_', 'mjs',  `${aVer}` )
+                               delDocFile( 'markdown', 'md',   `${aVer}` )
 
+//      if (bDeletes == false && (bQuiet ? bQuiet : '0') == '0') {
+        if (bDeletes == false) {
+            console.log( `  No session files were deleted`)
+            }
+        if (bDefer == true &&  bDeletes == true) {                                                   // .(40826.08.2 RAM Ask if OK Beg)
+        var aFiles          = (mDeletes.length == 1) ? 'this file' : 'these files'   
+        var aOK             =  await readline.question(`  Ok to delete ${aFiles}? [Y or N]: ` )
+//          console.log( `  Delete: '${aOK}' (${aOK.match( /^[yY]/ ) ? 'yes' : 'no' })` ); process.exit() 
+        if (aOK.match( /^[yY]/ )) {  mDeletes.map( aDoc_File => FRT.deleteFileSync( aDoc_File ) ); }
+       if ((bQuiet ? bQuiet : '0') == '0') { console.log( '' ) }
+            }  // eif bDefer == true && bDeleted                                                                                       // .(40826.08.2 End)    
+//          -------------------------------------------------------
+   
 //   async  function  delDocFile( aType, aExt, aVer ) { ... }
   function  delDocFile( aType, aExt, aVer ) {
-       var  mFile           =  getLastFile2( aAppName, aModel, aVer, aType, aExt, true )            // .(40801.09.6)
+       var  mFile           =  getLastFile2( aAppName, aModel, aVer, aType, aExt, true, true )      // .(40827.05.7 RAM getFirstFiles).(40801.09.6)
        var  aDoc_File       = `docs/${mFile[0]}/${mFile[1]}/${aAppName.slice(0,3)}_${mFile[2]}_${mFile[3]}`
+//          ---------------------------------------
         if (mFile[3]) {        console.log( `  Deleting ${aDoc_File}` );
-        if (aDoc_File) {             FRT.deleteFileSync( FRT.path( __basedir, aDoc_File ) ); bDeleted = true }    // .(40802.03.4)
-            }
 //      if (aDoc_File) {       await FRT.deleteFile(     FRT.path( __basedir, aDoc_File ) ) }
+        if (aDoc_File) {       bDeletes = true                                                      // .(40826.08.3)                      
+        if (bDefer == true) {                                                                       // .(40826.08.3)                     
+            mDeletes.push(     FRT.path( __basedir, aDoc_File) )                                    // .(40826.08.4)       
+        } else {               FRT.deleteFileSync( FRT.path( __basedir, aDoc_File ) );  }           // .(40826.08.5).(40802.03.4)
+} }                   
+//          ---------------------------------------
             }  // eof delDocFile 
 //          -------------------------------------------------------
         }  // eof delDocsFiles                                                                      // .(40801.07.11 End)

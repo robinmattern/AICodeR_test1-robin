@@ -6,10 +6,10 @@
    nMsg1=$1; if [ "${nMsg1}" != "" ]; then nMessage=${nMsg1##*.}; nSession=${nMsg1%.*};  fi
    nMsg2=$2; if [ "${nMsg2}" != "" ]; then nMessage=${nMsg2}; shift
 if [ "${nMsg1/./}" == "${nMsg1}" ] && [ "$1" == "" ]; then nMessage=1; fi; fi
-   aDoit=$2; if [ "${aDoit:0:6}" == "-doit=" ]; then bDoit=${aDoit:6}; fi 
+   aDoit=$2; if [ "${aDoit:0:6}" == "-doit=" ]; then bDoit=${aDoit:6}; fi
 
    export AICodeR_Title="Assistant Response Message No. ${nSession}.${nMessage}"
-    
+
 #  -----------------------------------------------------------------------------
 
    aUV="t"
@@ -20,13 +20,13 @@ if [ "${nMsg1/./}" == "${nMsg1}" ] && [ "$1" == "" ]; then nMessage=1; fi; fi
    aRequestScript="${__basedir}/._2/FRTs/AICodeR/AIC04_Curl-Request2_u01.sh"
 
    echo ""
-   echo "__basedir:  ${__basedir}"
+#  echo "__basedir:  ${__basedir}"
    echo "  aAppNm:   ${aAppNm}, aModel: ${aModel}"
    echo "  bQuiet:${bQuiet}, bDoit:${bDoit}"
-  
+
 #  echo -e "\n  aStage:   ${aStage}, aAppNm: ${aAppNm}, aModel: ${aModel}";
 #  echo -e "\n  aStage:   ${aStage}, aAppNm: ${aAppNm}, aModel: ${aModel}";
-#  echo -e   "__dirname: '${__dirname}'\n  __baseDir: '${__basedir}'"; exit
+   echo -e   "__dirname: '${__dirname}'\n__baseDir: '${__basedir}'"; exit
 
 #  exit
 #  -----------------------------------------------------------------------------
@@ -149,12 +149,12 @@ if [ "${aFoundFile}" != "" ]; then
 
 #  -------------------------------------------------------------------
 
- if [ "${TheUser_Message}" != "" ]; then 
+ if [ "${TheUser_Message}" != "" ]; then
     aPrompt_Path="${__basedir}/${aDoc_Dir}/${aPrompt_File}.@tmp";
     echo "${TheUser_Message}" >"${aPrompt_Path}";
-  else     
+  else
     aPrompt_Path="${__basedir}/${aDoc_Dir}/${aPrompt_File}"
-    fi   
+    fi
 #  -------------------------------------------------------------------
 
  if [ -s "${aPrompt_Path}"  ]; then             # Always replace aRequest__File if aPrompt_File: exists
@@ -211,9 +211,9 @@ if [ ! -f "${aRequest__File}" ]; then
    echo "  ${aRequest__File}"; # exit
    echo "  ${__basedir}/${aDoc_Dir}/${aRequest__File}"; # exit
    echo "-----------------------------------------------------------------------------------------------------------------------"
-   echo "  curl -s  ${aAPI_URL}" 
-   echo "       -H \"Content-Type:  application/json\""   
-   echo "       -H \"Authorization: Bearer ${aAPI_KEY}\"" 
+   echo "  curl -s  ${aAPI_URL}"
+   echo "       -H \"Content-Type:  application/json\""
+   echo "       -H \"Authorization: Bearer ${aAPI_KEY}\""
 #  echo "       -d  @${aRequest__File}"
     cat "${__basedir}/${aDoc_Dir}/${aRequest__File}" | awk 'NR == 1 { print "       -d  @" $0; next }; { print "            " $0 }'; #exit
    echo "-----------------------------------------------------------------------------------------------------------------------"

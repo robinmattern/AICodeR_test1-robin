@@ -6,15 +6,16 @@
 #           aVer="v1.09 8/01/24"
 #           aVer="v1.10 8/04/24"
 #           aVer="v1.11 8/14/24"
-            aVer="v1.12 8/20/24"
+#           aVer="v1.12 8/20/24"
+            aVer="v1.13 8/26/24"
 
 #           aExtVer="u02.5.40805.1700"                                                  # .(40806.03.1 RAM Default .vsix version)
 #           aExtVer="u02.5"                                                             # .(40806.03.1 RAM Workie)
 #           aExtVer="u02.5"                                                             # .(40806.03.1 RAM Workie)
 #           aExtVer="u02.6"                                                             # .(40805.01.1 RAM Not implemented)
 #           aExtVer="u02.7"                                                             # .(40814.03.1 RAM Workie ??)
-#           aExtVer="v02.6`40815.1942"                                                  # .(40815.01.1 RAM Workie)
-#           aExtVer="u02.8`40819.1530"                                                  # .(40819.01.1 RAM Workie)
+#           aExtVer="v02.6.40815.1942"                                                  # .(40815.01.1 RAM Workie)
+#           aExtVer="u02.8.40819.1530"                                                  # .(40819.01.1 RAM Workie)
             aExtVer="u02.8"                                                             # .(40820.03.1 RAM Workie)
 #           "E:\Repos\Robin\AIObjs_\test1-robin\._2\FRTs\AICodeR\extensions\e05-open-files-ext_u02.7.vsix"
 
@@ -177,14 +178,16 @@
 
     if [ "${aArg1}"   == "setup" ] && [ "${aArg2}" == ""        ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40729.01.1 RAM Add Setup)
     if [ "${aArg1}"   == "setup" ] && [ "${aArg2}" != ""        ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40806.02.3)
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "cod" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40722.01.1 RAM Add Setup Coder)
+    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "aic" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40722.01.x)
+
 #   if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" != "app" ] && [ "{aArg2:0:3}" != "mod" ]; then aCmd="set  app"; shift; f
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="set  app";      aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="set  model";    aArg1=""; shift; shift; fi   #
-    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "cod" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40722.01.1 RAM Add Setup Coder)
-    if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "aic" ]; then aCmd="set  coder";    aArg1=""; shift; shift; fi   #  0   # .(40722.01.x)
     if [ "${aArg1:0:3}" == "set" ] && [ "${aArg2:0:3}" == "sho" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "set" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "var" ]; then aCmd="set  show";     aArg1=""; shift; shift; fi   #
+
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="save continue"; aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="save frtable";  aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="show sessions"; aArg1=""; shift; shift; fi   #
@@ -195,13 +198,17 @@
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "con" ]; then aCmd="list continue"; aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "frt" ]; then aCmd="list frtables"; aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #  9   # .(40728.02.5)
+
+    if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" == "ses" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #      # .(40827.07.1 RAM Add)
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="make app";      aArg1=""; shift; shift; fi   #
     if [ "${aArg1:0:3}" == "mak" ] && [ "${aArg2:0:3}" != "app" ]; then aCmd="make app";      aArg1=""; shift;        fi   #
+
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9   # .(40728.02.5)
     if [ "${aArg1:0:3}" == "new" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="new  markdown"; aArg1=""; shift; shift; fi   #  9   # .(40728.02.5)
     if [ "${aArg1:0:3}" == "ope" ] && [ "${aArg2:0:3}" == "res" ]; then aCmd="open markdown"; aArg1=""; shift; shift; fi   #  9   # .(40731.02.1)
     if [ "${aArg1:0:3}" == "ope" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="open markdown"; aArg1=""; shift; shift; fi   #  9   # .(40731.02.2)
     if [ "${aArg1:0:3}" == "sav" ] && [ "${aArg2:0:3}" == "mar" ]; then aCmd="save markdown"; aArg1=""; shift; shift; fi   # 1
+
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="list apps";     aArg1=""; shift; shift; fi   # 1
     if [ "${aArg1:0:3}" == "lis" ] && [ "${aArg2:0:3}" == "mod" ]; then aCmd="list models";   aArg1=""; shift; shift; fi   # 1
     if [ "${aArg1:0:3}" == "sho" ] && [ "${aArg2:0:3}" == "app" ]; then aCmd="show apps";     aArg1=""; shift; shift; fi   # 13   # .(40711.03.x)
@@ -306,9 +313,11 @@ if [ "${bNoisy}" == "1" ]; then
 #   if [ "${aCmd}" == "make app"      ]; then echo node "../../../.vscode/task-createAppFolders_u02.mjs" $@; exit; fi
     if [ "${aCmd}" == "list apps"     ]; then run_node "${AIC98_Tables}"  "11" "apps"        $@; exit; fi  # 11         # .(40711.01.4)
     if [ "${aCmd}" == "list models"   ]; then run_node "${AIC98_Tables}"  "12" "models"      $@; exit; fi  # 12         # .(40711.01.5)
-    if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC98_Tables}"   "0" "set app"     $@; exit; fi  #  0         # .(40716.01.2)
-    if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model"   $@; exit; fi  #  0         # .(40716.01.3)
-    if [ "${aCmd}" == "set  show"     ]; then run_node "${AIC98_Tables}"   "0" "set show"    $@; exit; fi  #  0         # .(40717.02.2)
+
+#   if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC98_Tables}"   "0" "set app"     $@; exit; fi  #  0         ##.(40716.01.2).(40826.09.11)
+#   if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC98_Tables}"   "0" "set model"   $@; exit; fi  #  0         ##.(40716.01.3).(40826.09.12)
+#   if [ "${aCmd}" == "set  show"     ]; then run_node "${AIC98_Tables}"   "0" "set show"    $@; exit; fi  #  0         ##.(40717.02.2).(40826.09.13)
+
     if [ "${aCmd}" == "kill port"     ]; then  "${aAICodeR_Dir}/${AIC97_Ports}"              $@; exit; fi  #  0         # .(40724.01.7)
     if [ "${aCmd}" == "show port"     ]; then  "${aAICodeR_Dir}/${AIC97_Ports}" "show"       $@; exit; fi  #  0         # .(40724.01.8)
     if [ "${aCmd}" == "set  coder"    ]; then set_coder  ${aArg2}                              ; exit; fi  #  0         # .(40806.02.4 RAM Added ${aArg2}).(40722.01.3)
@@ -316,13 +325,18 @@ if [ "${bNoisy}" == "1" ]; then
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 #   if [ "${aCmd}" == "run  prompt"   ]; then echo "${ThePath}/c35_t021.00.0.40710.1754_request_curl.sh" $@; exit; fi   # .(40711.04.x)
 
+    if [ "${aCmd}" == "set  app"      ]; then run_node "${AIC91_Folders}"  "9" "setApp"     $@; exit; fi                # .(40826.09.11).(40716.01.2)
+    if [ "${aCmd}" == "set  model"    ]; then run_node "${AIC91_Folders}"  "9" "setModel"   $@; exit; fi                # .(40826.09.12).(40716.01.3)
+    if [ "${aCmd}" == "set  show"     ]; then run_node "${AIC91_Folders}"  "9" "shoVars"    $@; exit; fi                # .(40826.09.13).(40717.02.2)
+
+    if [ "${aCmd}" == "make app"      ]; then run_node "${AIC91_Folders}"  "9" "newApp"      $@; exit; fi  #  9         # .(40728.02.14 RAM Was app).(40714.01.x)
+#   if [ "${aCmd}" == "make session"  ]; then run_node "${AIC91_Folders}"  "9" "newApp"      $@; exit; fi  #  9         ##.(40827.07.1 RAM Add)
     if [ "${aCmd}" == "new  session"  ]; then run_node "${AIC91_Folders}"  "9" "newSession"  $@; exit; fi               # .(40728.02.11)
     if [ "${aCmd}" == "edit sys msg"  ]; then run_node "${AIC91_Folders}"  "9" "edtSysMsg"   $@; exit; fi               # .(40820.04.2)
     if [ "${aCmd}" == "new  prompt"   ]; then run_node "${AIC91_Folders}"  "9" "newPrompt"   $@; exit; fi               # .(40728.02.12)
     if [ "${aCmd}" == "open prompt"   ]; then run_node "${AIC91_Folders}"  "9" "opnPrompt"   $@; exit; fi               # .(40731.02.4)
     if [ "${aCmd}" == "new  markdown" ]; then run_node "${AIC91_Folders}"  "9" "newMarkdown" $@; exit; fi               # .(40728.02.13)
     if [ "${aCmd}" == "open markdown" ]; then run_node "${AIC91_Folders}"  "9" "opnMarkdown" $@; exit; fi               # .(40731.02.5)
-    if [ "${aCmd}" == "make app"      ]; then run_node "${AIC91_Folders}"  "9" "newApp"      $@; exit; fi  #  9         # .(40728.02.14 RAM Was app).(40714.01.x)
     if [ "${aCmd}" == "drop session"  ]; then run_node "${AIC91_Folders}"  "9" "delSession"  $@; exit; fi  #  9         # .(40801.07.7)
 
     echo ""
