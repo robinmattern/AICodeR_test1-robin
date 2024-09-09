@@ -1,0 +1,54 @@
+lclAI test plan
+
+1. Get your Mac's Information
+    a. Click on the Apple icon on the top left of your screen
+    b. Click System Preferences
+    c. Click About This Mac
+    d. Take a screen shot or copy the information.
+
+   To take a screen shot:
+    a. Press Command (⌘) + Shift + 5
+    b. Use the app to take a screenshot the screenshot
+
+2. Open lclAI-tests.pdf to see my results.
+
+3. On your Mac enter the test prompts
+
+    With the application running at http://localhost:3000
+    (Remember to screenshot or copy down the Eval Count and Duration)
+
+    Prompt 1. What was the date of purchase and total price?
+    Prompt 2. Who purchased the  tickets?
+    Prompt 3. What section row and seat numbers were purchased?
+    Prompt 4. When was VMI started?
+    Prompt 5. Does GA Tech have a mascot?
+
+4. Send me your results and I will collate all tests and send you the results.
+
+Thanks again.
+
+
+Eval count:  40, Eval duration: 13.021  91000ms
+Eval count:  12, Eval duration:  3.962  47000ms
+Eval count: 213, Eval duration: 72.193  73000ms
+Eval count:  16, Eval duration:  5.507  43000ms
+Eval count:  72, Eval duration: 25.780  51000ms
+
+1.784 secs
+0.786 secs
+2.209 secs
+4.223 secs
+2.133 secs
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -45,7 +45,7 @@ queryButton.addEventListener('click', async () => {
         });
         const data = await response.json();
         resultDiv.textContent = data.response;
-        statsDiv.textContent = `Eval count: ${data.eval_count}, Eval duration: ${data.eval_duration}ms`;
+        statsDiv.textContent = `query duration: ${data.duration}secs`;
     } catch (error) {
         console.error('Error:', error);
         alert('An error occurred while processing your query');
