@@ -12,7 +12,7 @@ const app = express();
 const PORT = 3000;
 
 const API_ENDPOINT = "http://localhost:11434/api/generate";
-const MODEL = "llama3.1:8b-instruct-q8_0 ";
+const MODEL = "llama3.1:8b-instruct-q8_0";
 
 app.use(express.json());
 app.use(fileUpload());
@@ -39,6 +39,7 @@ app.post('/query', async (req, res) => {
     const prompt = `${uploadedContent}\n\nHuman: ${query}\n\nAssistant:`;
 
     try {
+        const startTime = Date.now();
         const response = await fetch(API_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -50,7 +51,14 @@ app.post('/query', async (req, res) => {
         });
 
         const data = await response.json();
-        res.json(data);
+        const endTime = Date.now();
+        const duration = endTime - startTime;
+
+        res.json({
+            response: data.response,
+            duration: duration/1000
+        });
+
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('An error occurred while processing your request');
