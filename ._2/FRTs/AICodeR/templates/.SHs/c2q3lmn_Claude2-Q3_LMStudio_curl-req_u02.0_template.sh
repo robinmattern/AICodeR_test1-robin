@@ -1,5 +1,7 @@
 #!/bin/bash
-### File: {App}_{Ver}_request.sh for c2q3lmn_Claude2-Q3-LMStudio_curl-req_u02.0
+## Title: {Title}
+### Curl Request File: {App}_{Ver}_request.sh 
+#### (c2q3lmn_Claude2-Q3-LMStudio_curl-req_u02.0.template.sh)
 
  aVer="u02"
  aRequestName="LMStudio-Test"

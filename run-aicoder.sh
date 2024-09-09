@@ -29,7 +29,7 @@
 #           aExtId="e05-open-files-ext_u02.6.vsix"                                      # .(40804.02.1 RAM Add install extension)
             aExtId="e05-open-files-ext_#Ver#.vsix"                                      # .(40806.03.2 RAM Use setup $2 arg)
 
-            AIC98_Tables="AIC98_Apps-n-Models_u02.mjs"
+            AIC98_Tables="AIC98_Apps-n-Models_u03.mjs"
             AIC05_Schema="AIC05_Schema-IO_u09.mjs"
             AIC91_Folders="AIC91_AppFolders_u03.mjs"
             AIC97_Ports="AIC87_Ports.sh"                                                # .(40724.01.1 RAM Move script to AICodeR)

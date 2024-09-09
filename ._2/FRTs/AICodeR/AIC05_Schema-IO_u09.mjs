@@ -2,7 +2,7 @@
 
    import   FRT          from './AIC90_FileFns_u03.mjs'
    import   AIC          from './AIC06_Code_u06.mjs'                                                // .(40703.03.1 RAM New Version)
-   import   AIM          from './AIC98_Apps-n-Models_u02.mjs'                                       // .(40711.01.7 RAM Changed file name)
+   import   AIM          from './AIC98_Apps-n-Models_u03.mjs'                                       // .(40711.01.7 RAM Changed file name)
    import   AIF          from './AIC91_AppFolders_u03.mjs'                                          // .(40731.03.3)
 
      const  saveScripts     =  AIC.saveScripts
@@ -477,6 +477,8 @@
        var  rListFiles    = /.+/
             aSteps        = aSteps.replace( /,25,/, ',14,' )
             }                                                                           // .(40823.02.1 End)         
+// --- ---  --------------  =  -------------------------------------------------------------
+
 //     var  aSteps = bRun ? `,14,` : aSteps                                             //#.(40711.02.1 RAM Add Step 13 Beg)
         if (aSteps.match(   /,14,/  )) { // List Sessions
 /*
@@ -528,8 +530,10 @@
             console.log(    "  ---------------------------------------------------------------------------------------------------------------------" )
 
         var mSessions       =  shoSessions( aAppPath, aModel )                                      // .(40615.03.x RAM Can contain Model path)
-            console.log(       mSessions.join( "\n" ).slice(2) )
+            console.log(       mSessions.slice(1).join( "\n" ).slice(2) )
             process.exit()
+//     ---  -----------------------------------------------------------------------             
+
 //function  shoSessions( aAppName ) {
   function  shoSessions( aAppPath, aModel ) {                                                       // .(40715.03.6 RAM Use aAppPath)
         if (!aModel) {
@@ -548,8 +552,9 @@
 //          mSessions       =  mSessions.filter
 //          console.log(       mSessions.join( "\n" ) )
             return mSessions
+//     ---  -----------------------------------------------------------------------             
 
-  function  fmtModelSessions( aModel, i )  {
+  function  fmtModelSessions( aModel, i ) {
 //     var  aMod            =  getModel( 2, aModel )[1]
        var  aMod            =  getModel( 2, aModel,  1 )
        var  aModelPath      = `docs/${aAppName}/${aModel.trim()}`
@@ -558,24 +563,41 @@
 //     var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( rListFiles ) )             // .(40823.02.3 )
        var  mResponses      =  mFiles.filter(  mFile  => mFile[2].match( rSession   ) )             // .(40823.02.5 )
        var  mResponses      =  mResponses.map( mFile  => mFile[2] )
-                                         .sort( (a,b) => a > b ? 1 : -1 )
+//                                      .sort((a, b) => a > b ? 1 : -1 )
+                                         .sort((a, b) => (`${a.slice(0,12)}${a.slice(14,24)}` > `${b.slice(0,12)}${b.slice(14,24)}`) ? 1 : -1 )
         if (mResponses.length == 0) { return }                                                      // .(40729.06.1)
 //          mSessions.push(    mResponses.map( fmtSession ) )
 //          mSessions.push([...mResponses.map( fmtSession ) ])
 //     if ((mSessions.slice(-1)[0] || '').slice(25,28) != (mResponses[0] || '').slice(0,3)) {       //#.(40729.06.2)
        if ((mSessions.slice(-1)[0] || '').slice(48,51) != (mResponses[0] || '').slice(0,3)) {       // .(40729.06.2 RAM Kludge comparing App alies)
-    //      console.log( aModel, (mSessions.slice(-1)[0] || '').slice(48,51), (mResponses[0] || '').slice(0,3))  // .(40802.04.1 RAM ??)
+//          console.log( aModel, (mSessions.slice(-1)[0] || '').slice(48,51), (mResponses[0] || '').slice(0,3))  // .(40802.04.1 RAM ??)
 //          if ( (mSessions.slice(-1)[0] || '') != "" ) { mSessions.push( ' ' ) } }                 //#.(40729.06.3)
                                                           mSessions.push( ' ' ) }                   // .(40729.06.3)
-            mSessions       =  mSessions.concat( mResponses.map( fmtSession ));
-//          mSessions.push( ' ' )                                                                   //#.(40729.06.4)
+//          mSessions      =  mSessions.concat( mResponses.map( fmtSession ));
+//     ---  ------------------------------------------------             
+
+       var       aLastVer  = '', i = 0                                                              // .(40908.11.1 RAM Beg)
+            mResponses.forEach( aSessionFile => {   
+       var       aThisVer  = `${aSessionFile.slice(0,12)}${aSessionFile.slice(14,24)}`              // .(40908.11.2 RAM Up to the minute)
+             if (aLastVer != aThisVer) { i++
+                 mSessions.push( ' ' ); aLastVer = aThisVer }                                       // .(40908.11.1 RAM Skip line).(40729.06.4)
+                 mSessions.push( fmtSession( aSessionFile, i ) )
+                 } )                                                                                // .(40908.11.1 End)
+//     ---  ------------------------------------------------             
 
   function  fmtSession( aFile, i )  {
-//     var  j = mSessions.length + ( aModel == '' ? i : i + 1 )
-       var  j = mSessions.length + i + ( mSessions.slice(-1)[0].trim() > "" ? 1 : 0)
-return `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
-            }  }
-        }   }  // eif Step 14                                                            		  // .(40711.02.1 End)
+//     var  j =  mSessions.length + ( aModel == '' ? i : i + 1 )
+//     var  j =  mSessions.length + i + ( mSessions.slice(-1)[0].trim() > "" ? 1 : 0)
+       var  j =  i
+       var  a = `${ `${j+0}.`.padStart(5)}  ${aMod}  ${aModel.padEnd(30)}  ${aFile}`
+//          console.log( a )
+     return a 
+            } // eof fmtSession  
+//     ---  ------------------------------------------------             
+            }  // eof fmtModelSessions   
+         }  // eof showSessions
+//     ---  -----------------------------------------------------------------------             
+       }  // eif Step 14                                                            		  // .(40711.02.1 End)
 // --- ---  --------------  =  -------------------------------------------------------------
 
 //     var  aSteps = bRun ? `,15,` : aSteps                                             	         //#.(40716.02.1 RAM Added Step 16 Beg)

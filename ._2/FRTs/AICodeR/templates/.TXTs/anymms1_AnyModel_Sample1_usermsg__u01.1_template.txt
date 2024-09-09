@@ -1,4 +1,6 @@
-### File: {App}_{Ver}_usermsg_.txt for anymowa-Owner_usermsg__u01.1
+## Title: {Title}
+### User Prompt File: {App}_{Ver}_usermsg_.txt 
+#### (anymms1_AnyModel_Sample1_usermsg__u01.1_template.txt)
 
 Use this to create an application that allows the upload of .ics file then use it as a prompt
 Let me query it using gbt 3.5-turbo using my OpenAI key.

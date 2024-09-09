@@ -1,5 +1,7 @@
 #!/bin/bash
-### File: {App}_{Ver}_request.sh for gp4oopu_GPT-4o-OpenAI_curl-req_u01.1
+## Title: {Title}
+### Curl Request File: {App}_{Ver}_request.sh
+#### (gp4oopu_GPT-4o-OpenAI_curl-req_u01.1.template.sh)
 
 #   echo "1. aOufile: ${aOufile}, aMDfile: ${aMDfile}";
 

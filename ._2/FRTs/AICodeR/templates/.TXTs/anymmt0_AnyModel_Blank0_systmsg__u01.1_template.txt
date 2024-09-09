@@ -1,4 +1,6 @@
-### File: {App}_{Ver}_systmsg_.txt for anymowa-Owner_systmsg__u01.1
+## Title: {Title}
+### System Prompt File: {App}_{Ver}_systmsg_.txt 
+#### (anymmt0_AnyModel_Blank0_systmsg__u01.1_template.txt)
 
 I want you to create an web apps that use JavaScript ES6, that uses `import`, not `require`, and the native `fetch`.
 

@@ -1,4 +1,6 @@
-### File: {App}_{Ver}_usermsg_.txt for gp4oopm_GPT-4o-OpenAI_usermsg__u01.1
+## Title: {Title}
+### User Prompt File: {App}_{Ver}_usermsg_.txt 
+#### (gp4oopm_GPT-4o-OpenAI_usermsg__u01.1.template.txt)
 
 I want you to create an web apps that use JavaScript ES6, that uses `import`, not `require`, and the native `fetch`.
 

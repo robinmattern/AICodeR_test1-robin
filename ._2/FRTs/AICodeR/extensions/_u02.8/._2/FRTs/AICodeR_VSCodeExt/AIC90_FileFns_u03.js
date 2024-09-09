@@ -1,4 +1,4 @@
-     const  vscode      =  require( 'vscode' );                                       // .(40819.10.4 RAM Yuk!}
+     const  vscode      =  require( 'vscode' );                                         // .(40819.10.4 RAM Yuk!}
        var  fs          =  require( 'fs/promises')   // .(40819.02.4 RAM Was: import   fs               from 'fs/promises')
        var  fsync       =  require( 'fs')            // .(40819.02.4 RAM Was: import   fsync            from 'fs')
        var  path        =  require( 'path')          // .(40819.02.4 RAM Was: import   path             from 'path')
@@ -7,8 +7,9 @@
 //  --------------------------------------------------------------
 
        var  __basedir                                                                   // .(40828.02.1)
-//     var  __dirname                                                                   //#.(40828.02.2 RAM Assigned in CommonJS)
-       var  _debug      =  false                                                        // .(40829.01.3 RAM Debug dotenv)    
+       var  __dirname                                                                   //#.(40828.02.2 RAM Assigned in CommonJS)
+       var  _debug      =  false                                                        // .(40829.01.3 RAM Debug dotenv)
+       var  _TS                                                                         // .(40908.02.x RAM Need this too)   
 
  if (typeof(vscode) == 'object')  {                                                     // .(40819.10.5 RAM Need to reassign __basedir Beg)
         var workspaceFolders = vscode.workspace.workspaceFolders;
@@ -31,16 +32,17 @@
 
      global.__libpath   =  path.dirname( aLibFile )             // this script's folder name
      global.__dirname   =  path.dirname( process.argv[1] )      // calling folder name
-
+            __dirname   =  global.__dirname                     // .(40828.02.6 RAM It's not defined in "this" closure???)
      global.__basedir   =  aLibFile.replace( /[\\\/]\._2.+/, '' ).replace( /^\/([A-Z]):/, '$1:' )   // .40815.02.1 RAM Remove leading '/C:/)
+            __basedir   =  global.__basedir                     // .(40828.02.6 RAM It's not defined in "this" closure???)
+     global._TS         =  getDate( )
+            _TS         =  global._TS                           // .(40828.02.6) 
      global.__appname   =  getAppName( __dirname, aAppName  )
         var   aCS       = (__appname.match( /^c/ ) ?  'client' : 'server') + __appname.substring( 1, 2 )
 //            aCS       =  aCS.match( /[0-9]$/ ) ? aCS : '._2/FRTs/AICodeR'             //#.(40819.03.x RAM ?? )
               aCS       =  aCS.match( /[0-9]$/ ) ? aCS : '._2/FRTs'                     // .(40819.03.x RAM ?? )
-     global.__apppath   =  path.join(  global.__basedir, `${aCS}/${ __appname }` )
-     global._TS         =  getDate( )
-            __basedir   =  global.__basedir                                             // .(40828.02.6 RAM It not defined in "this" closure???)
-            console.log(`  FRT[2]: __basedir:  '${ __basedir }'`  )
+     global.__apppath   =  path.join(  __basedir, `${aCS}/${ __appname }` )
+//            console.log(`  FRT[2]: __basedir:  '${ __basedir }'`  )                   // .(40908.01.1 RAM setPath is called 4 times)
      return global.__appname
               }
               }   // eof setPaths()
@@ -54,7 +56,7 @@
         var aScript2 = aProcessArgv1.split( /[\\\/]/ ).slice(-1)[0]                     // Calling script
 //          console.log( `${aScript1}\n${aScript2}`)
             return aScript1 == aScript2                                                 // Script is not called
-            }
+            }  // eof isCalled
 //  --------------------------------------------------------------
 
   function  getAppName( __dirname, aName ) {
@@ -134,13 +136,21 @@
 // --------------------------------------------------------------
 
   function  lastFile( aPath, reFind ) {
-//          reFind    =  typeof(reFind) == 'string' ? new RegExp( reFind.replace( /\\/g, "\\" ) ) : reFind
             reFind    =  typeof(reFind) == 'string' ? new RegExp( reFind.replace( /\\/g, "\\" ) ) : reFind
        var  mFiles1   =  listFiles( aPath )
        var  mFiles2   =  mFiles1.filter( mFile => reFind.test( mFile[2] ) )
             mFiles2   =  mFiles2.sort( (a,b) => a[2] < b[2] ? 1 : -1 )
      return mFiles2[0] ? mFiles2[0][2]: ''
             }  // eof lastFile
+// --------------------------------------------------------------
+
+  function  firstFile( aPath, reFind ) {                                                // .(40827.05.1 RAM Write firstFile)
+            reFind  = typeof(reFind) == 'string' ? new RegExp( reFind.replace( /\\/g, "\\" ) ) : reFind
+       var  mFiles1 = listFiles( aPath )
+       var  mFiles2 = mFiles1.filter( mFile => reFind.test( mFile[2] ) ) 
+            mFiles2 = mFiles2.sort( (a,b) => a[2] < b[2] ? -1 : 1 )                     // .(40827.05.2 RAM Reverse)
+     return mFiles2[0] ? mFiles2[0][2]: ''        
+            }  // eof firstFile
 // --------------------------------------------------------------
 
   function  listFiles( aPath ) {
@@ -157,12 +167,12 @@
              ,  aFile
              ,  aPath
                 ] );
-            } // eol aFile in mFiles1
-     return mFiles2
+             } // eol aFile in mFiles1
+    return  mFiles2
             }  // eof listFiles
 // --------------------------------------------------------------
 
-  function  FRT_path(  ...args ) { return cleanPath( path.join(...args ) ) }            // .(40829.03.3 RAM Was: myPath)
+  function  FRT_path( ...args ) { return cleanPath( path.join( ...args ) ) }                        // .(40829.03.3 RAM Was: myPath)
 
   function  cleanPath( aPath ) {
             aPath            =  aPath.replace( /^~/, `${process.env['SystemDrive']}/${process.env['HOMEPATH']}` )
@@ -175,7 +185,7 @@
 
      async  function  writeFileASync( aFilePath, aData, pOptions = { encoding: 'utf8' } ) {
 //          pOptions         =  pOptions ? pOptions : { encoding: 'utf8' }
-            aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.3)
+            aFilePath        =  cleanPath( aFilePath );                                             // .(40618.01.3)
       try {
         if (typeof( aData ) == 'object') { aData = JSON.stringify( aData, null, 2 ); }
 //                          await fsync.writeFile( aFilePath, aData, pOptions);
@@ -193,7 +203,7 @@
 
      async  function  writeFileSync( aFilePath, aData, pOptions = { encoding: 'utf8' } ) {
     //      pOptions         =  pOptions ? pOptions : { encoding: 'utf8' }
-            aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.3)
+            aFilePath        =  cleanPath( aFilePath );                                             // .(40618.01.3)
     try {
         if (typeof( aData ) == 'object') { aData = JSON.stringify( aData, null, 2 ); }
     //                          await fsync.writeFile( aFilePath, aData, pOptions);
@@ -211,7 +221,7 @@
 
      async  function  readFileASync(   aFilePath, pOptions ) {
             pOptions         =  pOptions  ? pOptions : { encoding: 'utf8' }
-            aFilePath        =  cleanPath(  aFilePath );                                         // .(40618.01.5)
+            aFilePath        =  cleanPath(  aFilePath );                                            // .(40618.01.5)
       try { aData            = ''
 //     if ((await checkFileAsync(    aFilePath ) ).exists) {
        var  bOK              = (await checkFileASync( aFilePath )).exists && (await checkFileASync( aFilePath )).isNotDir
@@ -234,7 +244,7 @@
 
   function  readFileSync(   aFilePath, pOptions ) {
             pOptions         =  pOptions ? pOptions : { encoding: 'utf8' }
-            aFilePath        =  cleanPath( aFilePath );                                         // .(40618.01.6)
+            aFilePath        =  cleanPath( aFilePath );                                             // .(40618.01.6)
       try { aData            = ''
     // var  bOK              =  fsync.existsSync( aFilePath )
        var  bOK              =  checkFileSync( aFilePath ).exists && checkFileSync( aFilePath ).isNotDir
@@ -255,28 +265,30 @@
 
   try {
 //     var  aAppName    =   setPaths( )                                                 //#.(40828.02.7 RAM Will it set the global vars? No) 
-//          dotenv.config(                  { path: FRT.path( __basedir, '.env' ), override: true, debug: _debug } ); //#.(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder).(40829.03.15)
-            dotenv.config(                  { path: FRT_path( __basedir, '.env' ), override: true, debug: _debug } ); // .(40829.03.15 RAM Was FRT.path).(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder)
+//          dotenv.config({ path: FRT.path( __basedir, '.env' ), override: true, debug: _debug } ); //#.(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder).(40829.03.15)
+            dotenv.config({ path: FRT_path( __basedir, '.env' ), override: true, debug: _debug } ); // .(40829.03.15 RAM Was FRT.path).(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder)
             console.log( `  FRT[3]: __basedir:  '${ __basedir }'` )
-            console.log( `  FRT[4]:   FRT_ENV:  '${ process.env.FRT_ENV }'` )
-            console.log( `  FRT[5]:  .env:      '${ FRT_path( __basedir, '.env' ) }'` )            // .(40829.03.16).(40829.03.4)
-//          console.log( `  FRT[6]:   aAppName:  ${ aAppName }` )
+            console.log( `  FRT[4]:   FRT_.ENV: '${ process.env['FRT_.ENV'] }'` )                   // .(40908.06.1 RAM Must be quoted name)
+//          console.log( `  FRT[5]:  .env:      '${ cleanPath( path.join( __basedir, '.env' ) ) }'`)//#.(40829.03.9)
+            console.log( `  FRT[5]:  .env:      '${ FRT_path( __basedir, '.env' ) }'` )             // .(40829.03.16 RAM Was FRT.path).(40829.03.4)
+//          console.log( `  FRT[6]:   aAppName: '${ aAppName }'` )
             console.log( '' )
        } catch(error) {
             console.log( "  FRT[7]: * An error has occured in the imported module" )
             }
 // ---------------------------------------------------------------------------------
 
-// var  pFileFns = { setPaths, readFile, readFile2, writeFile, getDate }
-   var  pFRT =                                                                                     // .(40819.03.3 RAM Use for bothtypes of exports)
-         {  setPaths, isCalled, lastFile
-         ,  getDate,  path: FRT_path, _TS                                                          // .(40829.03.5)
-         ,  __basedir: __basedir, __dirname: __dirname,  AppName: aAppName                         // .(40827.06.x ??).(40819.10.x RAM Add them to FRT)
+//     var  pFileFns = { setPaths, readFile, readFile2, writeFile, getDate }
+
+       var  pFRT =                                                                                  // .(40819.03.3 RAM Use for both types of exports)
+         {  setPaths, isCalled, firstFile, lastFile
+         ,  getDate,  join: path.join,  path: FRT_path,  _TS                                        // .(40829.03.4).(40827.05.3 RAM Add)
+         ,  __basedir: __basedir, __dirname: __dirname,  AppName: aAppName                          // .(40827.06.x ??).(40819.10.x RAM Add them to FRT)
          ,  checkFileSync,  checkFileASync,  checkFile:  checkFileASync
          ,  writeFileSync,  writeFileASync,  writeFile:  writeFileASync
          ,  readFileSync,   readFileASync,   readFile:   readFileASync
             }
 
-    module.exports = pFRT                                                                           // .(40819.03.5)
+     module.exports = pFRT                                                                          // .(40819.03.5)
 
-    // ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------

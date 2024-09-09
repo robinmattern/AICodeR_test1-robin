@@ -143,13 +143,15 @@
 //  -----------------------------------------------------------------------------------------
 
   function  openFile_inVSCode( aType, nNew, aWhat ) {                                               // .(40827.12.2 RAM Add aWhat) 
- //         console.log( "  getFilePath: ", String( getFilePath ) )
+//          console.log( "  getFilePath: ", String( getFilePath ) )
       var [ aFile, aFilePath ] =  getFilePath( aType, nNew, 'quiet' )                               // .(40819.06.1 RAM Add 'quiet').(40819.08.1 RAM if async, Error: Identifier 'aFile' cannot be declared with 'var' in current evaluation scope, consider trying 'let' instead)
       var   aFound  = (fs_exists( aFilePath )) ? 'found' : 'not found'
-            console.log( `  aFilePath:   ${ aFilePath }` )
       var   aDocsPath                  =  aFilePath.replace( /.+docs[\\\/]/, '.\\docs\\' )          // .(40906.01.1 RAM Not really necessary cuz aFilePath starts with docs)
 //          console.log( `  aFilePath: ${ aFilePath.replace( /.+docs[\\\/]/, '.\\docs\\' ) }, nNew: ${nNew}, ${aFound}` ); //#.(40905.02.1 RAM Add trailing \\).(40906.01.2)
-            console.log( `  aDocsPath: ./${ aDocsPath }, nNew: ${nNew}, ${aFound}` );               // .(40906.01.2)
+//          console.log( `  aFilePath:   ${ aFilePath }` )
+      var   aFilename    =  aType.match( /\.(sh|mjs)/ ) ? 'aReqFile: ' : 'aDocsPath:'               // .(40908.08.x)
+      var   aFilename    =  aType.match( /\.(md)/     ) ? 'aRespFile:' : aFilename                  // .(40908.08.x)
+            console.log( `  ${aFilename} ./${ aDocsPath }, nNew: ${nNew}, ${aFound}` );             // .(40908.08.x).(40906.01.2)
         if (bTest2) {  return }
         if (aFound == 'found') {
             vscode.workspace.openTextDocument( vscode.Uri.file( `${__basedir}/${aDocsPath}` )).then( doc => { // .(40906.01.3)
@@ -168,7 +170,7 @@
       var   aFound  = (fs_exists( aFilePath )) ? 'found' : 'not found'
       var   aDocsPath                  =  aFilePath.replace( /.+docs[\\\/]/, '.\\docs\\' )          // .(40906.01.5)
 //          console.log( `  aFilePath: ${ aFilePath.replace( /.+docs[\\\/]/, '.\\docs\\' ) }, nNew: ${nNew}, ${aFound}` );        //#.(40905.02.2).(40906.01.6)
-            console.log( `  aDocsPath: ./${ aDocsPath }, nNew: ${nNew}, ${aFound}` );               // .(40906.01.6)
+            console.log( `  aReqFile:  ./${ aDocsPath }, nNew: ${nNew}, ${aFound}` );               // .(40906.01.6)
             if (bTest2) {  return }
             aFile = aFile.replace( /[0-9]\.[0-9]{5}\.[0-9]{4}/, '..' )
         if (aFound == 'found' ) {
@@ -185,7 +187,7 @@
       var   aFound  = (fs_exists( aFilePath )) ? 'found' : 'not found'
       var   aDocsPath                  =  aFilePath.replace( /.+docs[\\\/]/, '.\\docs\\' )            // .(40906.01.8 RAM Not really necessary cuz aFilePath starts with docs)
 //          console.log( `  aFilePath: ${ aFilePath.replace( /.+docs[\\\/]/, '.\\docs\\' ) }, aWhat: ${aWhat}, ${aFound}` );        //#.(40905.02.2).(40906.01.9)
-            console.log( `  aDocsPath: ./${ aDocsPath }, aWhat: ${aWhat}, ${aFound}` );               // .(40906.01.9)
+            console.log( `  aRespFile: ./${ aDocsPath }, aWhat: ${aWhat}, ${aFound}` );               // .(40906.01.9)
         if (bTest2) {  return }
             aFile   =  aFile.replace( /[0-9]\.[0-9]{5}\.[0-9]{4}/, '..' )
         if (aFound == 'found' ) {

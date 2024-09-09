@@ -1,4 +1,6 @@
-### File: {App}_{Ver}_usermsg_.txt for c35sanm_Claude-35s-Anthropic_usermsg__u01.1
+## Title: {Title}
+### User Prompt File: {App}_{Ver}_usermsg_.txt (
+#### (c35sanm_Claude-35s-Anthropic_usermsg__u01.1.template.txt)
 
 I want you to create an web apps that use JavaScript ES6, that uses `import`, not `require`, and the native `fetch`.
 
