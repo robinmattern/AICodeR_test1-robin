@@ -44,7 +44,7 @@
        var  aJSONc_file     =    FRT.path( __basedir, '._2/FRTs/AICodeR/metadata/AIC80_Apps-n-Model-data.jsonc' )
        var  mJSONc          =    FRT.readFileSync( aJSONc_file ).split( /\r?\n/ )
        var  aJSON           = mJSONc.map( aLine => aLine.replace( /\/\/.*/, '' ).replace( /'/g, '"' ) ).join('\n')  // .(40907.01.4 RAM Could fail with embedded ' in string)  
-                                 FRT.writeFileSync( aJSONc_file.replace(/\.jsonc/, '.json.mjs' ), `console.dir( \n${aJSON} \n)` )
+//                               FRT.writeFileSync( aJSONc_file.replace(/\.jsonc/, '.json.mjs' ), `console.dir( \n${aJSON} \n)` )
        var  pJSON           =   JSON.parse( aJSON )
             Apps            =  pJSON.Apps
             Models2         =  pJSON.Models

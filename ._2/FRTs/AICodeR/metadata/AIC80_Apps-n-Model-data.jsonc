@@ -24,8 +24,9 @@
       , "c35sanm": { "usermsg_.txt" : ['.TXTs/', 'c35sanm_Claude-35s_Anthropic','_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-maxi
      ///           , "request_.json": ['.JSONs/','c35sann_Claude-35s_Anthropic  '_request__u01.1_template.json']
      ///           , "messages.json : ['.JSONs/','c35sanm_Claude-35s_Anthropic','_messages_u01.1_template.json']
-//                 , "markdown.md'  : ['.MDs/',  'anymmt0_AnyModel_Blank0',     '_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
-                   , "markdown.md"  : ['.MDs/',  'c35sanm_Claude-35s_Anthropic','_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7)
+//                 , "markdown.md'  : ['.MDs/',  'anymmt0_AnyModel_Blank0',     '_markdown_u01.1_template.md'  ]  // .(40801.02.7).(40821.02.1)
+//                 , "markdown.md"  : ['.MDs/',  'c35sanm_Claude-35s_Anthropic','_markdown_u01.1_template.md'  ]  // .(40821.02.1).(40801.02.7).(40909.05.1)
+                   , "markdown.md"  : ['.MDs/',  'c35sanm_Claude-35s_Anthropic','_markdown_u02.1_template.md'  ]  // .(40909.05.1).(40821.02.1).(40801.02.7).
                       }
       , "c35sann": { "usermsg_.txt" : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_usermsg__u01.1_template.txt' ]  // Claude-35s_Anthropic-node
                    , "systmsg_.txt" : ['.TXTs/', 'anymmt0_AnyModel_Blank0',     '_systmsg__u01.1_template.txt' ]  // .(40821.02.1).(40801.03.5)
