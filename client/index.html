@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local AI PDF Query</title>
+    <title>Local AI Query App</title>
     <script src="app.mjs" type="module"></script>
 </head>
 <body>
-    <h1>Local AI PDF Query</h1>
-    <input type="file" id="pdfFile" accept=".pdf">
-    <button id="uploadButton">Upload PDF</button>
+    <h1>Local AI Query App</h1>
+    <input type="file" id="fileInput" accept=".txt">
+    <button id="uploadButton">Upload</button>
     <br><br>
     <textarea id="queryInput" rows="4" cols="50" placeholder="Enter your query here"></textarea>
     <br>
     <button id="queryButton">Submit Query</button>
     <div id="result"></div>
+    <div id="stats"></div>
 </body>
 </html>

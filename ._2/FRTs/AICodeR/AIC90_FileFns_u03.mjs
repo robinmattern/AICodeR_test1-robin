@@ -163,7 +163,7 @@ async function  makDirASync(    aDirName  ) { aDirName = `${aDirName || ''}`
     if (bOK == false) {  
                            await fs.mkdir(   aDirPath, { recursive: true } );
 //                         fsync.mkdirSync(  aDirPath, { recursive: true } );
-        console.log(    `  Created directory,        "${aDirName}", successfully!` );
+        console.log(    `  Created directory,  "${aDirName}", successfully!` );
         }  
     } catch(pError) {
         console.error(  `* Error checking directory: ${pError}` );
@@ -187,7 +187,7 @@ function  makDirSync(      aDirName  ) { aDirName = `${aDirName || ''}`
     if (bOK == false) {  
                            fsync.mkdirSync(      aDirPath, { recursive: true } );
 //                         fsync.mkdirSync(  aDirPath, { recursive: true } );
-        console.log(    `  Created directory,        "${aDirName}", successfully!` );
+        console.log(    `  Created directory,  "${aDirName}", successfully!` );
         }  
     } catch(pError) {
         console.error(  `* Error checking directory: ${pError}` );
