@@ -83,7 +83,7 @@
             runas /user:${USERNAME} "cmd /c copy \"${aBasedir}\\aicoder\" \"${aBinPath}\\aicoder\" "
             fi                                                                          # .(40910.01.3)
        if [ ! -f "${aBinPath}/aicoder" ]; then
-            echo -e "* The command, aicoder, didn't get copied to the ${aBinPath} directory.  Please copy it using the Finder or Windows Explorer."
+            echo -e "\n* The command, aicoder, didn't get copied to the ${aBinPath} directory.  Please copy it using the Finder or Windows Explorer."
             fi
 
             echo -e "\n\n  Running, npm install, in server folder"

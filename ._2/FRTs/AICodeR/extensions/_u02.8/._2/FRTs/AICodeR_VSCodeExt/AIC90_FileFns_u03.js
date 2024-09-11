@@ -3,6 +3,7 @@
        var  fsync       =  require( 'fs')            // .(40819.02.4 RAM Was: import   fsync            from 'fs')
        var  path        =  require( 'path')          // .(40819.02.4 RAM Was: import   path             from 'path')
        var  dotenv      =  require( 'dotenv')        // .(40819.02.4 RAM Was: import   dotenv           from 'dotenv')
+       var  os          =  require( 'os')            // .(40910.03.1)
 
 //  --------------------------------------------------------------
 
@@ -10,7 +11,8 @@
        var  __dirname                                                                   //#.(40828.02.2 RAM Assigned in CommonJS)
        var  _debug      =  false                                                        // .(40829.01.3 RAM Debug dotenv)
        var  _TS                                                                         // .(40908.02.x RAM Need this too)   
-
+       var  _OS         =  os.platform                                                  // .(40910.03.2)
+ 
  if (typeof(vscode) == 'object')  {                                                     // .(40819.10.5 RAM Need to reassign __basedir Beg)
         var workspaceFolders = vscode.workspace.workspaceFolders;
         if (workspaceFolders && workspaceFolders.length > 0) {
@@ -26,8 +28,8 @@
 //  --------------------------------------------------------------
 
   function  setPaths( aAppName ) {
-//      var   aLibFile  =  new URL( import.meta.url ).pathname  // this script's file name
-        var   aLibFile  =  __filename                           // .(40819.03.1 RAM CommonJS)
+//      var   aLibFile  =  new URL( import.meta.url ).pathname  // .(40819.03.1 RAM ES6 Module, this script's file name)
+        var   aLibFile  =  __filename                           // .(40819.03.1 RAM CommonJS Module)
    if (typeof(vscode) != 'object')  {                           // .(40819.10.6 RAM Don't assign __basedir if in extensionBeg)
 
      global.__libpath   =  path.dirname( aLibFile )             // this script's folder name
@@ -175,10 +177,14 @@
   function  FRT_path( ...args ) { return cleanPath( path.join( ...args ) ) }                        // .(40829.03.3 RAM Was: myPath)
 
   function  cleanPath( aPath ) {
-            aPath            =  aPath.replace( /^~/, `${process.env['SystemDrive']}/${process.env['HOMEPATH']}` )
+       var  aHome            =  _OS != 'darwin' ? 'HOMEPATH' : 'HOME'                               // .(40910.03.3 RAM Beg)
+       var  aRootDir         =  os.homedir().split('/')[0]
+//          aPath            =  aPath.replace( /^~/, `${process.env['SystemDrive']}/${process.env['HOMEPATH']}` )  //#.(40910.03.4)
+            aPath            =  aPath.replace( /^~/, os.homedir() )                             // .(40910.03.3 End)
             aPath            =  aPath.match( /^\./ ) ? path.join( __dirname, aPath ) : aPath;       // .(40527.01.1 CoP Only paths starting with '.' are relative)
 //          aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z])/, '$1:' ) )         // .(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
-            aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z]):*/, '$1:' ) )       // .(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
+//          aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z]):*/, '$1:' ) )       //#.(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )// .(40910.03.4)
+            aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z]):+/, '$1:' ) )       // .(40910.03.4).(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
     return  aPath
             }  // eof cleanPath
 // --------------------------------------------------------------
