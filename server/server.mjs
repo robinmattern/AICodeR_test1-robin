@@ -12,7 +12,9 @@ const app = express();
 const PORT = 3000;
 
 const API_ENDPOINT = "http://localhost:11434/api/generate";
-const MODEL = "llama3.1:8b-instruct-q8_0";
+// const MODEL = "llama3.1:8b-instruct-q8_0";
+// const  MODEL = "qwen2:0.5b"
+const MODEL = "gemma2:2b"
 
 app.use(express.json());
 app.use(fileUpload());

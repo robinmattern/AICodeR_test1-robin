@@ -28,6 +28,9 @@ MANIFEST
 
 uploads
 node_modules
+
+._*
+!._*/
 *_v[0-9]*
 *_t[0-9]*
 *ZIPs*

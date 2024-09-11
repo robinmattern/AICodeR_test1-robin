@@ -8,6 +8,7 @@
 #           aVer="v1.11 8/14/24"
 #           aVer="v1.12 8/20/24"
             aVer="v1.13 8/26/24"
+            aVer="v1.14 9/10/24"
 
 #           aExtVer="u02.5.40805.1700"                                                  # .(40806.03.1 RAM Default .vsix version)
 #           aExtVer="u02.5"                                                             # .(40806.03.1 RAM Workie)
@@ -46,7 +47,10 @@
 #           ThePath='E:/Repos/Robin/AIObjs_/dev03-robin/docs/c35_calendar1-app/GPT-4o_OpenAI-curl'
 #           ThePath="${__dirname}/docs/c35_calendar1-app/GPT-4o_OpenAI-curl"
 #           aDir="E:/Repos/Robin/AIObjs_/dev03-robin/._2/FRTs/AICodeR/"
-            aAICodeR_Dir="${__dirname}/._2/FRTs/AICodeR/"    # with trailing slash      # ./(40804.01 RAM Was aDir)
+            aAICodeR_Dir="${__dirname}/._2/FRTs/AICodeR/"    # with trailing slash      # .(40804.01 RAM Was aDir)
+            
+            aOS=${OSTYPE:0:6};   if [ "${aOS}" != "darwin" ]; then aOS="windows"; fi    # .(40910.01.1 Get OS)
+            bLstLine=1; if [ "${aOS}" != "darwin" ]; then bLstLine=0; fi                # .(40910.02.1 Set aMTline)
 
 #           Node ._2/FRTs/AICodeR/AIC98_Apps-n-Models_u02.mjs set app c35
 #           node        "${aAICodeR_Dir}/AIC98_Apps-n-Models_u02.mjs" set app c35
@@ -66,12 +70,20 @@
 
 #           cp   set-aicoder.sh  /usr/bin/coder
 #           cp   set-aicoder.sh  "C:/Program Files/Git/usr/bin/coder"
+       if [ "${aOS}" != "windows" ]; then                                               # .(40910.01.2 RAM If Bash or Mac Beg)
+            aBinPath="/usr/local/bin"
+            sudo ln -s "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" ${aBinPath}/code >/dev/null 2>/dev/null
+            sudo cp -p "${__dirname}/aicoder"  ${aBinPath}/aicoder
+          else  
+            aBinPath="C:\\Program Files\\Git\\usr\\bin"                                 # .(40910.01.2 End)
 #           runas /user:Administrator "cmd /c copy  aicoder  \"C:\\Program Files\\Git\\usr\\bin\\aicoder\""
 #           runas /user:${USERNAME}   "cmd /c copy  aicoder  \"C:\\Program Files\\Git\\usr\\bin\\aicoder\""
-#     echo "runas /user:${USERNAME}  \"cmd /c copy  \"\"${aBasedir}\\\\aicoder\"\"  \"\"C:\\\\Program Files\\\\Git\\\\usr\\\\bin\\\\aicoder\"\""
-            runas /user:${USERNAME}   "cmd /c copy   \"${aBasedir}\\\\aicoder\"       \"C:\\Program Files\\Git\\usr\\bin\\aicoder\""
-       if [ ! -f "C:/Program Files/Git/usr/bin/aicoder" ]; then
-            echo -e "\n* The command, aicoder, didn't get copied to the Git/usr/bin directory.  Please copy it using Windows Explorer."
+#           echo "runas /user:${USERNAME}  \"cmd /c copy  \"\"${aBasedir}\\\\aicoder\"\"  \"\"C:\\\\Program Files\\\\Git\\\\usr\\\\bin\\\\aicoder\"\""
+#           echo "runas /user:${USERNAME}  \"cmd /c copy  \"\"${aBasedir}\\\\aicoder\"\"  \"${aBinPath}\\\\aicoder\"\""
+            runas /user:${USERNAME} "cmd /c copy \"${aBasedir}\\aicoder\" \"${aBinPath}\\aicoder\" "
+            fi                                                                          # .(40910.01.3)
+       if [ ! -f "${aBinPath}/aicoder" ]; then
+            echo -e "* The command, aicoder, didn't get copied to the ${aBinPath} directory.  Please copy it using the Finder or Windows Explorer."
             fi
 
             echo -e "\n\n  Running, npm install, in server folder"
@@ -102,6 +114,7 @@
             mv AICodeR_*.code-workspace AICodeR.code-workspace
             fi
             read -n1 -p "  Press any key to continue..."
+       if [ "${bLstLine}" == "1" ]; then echo ""; fi                                    # .(40910.02.2)
 #           code *code*
             code AICodeR.code-workspace
             }                                                                           # .(40722.01.2 End)
@@ -396,3 +409,5 @@ if [ "${bNoisy}" == "1" ]; then
     echo "    5. list scripts    [S[.M[.TS]]] [App] [Model]   Show App scripts for [last] Message Markdown File for [App] [Model]"
     echo "    6. save scripts    [S[.M[.TS]]] [App] [Model]   Save App scripts for [last] Message Markdown File for [App] [Model]"
 #   echo ""
+
+    if [ "${bLstLine}" == "1" ]; then echo ""; fi                                       # .(40910.02.3)
